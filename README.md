@@ -116,10 +116,10 @@ git pull origin main
 ```
   Resolve any conflicts, then `git push` again.
 - **Merge conflicts?** VS Code highlights conflict markers. Keep the best content, save, and finish with:
-  ```bash
+  ``bash
 git add <file>
 git commit -m "Resolve merge conflict"
-```
+``
 - **Code not showing on GitHub?** Check the branch dropdown – switch to `main` or your branch.
 - **Vulnerabilities in npm audit?** They're in dev deps; safe for local development. For production, consider switching to `http-server`.
 
