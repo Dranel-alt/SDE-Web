@@ -1,49 +1,96 @@
-# e-Reklamo – Barangay Lapasan Complaint System
-## How to Run in VSCode
+# Barangay Issue Reporting and Tracking System
 
-### Option 1: Live Server (Recommended for Beginners)
-1. Open VSCode
-2. Install the **"Live Server"** extension (search in Extensions panel → Ctrl+Shift+X)
-3. Open the `e-reklamo` folder in VSCode (File → Open Folder)
-4. Right-click `index.html` → **"Open with Live Server"**
-5. Your browser opens automatically at `http://127.0.0.1:5500`
+Welcome to the **Barangay Lapasan Complaint System** (e-Reklamo)! This web app streamlines community issue reporting, tracking, and management. Built with vanilla HTML, CSS, and JavaScript, it focuses on improving information flow and follow-up without needing a backend.
 
-### Option 2: Just double-click
-- Double-click `index.html` to open directly in your browser
-- NOTE: Some features (like localStorage) work better with Live Server
+## 🚀 Getting Started
 
----
+### Prerequisites
+- **Node.js** (for npm) – Download from [nodejs.org](https://nodejs.org/)
+- **Git** – Usually comes with VS Code, or download from [git-scm.com](https://git-scm.com/)
+- A code editor like VS Code
 
-## Folder Structure
+### Quick Setup for Contributors
+1. **Clone the repo**:
+   ```bash
+   git clone https://github.com/Dranel-alt/SDE-Web.git
+   cd SDE-Web
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Run locally**:
+   ```bash
+   npm start
+   ```
+   - Opens your browser at `http://127.0.0.1:8080` (or similar)
+   - Hot-reloads on file changes
+
+### Alternative: Live Server Extension
+If npm feels overwhelming:
+- Install "Live Server" in VS Code
+- Right-click `index.html` → "Open with Live Server"
+
+## 📁 Project Structure
 
 ```
-e-reklamo/
-│
-├── index.html              ← HOMEPAGE (start here)
-│
+SDE-Web/
+├── index.html              # Homepage
+├── package.json            # npm scripts & deps
+├── README.md               # This file!
+├── assets/                 # Images & media
 ├── css/
-│   └── style.css           ← All styles for every page
-│
+│   └── style.css           # All styles
 ├── js/
-│   └── components.js       ← Shared navbar + footer (auto-injected)
-│
-└── pages/
-    ├── login-resident.html    ← Login + Signup (Resident & Official)
-    ├── services.html          ← Services landing page
-    ├── contact.html           ← Contact & Hotlines page
-    ├── complaint.html         ← Submit Complaint + My Complaints
-    ├── official-dashboard.html ← Official/Admin Dashboard
-    └── track.html             ← Public complaint tracker
+│   └── components.js       # Shared components
+└── pages/                  # All sub-pages
+    ├── complaint.html      # Submit/track complaints
+    ├── contact.html        # Contact info
+    ├── login-resident.html # Login/signup
+    ├── official-dashboard.html # Admin view
+    ├── services.html       # Services overview
+    └── track.html          # Public tracker
 ```
 
----
+## 🎯 How It Works
 
-## Demo Login Credentials
+- **Residents** log in, submit complaints, and track status
+- **Officials** manage complaints via a dashboard
+- Data stored in browser's localStorage (no server needed)
+- Demo credentials: `resident` / `password123` or `official` / `official123`
 
-| Role     | Username  | Password     |
-|----------|-----------|--------------|
-| Resident | resident  | password123  |
-| Official | official  | official123  |
+## 🤝 Contributing
+
+### First-Time Contributors? No worries!
+This project is beginner-friendly. Here's what to expect:
+
+1. **Fork & Clone**: Hit the "Fork" button on GitHub, then clone your fork
+2. **Branch Out**: Create a feature branch: `git checkout -b my-feature`
+3. **Make Changes**: Edit files, test with `npm start`
+4. **Commit & Push**: `git add .; git commit -m "Add cool feature"; git push`
+5. **Pull Request**: Open a PR on GitHub – we'll review!
+
+### Common Hiccups & Fixes
+- **"npm start not working?"** Run `npm install` first. If issues persist, try `npx live-server --open=./index.html`
+- **Git branch confusion?** If you see "main vs master", rename: `git branch -m master main; git push -u origin main`
+- **Merge conflicts?** Don't panic! VS Code highlights them. Choose the best version, save, then `git add .; git commit`
+- **Push rejected?** Pull first: `git pull origin main`, resolve conflicts, then push
+- **Code not showing on GitHub?** Check the branch dropdown – switch to the correct one
+- **Vulnerabilities in npm audit?** They're in dev deps; safe for local dev. For production, consider switching to `http-server`
+
+### Tips for Smooth Sailing
+- Test your changes in multiple browsers
+- Keep commits small and descriptive
+- Ask questions in Issues – we're here to help!
+- Customize styles in `css/style.css` (uses CSS variables)
+
+## 📞 Support
+
+Found a bug? Have ideas? Open an Issue or start a Discussion on GitHub.
+
+Happy coding! 🎉
 
 ---
 
