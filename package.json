@@ -1,0 +1,12 @@
+{
+  "name": "sde-web",
+  "version": "1.0.0",
+  "description": "Static web project served locally",
+  "private": true,
+"scripts": {
+  "start": "http-server . -o index.html"
+},
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

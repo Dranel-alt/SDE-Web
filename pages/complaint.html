@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complaint | e-Reklamo Barangay Lapasan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .complaint-wrapper { max-width: 760px; margin: 0 auto; padding: 32px 24px; }
+    .page-hero { text-align:center; margin-bottom:28px; }
+    .page-hero h1 { font-size:1.8rem; font-weight:900; color: var(--primary); }
+    .page-hero p { color:var(--text-light); font-size:0.9rem; margin-top:4px; }
+    .form-section-title { font-weight:800; font-size:1rem; margin-bottom:16px; padding-bottom:8px; border-bottom:1.5px solid var(--border); }
+    .step-indicator { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:28px; }
+    .step-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:800; border:2px solid var(--border); color:var(--text-light); }
+    .step-dot.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .step-dot.done { background:var(--success); color:#fff; border-color:var(--success); }
+    .step-line { flex:1; max-width:60px; height:2px; background:var(--border); }
+    .step-line.done { background:var(--success); }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <div class="complaint-wrapper">
+    <!-- Back link -->
+    <a href="services.html" style="display:inline-flex; align-items:center; gap:6px; font-size:0.88rem; color:var(--text-light); margin-bottom:16px;">← Back</a>
+
+    <div class="page-hero">
+      <h1>Welcome to e-Reklamo!</h1>
+      <p>Submit a complaint or track the status of your existing complaints</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('submit', this)">📋 Submit Complaint</button>
+      <button class="tab-btn" onclick="switchTab('my', this)">📄 My Complaints</button>
+    </div>
+
+    <!-- ===== SUBMIT TAB ===== -->
+    <div id="tab-submit">
+      <!-- Step 1: Personal Info -->
+      <div id="step-1">
+        <div class="card">
+          <div style="text-align:center; margin-bottom:24px;">
+            <div style="width:56px; height:56px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 12px;">📋</div>
+            <h2 style="font-size:1.4rem; font-weight:900;">Submit a Complaint</h2>
+            <p style="color:var(--text-light); font-size:0.88rem;">Fill out the form below to report your concern</p>
+          </div>
+
+          <div class="step-indicator">
+            <div class="step-dot active" id="dot-1">1</div>
+            <div class="step-line" id="line-1"></div>
+            <div class="step-dot" id="dot-2">2</div>
+          </div>
+
+          <div id="global-error" class="alert alert-danger" style="display:none;">
+            <span>⚠️</span>
+            <div id="global-error-msg">Please fill in all required fields.</div>
+          </div>
+
+          <div class="form-section-title">Personal Information</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name <span class="required">*</span></label>
+              <input class="form-control" id="firstName" placeholder="Juan"/>
+              <div class="form-error" id="err-firstName" style="display:none;">⚠ First name is required</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name <span class="required">*</span></label>
+              <input class="form-control" id="lastName" placeholder="Dela Cruz"/>
+              <div class="form-error" id="err-lastName" style="display:none;">⚠ Last name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address <span class="required">*</span></label>
+            <input type="email" class="form-control" id="email" placeholder="juan.delacruz@email.com"/>
+            <div class="form-error" id="err-email" style="display:none;">⚠ Valid email is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number <span class="required">*</span></label>
+            <input class="form-control" id="phone" placeholder="+63 912 345 6789"/>
+            <div class="form-error" id="err-phone" style="display:none;">⚠ Phone number is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Complete Address <span class="required">*</span></label>
+            <input class="form-control" id="address" placeholder="Block, Lot, Street, Barangay"/>
+            <div class="form-error" id="err-address" style="display:none;">⚠ Address is required</div>
+          </div>
+
+          <button class="btn btn-primary btn-full" onclick="goToStep2()">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Complaint Details -->
+      <div id="step-2" style="display:none;">
+        <div class="card">
+          <div style="text-align:center; margin-bottom:24px;">
+            <div style="width:56px; height:56px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 12px;">📋</div>
+            <h2 style="font-size:1.4rem; font-weight:900;">Submit a Complaint</h2>
+            <p style="color:var(--text-light); font-size:0.88rem;">Fill out the form below to report your concern</p>
+          </div>
+
+          <div class="step-indicator">
+            <div class="step-dot done">✓</div>
+            <div class="step-line done"></div>
+            <div class="step-dot active">2</div>
+          </div>
+
+          <div class="form-section-title">Complaint Details</div>
+
+          <div class="form-group">
+            <label class="form-label">Complaint Category <span class="required">*</span></label>
+            <select class="form-control" id="category">
+              <option value="">Select a category</option>
+              <option>Garbage / Waste Management</option>
+              <option>Noise Complaint</option>
+              <option>Road / Infrastructure</option>
+              <option>Peace and Order</option>
+              <option>Flooding / Drainage</option>
+              <option>Street Lights</option>
+              <option>Health / Sanitation</option>
+              <option>Illegal Structures</option>
+              <option>Other</option>
+            </select>
+            <div class="form-error" id="err-category" style="display:none;">⚠ Please select a category</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Subject / Title <span class="required">*</span></label>
+            <input class="form-control" id="subject" placeholder="Brief description of your complaint"/>
+            <div class="form-error" id="err-subject" style="display:none;">⚠ Subject is required</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Detailed Description <span class="required">*</span></label>
+            <textarea class="form-control" id="description" rows="4" placeholder="Provide detailed information about your complaint..." style="resize:vertical;"></textarea>
+            <div class="form-error" id="err-description" style="display:none;">⚠ Description is required (minimum 20 characters)</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Specific Location <span class="required">*</span></label>
+            <input class="form-control" id="location" placeholder="Street name, house number, landmark"/>
+            <div class="form-error" id="err-location" style="display:none;">⚠ Location is required</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Urgency Level <span class="required">*</span></label>
+            <select class="form-control" id="urgency">
+              <option value="">Select urgency level</option>
+              <option value="low">Low – Not urgent</option>
+              <option value="medium">Medium – Needs attention soon</option>
+              <option value="high">High – Urgent</option>
+              <option value="critical">Critical – Immediate action needed</option>
+            </select>
+            <div class="form-error" id="err-urgency" style="display:none;">⚠ Please select urgency level</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Attachments <span style="color:var(--text-light); font-weight:400;">(Optional)</span></label>
+            <div class="upload-area" onclick="document.getElementById('file-input').click()">
+              <div style="font-size:2rem; margin-bottom:8px;">⬆️</div>
+              <p>Click to upload photos or documents</p>
+              <div style="font-size:0.78rem; color:var(--primary); margin-top:4px;">PNG, JPG, PDF up to 10MB</div>
+              <div id="file-name" style="margin-top:8px; font-size:0.82rem; color:var(--success); display:none;"></div>
+            </div>
+            <input type="file" id="file-input" style="display:none;" accept=".png,.jpg,.jpeg,.pdf" onchange="handleFile(this)"/>
+          </div>
+
+          <div class="alert alert-warning" style="font-size:0.82rem;">
+            <span>📌</span>
+            <div><strong>Note:</strong> All complaints are reviewed and processed within 3–5 business days. You will receive updates via email.</div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <button class="btn btn-outline" onclick="goToStep1()">← Back</button>
+            <button class="btn btn-primary" onclick="submitComplaint()">Submit Complaint</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div id="step-success" style="display:none;">
+        <div class="card" style="text-align:center; padding:48px 36px;">
+          <div style="position:relative; width:80px; height:80px; margin:0 auto 24px;">
+            <div style="width:80px; height:80px; border-radius:50%; border:4px solid var(--success); display:flex; align-items:center; justify-content:center; font-size:2rem; background:#f0fff4;">✅</div>
+            <div style="position:absolute; bottom:0; right:0; width:28px; height:28px; background:var(--orange-bg); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.9rem;">📋</div>
+          </div>
+          <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:8px;">Complaint Successfully Submitted!</h2>
+          <p style="color:var(--text-light); margin-bottom:28px;">Your concern has been received and will be reviewed by our team</p>
+
+          <div class="two-col" style="margin-bottom:24px; gap:12px;">
+            <div style="background:#fff8f0; border-radius:12px; padding:16px; display:flex; align-items:center; gap:12px;">
+              <div style="width:40px; height:40px; background:var(--primary); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;">📅</div>
+              <div style="text-align:left;">
+                <div style="font-size:0.78rem; color:var(--text-light);">Submitted</div>
+                <div style="font-weight:700;" id="submit-date"></div>
+              </div>
+            </div>
+            <div style="background:#fffbf0; border-radius:12px; padding:16px; display:flex; align-items:center; gap:12px;">
+              <div style="width:40px; height:40px; background:var(--warning); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;">📍</div>
+              <div style="text-align:left;">
+                <div style="font-size:0.78rem; color:var(--text-light);">Status</div>
+                <div style="font-weight:700; color:var(--warning);">Pending Review</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info" style="text-align:left; margin-bottom:24px;">
+            <div>
+              <strong>What happens next?</strong>
+              <ul style="margin-top:8px; padding-left:16px; font-size:0.88rem; list-style:disc;">
+                <li>Our team will review your complaint within <strong>3–5 business days</strong></li>
+                <li>You'll receive email updates about your complaint status</li>
+                <li>Track your complaint anytime using your Complaint ID</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <button class="btn btn-yellow btn-full" onclick="switchTab('my', document.querySelectorAll('.tab-btn')[1])">Track My Complaints</button>
+            <button class="btn btn-white-outline btn-full" style="color:var(--text-dark); border-color:var(--border);" onclick="resetForm()">Submit Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MY COMPLAINTS TAB ===== -->
+    <div id="tab-my" style="display:none;">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="form-control" id="search-input" placeholder="Search by report number, subject, or category..." oninput="filterComplaints()" style="padding-left:38px;"/>
+      </div>
+
+      <div id="complaints-list"></div>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+  <script src="../js/components.js"></script>
+  <script>
+    // Storage key
+    const STORAGE_KEY = 'ereklamo_complaints';
+
+    function getComplaints() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    }
+
+    function saveComplaints(list) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-submit').style.display = tab === 'submit' ? 'block' : 'none';
+      document.getElementById('tab-my').style.display = tab === 'my' ? 'block' : 'none';
+      if (tab === 'my') renderComplaints();
+    }
+
+    function goToStep2() {
+      let valid = true;
+      const fields = ['firstName','lastName','email','phone','address'];
+      fields.forEach(f => {
+        const val = document.getElementById(f).value.trim();
+        const err = document.getElementById('err-' + f);
+        if (!val) { document.getElementById(f).classList.add('error'); err.style.display='flex'; valid = false; }
+        else { document.getElementById(f).classList.remove('error'); err.style.display='none'; }
+      });
+      if (valid) {
+        document.getElementById('step-1').style.display = 'none';
+        document.getElementById('step-2').style.display = 'block';
+      }
+    }
+
+    function goToStep1() {
+      document.getElementById('step-2').style.display = 'none';
+      document.getElementById('step-1').style.display = 'block';
+    }
+
+    function handleFile(input) {
+      if (input.files.length) {
+        document.getElementById('file-name').textContent = '✅ ' + input.files[0].name;
+        document.getElementById('file-name').style.display = 'block';
+      }
+    }
+
+    function submitComplaint() {
+      let valid = true;
+      const fields = ['category','subject','description','location','urgency'];
+      fields.forEach(f => {
+        const el = document.getElementById(f);
+        const val = el.value.trim();
+        const err = document.getElementById('err-' + f);
+        let fieldValid = true;
+        if (!val) fieldValid = false;
+        if (f === 'description' && val.length < 20) fieldValid = false;
+        if (!fieldValid) { el.classList.add('error'); err.style.display='flex'; valid = false; }
+        else { el.classList.remove('error'); err.style.display='none'; }
+      });
+      if (!valid) return;
+
+      const now = new Date();
+      const complaint = {
+        id: 'RPT-' + Date.now(),
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        category: document.getElementById('category').value,
+        subject: document.getElementById('subject').value,
+        description: document.getElementById('description').value,
+        location: document.getElementById('location').value,
+        urgency: document.getElementById('urgency').value,
+        status: 'Pending Review',
+        progress: 25,
+        date: now.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' }),
+        dateRaw: now.toISOString()
+      };
+
+      const list = getComplaints();
+      list.push(complaint);
+      saveComplaints(list);
+
+      document.getElementById('submit-date').textContent = complaint.date;
+      document.getElementById('step-2').style.display = 'none';
+      document.getElementById('step-success').style.display = 'block';
+    }
+
+    function resetForm() {
+      ['firstName','lastName','email','phone','address','category','subject','description','location','urgency'].forEach(f => {
+        document.getElementById(f).value = '';
+        document.getElementById(f).classList.remove('error');
+      });
+      document.getElementById('step-success').style.display = 'none';
+      document.getElementById('step-1').style.display = 'block';
+    }
+
+    function getUrgencyBadge(urgency) {
+      const map = { low:'badge-resolved', medium:'badge-progress', high:'badge-review', critical:'badge-critical' };
+      return `<span class="badge ${map[urgency] || 'badge-pending'}">${urgency ? urgency.charAt(0).toUpperCase()+urgency.slice(1) : 'Normal'}</span>`;
+    }
+
+    function renderComplaints(filter = '') {
+      const list = getComplaints();
+      const el = document.getElementById('complaints-list');
+      const filtered = list.filter(c =>
+        !filter || c.subject.toLowerCase().includes(filter) ||
+        c.category.toLowerCase().includes(filter) || c.id.toLowerCase().includes(filter)
+      );
+
+      if (filtered.length === 0) {
+        el.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">❕</div>
+            <h3>No complaints found</h3>
+            <p>${list.length === 0 ? "You haven't submitted any complaints yet." : "No results match your search."}</p>
+          </div>`;
+        return;
+      }
+
+      el.innerHTML = filtered.map(c => `
+        <div class="complaint-card">
+          <div class="complaint-card-header">
+            <div class="complaint-card-title">
+              ${c.subject}
+              ${c.urgency === 'critical' ? '<span class="badge badge-critical">Critical</span>' : ''}
+            </div>
+            <span class="badge badge-pending">⏰ ${c.status}</span>
+          </div>
+          <div class="complaint-card-meta">📁 ${c.category} &nbsp;•&nbsp; ${c.date}</div>
+          <div class="complaint-card-desc">${c.description.substring(0, 160)}${c.description.length > 160 ? '...' : ''}</div>
+          <div class="complaint-card-location">📍 ${c.location}</div>
+          <div class="complaint-card-progress">
+            <div class="progress-bar-wrap" style="flex:1; margin-right:10px;">
+              <div class="progress-bar" style="width:${c.progress}%"></div>
+            </div>
+            <span>${c.progress}%</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterComplaints() {
+      renderComplaints(document.getElementById('search-input').value.toLowerCase());
+    }
+
+    // Check if opened from track link
+    if (window.location.hash === '#my-complaints') {
+      switchTab('my', document.querySelectorAll('.tab-btn')[1]);
+    }
+  </script>
+</body>
+</html>

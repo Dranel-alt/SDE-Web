@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>e-Reklamo | Barangay Lapasan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* === HERO: image block on top, no overlay === */
+    .hero { min-height: unset; background: none; display: block; position: relative; }
+    .hero-img-block {
+      width: 100%;
+      max-height: 500px;
+      overflow: hidden;
+      display: block;
+      line-height: 0;
+    }
+    .hero-img-block img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+    /* Title overlaid on image */
+    .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.30); pointer-events:none; max-height:500px; }
+    .hero-title-overlay {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      z-index: 2;
+      width: 100%;
+      padding: 0 24px;
+    }
+    .hero-title-overlay h1 {
+      font-size: 2.8rem; font-weight: 900;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+      line-height: 1.2;
+    }
+    /* Buttons section: BELOW the image, gradient bg */
+    .hero-btns-section {
+      background: linear-gradient(180deg, #fce8df 0%, #fdf3e3 50%, #fefbe8 100%);
+      padding: 32px 24px 20px;
+      text-align: center;
+    }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-hero-login {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 26px; border-radius: 8px; font-weight: 700; font-size: 0.95rem;
+      background: transparent; border: 2px solid var(--primary); color: var(--primary);
+      cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .btn-hero-login:hover { background: var(--primary); color: #fff; }
+    .btn-hero-track {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 26px; border-radius: 8px; font-weight: 700; font-size: 0.95rem;
+      background: var(--primary); border: 2px solid var(--primary); color: #fff;
+      cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .btn-hero-track:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+    .home-intro { text-align: center; padding: 20px 24px 20px; max-width: 600px; margin: 0 auto; color: var(--text-mid); line-height: 1.6; }
+    .feature-card { text-align: center; padding: 28px 24px; border-radius: 14px; border: 1.5px solid var(--border); background: #fff; transition: box-shadow 0.2s; }
+    .feature-card:hover { box-shadow: var(--shadow-md); }
+    .feature-icon { width: 56px; height: 56px; background: var(--primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 16px; }
+    .feature-icon span { font-size: 1.5rem; }
+    .map-section { padding: 48px; background: var(--gradient-bg); }
+    .map-section .section-title { text-align: center; }
+    .map-section .section-sub { text-align: center; display: block; }
+    .map-embed { width: 100%; height: 320px; border-radius: 14px; border: none; margin-top: 24px; }
+    .vision-mission { background: linear-gradient(135deg, #fff8f5, #fff3e0); padding: 48px; }
+    .vm-card { border-radius: 16px; padding: 28px; background: #fff; border: 1.5px solid var(--border); }
+    .vm-card h3 { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 900; margin-bottom: 14px; }
+    .vm-icon { font-size: 1.3rem; }
+    .vm-card p { color: var(--text-mid); line-height: 1.65; font-size: 0.92rem; }
+    .contact-section { padding: 0 48px 48px; }
+    .office-card { border-radius: 14px; border: 1.5px solid var(--border); padding: 24px; background: #fff; }
+    .office-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 18px; }
+    .office-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 0.88rem; }
+    .office-item-icon { font-size: 1.1rem; color: var(--primary); margin-top: 2px; }
+    .office-label { font-weight: 700; color: var(--text-light); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+    .hotlines-card { border-radius: 14px; border: 1.5px solid #f5c6c6; padding: 24px; background: #fff; }
+    .hotlines-card h3 { display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: 800; margin-bottom: 16px; color: var(--danger); }
+    .hotlines-note { font-size: 0.78rem; color: var(--text-light); margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <!-- HERO: image + title overlaid, buttons BELOW -->
+  <section class="hero">
+    <!-- Image block -->
+    <div class="hero-img-block">
+      <!--
+        =====================================================
+        TO USE YOUR OWN PHOTO:
+        1. Save your crowd photo as: assets/hero.jpg
+        2. Replace the src below with: src="assets/hero.jpg"
+        =====================================================
+      -->
+      <img
+        src="assets/hero.png"
+        alt="Barangay Lapasan Community"
+        id="hero-img"
+      />
+    </div>
+    <!-- Dark overlay on image -->
+    <div class="hero-overlay"></div>
+    <!-- Title centered over image -->
+    <div class="hero-title-overlay">
+      <h1>Welcome to<br/>Barangay Lapasan</h1>
+    </div>
+  </section>
+
+  <!-- BUTTONS: below image, gradient background -->
+  <div class="hero-btns-section">
+    <div class="hero-btns">
+      <a href="pages/login-resident.html" class="btn-hero-login">🔐 Login/SignUp</a>
+      <a href="pages/track.html" class="btn-hero-track">🔍 Track Complaint</a>
+    </div>
+  </div>
+
+  <!-- TAGLINE -->
+  <div class="home-intro" style="background: linear-gradient(180deg, #fefbe8 0%, #ffffff 100%); max-width:100%; padding: 24px 48px 32px;">
+    <p style="max-width:600px; margin:0 auto;">Serving our community with transparency, efficiency, and excellence. Your voice matters in building a better barangay for everyone.</p>
+  </div>
+
+  <!-- COMPLAINT SYSTEM SECTION -->
+  <section class="section" style="padding-top:0; max-width:720px; margin:0 auto; text-align:center;">
+    <h2 class="section-title">Barangay Lapasan Complaint System</h2>
+    <p class="section-sub" style="display:block; margin-bottom:24px;">Convenient and accessible services for all Lapasan residents</p>
+    <hr style="border:none; border-top:1px solid var(--border); margin-bottom:24px;"/>
+    <a href="pages/login-resident.html" class="feature-card" style="display:flex; align-items:center; gap:16px; text-align:left; text-decoration:none; max-width:480px; margin:0 auto; border:1.5px solid var(--border); border-radius:14px; padding:22px 24px; background:#fff; transition:box-shadow 0.2s; cursor:pointer;">
+      <div class="feature-icon" style="flex-shrink:0;"><span>📋</span></div>
+      <div>
+        <div style="font-weight:800; font-size:1rem; margin-bottom:4px;">File your complaint.</div>
+        <div style="font-size:0.86rem; color:var(--text-light);">Submit and track your complaints and concerns online with ease and transparency.</div>
+      </div>
+    </a>
+  </section>
+
+  <!-- MAP -->
+  <section class="map-section">
+    <div style="text-align:center; margin-bottom:24px;">
+      <h2 class="section-title">📍 Barangay Location</h2>
+      <span class="section-sub" style="display:block; color:var(--text-light);">Visit us at our barangay hall</span>
+    </div>
+    <iframe class="map-embed"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.1234!2d124.6609!3d8.4792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32fff2e6b5a27d9d%3A0x4a8d8b1234567890!2sLapasan%20Barangay%20Hall!5e0!3m2!1sen!2sph!4v1234567890"
+      allowfullscreen="" loading="lazy">
+    </iframe>
+  </section>
+
+  <!-- VISION & MISSION -->
+  <section class="vision-mission">
+    <div class="two-col" style="max-width:960px; margin:0 auto;">
+      <div class="vm-card">
+        <h3><span class="vm-icon">👁️</span> Vision</h3>
+        <p>A progressive, peaceful, and prosperous barangay with empowered residents working together towards sustainable development and improved quality of life for all.</p>
+      </div>
+      <div class="vm-card">
+        <h3><span class="vm-icon">🎯</span> Mission</h3>
+        <p>To deliver efficient, transparent, and responsive public services while promoting community participation, good governance, and social welfare programs that benefit all residents.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMERGENCY + OFFICE -->
+  <section class="contact-section" style="padding-top:40px;">
+    <div class="two-col" style="max-width:960px; margin:0 auto;">
+      <div class="hotlines-card">
+        <h3>🚨 Emergency Hotlines</h3>
+        <div class="hotline-card hotline-tanod">
+          <span>Barangay Tanod</span>
+          <span>09171409503</span>
+        </div>
+        <div class="hotline-card hotline-bdrrmo">
+          <span>BDRRMO</span>
+          <span>0916-216-2703</span>
+        </div>
+        <div class="hotline-card hotline-fire">
+          <span>FIRE STATION</span>
+          <span>09971821022 | 911</span>
+        </div>
+        <div class="hotline-card hotline-social">
+          <span>BRGY. SOCIAL SERVICES</span>
+          <span>09854009928</span>
+        </div>
+        <div class="hotlines-note">For emergencies, please call the appropriate hotline immediately.</div>
+      </div>
+      <div class="office-card">
+        <h3>Barangay Office</h3>
+        <div class="office-item">
+          <span class="office-item-icon">📞</span>
+          <div>
+            <div class="office-label">Phone</div>
+            <div>09171409503</div>
+          </div>
+        </div>
+        <div class="office-item">
+          <span class="office-item-icon">✉️</span>
+          <div>
+            <div class="office-label">Email</div>
+            <div>barangay.office@example.ph</div>
+            <div>complaints@barangay.ph</div>
+          </div>
+        </div>
+        <div class="office-item">
+          <span class="office-item-icon">📍</span>
+          <div>
+            <div class="office-label">Address</div>
+            <div>Cagayan de Oro City, Philippines 9000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+  <script src="js/components.js"></script>
+  <script>
+    // Override navbar links for root level
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.navbar-links a').forEach(a => {
+        const href = a.getAttribute('href');
+        if (href && href.startsWith('../')) {
+          a.setAttribute('href', href.replace('../', ''));
+        }
+        if (href && href.startsWith('pages/')) {
+          // keep as is
+        }
+      });
+    });
+  </script>
+</body>
+</html>

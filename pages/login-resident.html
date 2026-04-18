@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | e-Reklamo Barangay Lapasan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ===== SCREEN 1: SELECT ACCOUNT TYPE ===== */
+    .select-type-page {
+      min-height: calc(100vh - 144px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 48px 24px;
+    }
+    .select-type-page h1 {
+      font-size: 1.9rem; font-weight: 900;
+      color: var(--primary); margin-bottom: 32px; text-align: center;
+    }
+    .type-card {
+      background: #fff; border-radius: 20px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+      padding: 40px 48px; text-align: center; max-width: 500px; width: 100%;
+    }
+    .type-card h2 { font-size: 1.05rem; font-weight: 700; color: var(--text-mid); margin-bottom: 28px; }
+    .type-avatars { display: flex; justify-content: center; gap: 64px; margin-bottom: 28px; }
+    .type-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, #F5A623, #E8724A);
+      display: flex; align-items: center; justify-content: center; font-size: 2.2rem;
+      box-shadow: 0 4px 16px rgba(232,114,74,0.3);
+    }
+    .type-btns { display: flex; gap: 16px; justify-content: center; }
+    .type-btn {
+      flex: 1; max-width: 175px; padding: 14px 20px; border-radius: 12px;
+      background: linear-gradient(135deg, #FDE68A, #FDBA74);
+      border: none; cursor: pointer; font-family: inherit;
+      font-size: 1rem; font-weight: 800; color: var(--text-dark);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .type-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(232,114,74,0.3);
+      background: linear-gradient(135deg, #FCD34D, #FB923C);
+    }
+    .type-btn svg { width: 22px; height: 22px; }
+
+    /* ===== SCREEN 2: LOGIN FORM ===== */
+    .login-page {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 144px);
+    }
+    .login-illustration {
+      background: #fff5f2;
+      display: flex; align-items: center; justify-content: center; padding: 48px;
+    }
+    .illus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .illus-cell {
+      width: 150px; height: 150px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center; font-size: 4.5rem;
+    }
+    .illus-cell:nth-child(1) { background: #FFE4DD; }
+    .illus-cell:nth-child(2) { background: #E8D5FF; }
+    .illus-cell:nth-child(3) { background: #FFE4A8; }
+    .illus-cell:nth-child(4) { background: #D5E8FF; }
+    .login-form-side {
+      display: flex; align-items: center; justify-content: center; padding: 48px;
+    }
+    .login-box { width: 100%; max-width: 400px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; color: var(--text-light); margin-bottom: 16px;
+      background: none; border: none; font-family: inherit; padding: 0; cursor: pointer;
+    }
+    .back-link:hover { color: var(--primary); }
+    .role-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, #FDE68A, #FDBA74);
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 0.82rem; font-weight: 800; color: var(--text-dark); margin-bottom: 18px;
+    }
+    .signup-link { text-align: center; margin-top: 16px; font-size: 0.9rem; }
+    .signup-link a { color: var(--primary); font-weight: 700; cursor: pointer; }
+    .forgot-link { text-align: center; margin-top: 10px; }
+    .forgot-link a { font-size: 0.82rem; color: var(--text-light); cursor: pointer; }
+    .forgot-link a:hover { color: var(--primary); }
+
+    @media (max-width: 768px) {
+      .login-page { grid-template-columns: 1fr; }
+      .login-illustration { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <!-- ===== SCREEN 1: SELECT ACCOUNT TYPE ===== -->
+  <div class="screen active" id="screen-select">
+    <div class="select-type-page">
+      <h1>Welcome to e-Reklamo!</h1>
+      <div class="type-card">
+        <h2>Select Your Account Type</h2>
+        <div class="type-avatars">
+          <div class="type-avatar">👤</div>
+          <div class="type-avatar">🏛️</div>
+        </div>
+        <div class="type-btns">
+          <button class="type-btn" onclick="selectRole('resident')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Resident
+          </button>
+          <button class="type-btn" onclick="selectRole('official')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Official
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 2: LOGIN FORM ===== -->
+  <div class="screen" id="screen-login">
+    <div class="login-page">
+      <div class="login-illustration">
+        <div class="illus-grid">
+          <div class="illus-cell">🤔</div>
+          <div class="illus-cell">🧑‍🦱</div>
+          <div class="illus-cell">👩‍🦳</div>
+          <div class="illus-cell">🧑‍💻</div>
+        </div>
+      </div>
+      <div class="login-form-side">
+        <div class="login-box">
+          <button class="back-link" onclick="goBack()">← Back</button>
+          <div class="role-badge" id="role-badge">👤 Resident</div>
+
+          <div id="login-panel">
+            <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:4px;">Login</h2>
+            <p style="color:var(--text-light);margin-bottom:24px;font-size:0.9rem;">Login to your account</p>
+
+            <div id="login-error" class="alert alert-danger" style="display:none;">
+              <span>❌</span>
+              <div><strong>Login Failed</strong><br/><span id="error-msg"></span></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Username</label>
+              <input type="text" id="username" class="form-control" placeholder="Enter your username" onkeydown="if(event.key==='Enter') doLogin()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" id="password" class="form-control" placeholder="Enter your password" onkeydown="if(event.key==='Enter') doLogin()"/>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="doLogin()">Login</button>
+            <div class="forgot-link"><a onclick="goForgot()">Forgot Password?</a></div>
+            <div class="signup-link">Don't have an account? <a onclick="showSignup()">Sign up here</a></div>
+          </div>
+
+          <div id="success-panel" style="display:none; text-align:center;">
+            <div style="width:72px;height:72px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:2rem;">✅</div>
+            <h2 style="margin-bottom:4px;">Login Successful!</h2>
+            <p style="color:var(--text-light);margin-bottom:24px;font-size:0.9rem;">Welcome back to e-Reklamo<br/><small>Submit a complaint or track your existing complaints.</small></p>
+            <div style="background:var(--light-gray);border-radius:12px;padding:16px;margin-bottom:24px;text-align:left;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <span style="color:var(--success);font-size:1.2rem;">✔</span>
+                <div><strong>Authentication verified</strong><br/><small style="color:var(--text-light);">Your credentials have been confirmed</small></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="color:var(--success);font-size:1.2rem;">✔</span>
+                <div><strong>Session established</strong><br/><small style="color:var(--text-light);">You're now logged into your account</small></div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <a href="complaint.html" class="btn btn-outline">📋 Submit Complaint</a>
+              <a href="complaint.html#my-complaints" class="btn btn-primary">📄 My Complaints</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNUP MODAL -->
+  <div id="signup-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <button class="back-link" onclick="hideSignup()">← Back to Login</button>
+      <h2 id="signup-title" style="font-size:1.4rem;font-weight:900;margin-bottom:4px;">Create Account</h2>
+      <p style="color:var(--text-light);font-size:0.88rem;margin-bottom:20px;" id="signup-subtitle">Sign up to access the system</p>
+      <div id="resident-signup">
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-control" placeholder="Enter your full name"/></div>
+        <div class="form-group"><label class="form-label">Username</label><input class="form-control" placeholder="Choose a username"/></div>
+        <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-control" placeholder="Choose a password"/></div>
+        <div class="form-group"><label class="form-label">Confirm Password</label><input type="password" class="form-control" placeholder="Confirm your password"/></div>
+        <button class="btn btn-primary btn-full" onclick="handleSignup()">Create Account</button>
+      </div>
+      <div id="official-signup" style="display:none;">
+        <div class="alert alert-info"><span>ℹ️</span><div><strong>Secure Registration</strong><br/>Your registration will be reviewed by the admin.</div></div>
+        <div class="form-group"><label class="form-label">Full Name <span class="required">*</span></label><input class="form-control" placeholder="Enter Full Name"/></div>
+        <div class="form-group"><label class="form-label">Position/Role <span class="required">*</span></label><input class="form-control" placeholder="e.g. Barangay Kagawad"/></div>
+        <div class="form-group"><label class="form-label">Username <span class="required">*</span></label><input class="form-control" placeholder="Choose a Username"/></div>
+        <div class="form-group"><label class="form-label">Password <span class="required">*</span></label><input type="password" class="form-control" placeholder="Choose a Password"/></div>
+        <div class="form-group"><label class="form-label">Confirm Password</label><input type="password" class="form-control" placeholder="Confirm your password"/></div>
+        <div class="form-group">
+          <label class="form-label">Verification Document <span class="required">*</span></label>
+          <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:8px;">Upload your appointment letter, official ID, or certificate of position</p>
+          <div class="upload-area" onclick="document.getElementById('official-doc').click()">
+            <div style="font-size:2rem;margin-bottom:6px;">⬆️</div>
+            <p>Click to upload document</p>
+            <div style="font-size:0.78rem;color:var(--primary);margin-top:4px;">PDF, JPG, PNG (Max 5MB)</div>
+          </div>
+          <input type="file" id="official-doc" style="display:none;" accept=".pdf,.jpg,.png"/>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="handleOfficialSignup()">Submit</button>
+        <p style="font-size:0.75rem;color:var(--text-light);text-align:center;margin-top:10px;">By submitting, you agree your info will be verified by the barangay administrator.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+  <script src="../js/components.js"></script>
+  <script>
+    let currentRole = 'resident';
+    const DEMO_USERS = {
+      resident: { username: 'resident', password: 'password123' },
+      official:  { username: 'official',  password: 'official123'  }
+    };
+
+    function selectRole(role) {
+      currentRole = role;
+      document.getElementById('role-badge').innerHTML = role === 'resident' ? '👤 Resident' : '🏛️ Official';
+      document.getElementById('screen-select').classList.remove('active');
+      document.getElementById('screen-login').classList.add('active');
+      document.getElementById('login-panel').style.display = 'block';
+      document.getElementById('success-panel').style.display = 'none';
+      document.getElementById('login-error').style.display = 'none';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+
+    function goBack() {
+      document.getElementById('screen-login').classList.remove('active');
+      document.getElementById('screen-select').classList.add('active');
+    }
+
+    function doLogin() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorDiv = document.getElementById('login-error');
+      const errorMsg = document.getElementById('error-msg');
+      if (!username || !password) {
+        errorMsg.textContent = 'Please enter your username and password.';
+        errorDiv.style.display = 'flex'; return;
+      }
+      const demo = DEMO_USERS[currentRole];
+      if (username === demo.username && password === demo.password) {
+        errorDiv.style.display = 'none';
+        localStorage.setItem('ereklamo_user', JSON.stringify({ username, role: currentRole }));
+        if (currentRole === 'official') {
+          window.location.href = 'official-dashboard.html';
+        } else {
+          document.getElementById('login-panel').style.display = 'none';
+          document.getElementById('success-panel').style.display = 'block';
+        }
+      } else {
+        errorMsg.textContent = 'The password you entered is incorrect. Please check and try again.';
+        errorDiv.style.display = 'flex';
+        document.getElementById('password').classList.add('error');
+      }
+    }
+
+    function goForgot() { window.location.href = 'forgot-password.html'; }
+
+    function showSignup() {
+      document.getElementById('signup-modal').classList.remove('hidden');
+      if (currentRole === 'official') {
+        document.getElementById('resident-signup').style.display = 'none';
+        document.getElementById('official-signup').style.display = 'block';
+        document.getElementById('signup-title').textContent = 'Official Registration';
+        document.getElementById('signup-subtitle').textContent = 'Request access to the official portal';
+      } else {
+        document.getElementById('resident-signup').style.display = 'block';
+        document.getElementById('official-signup').style.display = 'none';
+        document.getElementById('signup-title').textContent = 'Create Account';
+        document.getElementById('signup-subtitle').textContent = 'Sign up to access the system';
+      }
+    }
+
+    function hideSignup() { document.getElementById('signup-modal').classList.add('hidden'); }
+    function handleSignup() { alert('Account created!\n\nDemo: resident / password123'); hideSignup(); }
+    function handleOfficialSignup() { alert('Registration submitted! Admin will review and notify you.'); hideSignup(); }
+
+    document.getElementById('signup-modal').addEventListener('click', function(e) {
+      if (e.target === this) hideSignup();
+    });
+  </script>
+</body>
+</html>
