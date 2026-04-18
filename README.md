@@ -28,6 +28,15 @@ Welcome to the **Barangay Lapasan Complaint System** (e-Reklamo)! This web app s
    - Opens your browser at `http://127.0.0.1:8080` (or similar)
    - Hot-reloads on file changes
 
+4. **Save and share your changes**:
+   ```bash
+   git add .
+   git commit -m "Describe your changes"
+   git push origin main
+   ```
+   - If you are using a feature branch, replace `main` with your branch name
+   - If `git push` is rejected, run `git pull origin main` first and resolve any merge conflicts
+
 ### Alternative: Live Server Extension
 If npm feels overwhelming:
 - Install "Live Server" in VS Code
@@ -67,18 +76,52 @@ SDE-Web/
 This project is beginner-friendly. Here's what to expect:
 
 1. **Fork & Clone**: Hit the "Fork" button on GitHub, then clone your fork
-2. **Branch Out**: Create a feature branch: `git checkout -b my-feature`
-3. **Make Changes**: Edit files, test with `npm start`
-4. **Commit & Push**: `git add .; git commit -m "Add cool feature"; git push`
-5. **Pull Request**: Open a PR on GitHub – we'll review!
+2. **Pull latest changes first**: `git pull origin main`
+3. **Branch Out**: Create a feature branch: `git checkout -b my-feature`
+4. **Make Changes**: Edit files, test with `npm start`
+5. **Commit & Push**: `git add .; git commit -m "Add cool feature"; git push --set-upstream origin my-feature`
+6. **Pull Request**: Open a PR on GitHub – we'll review!
+
+### Daily Workflow for Contributors
+Use this every time you start working:
+
+```bash
+git pull origin main
+git checkout -b feature/your-name
+# make your changes
+npm start
+```
+
+When you're ready to share your work:
+
+```bash
+git add .
+git commit -m "Describe what you changed"
+git push --set-upstream origin feature/your-name
+```
+
+Then create a Pull Request on GitHub.
 
 ### Common Hiccups & Fixes
 - **"npm start not working?"** Run `npm install` first. If issues persist, try `npx live-server --open=./index.html`
-- **Git branch confusion?** If you see "main vs master", rename: `git branch -m master main; git push -u origin main`
-- **Merge conflicts?** Don't panic! VS Code highlights them. Choose the best version, save, then `git add .; git commit`
-- **Push rejected?** Pull first: `git pull origin main`, resolve conflicts, then push
-- **Code not showing on GitHub?** Check the branch dropdown – switch to the correct one
-- **Vulnerabilities in npm audit?** They're in dev deps; safe for local dev. For production, consider switching to `http-server`
+- **Git branch confusion?** If you see "main vs master", rename:
+  ```bash
+git branch -m master main
+git push -u origin main
+```
+- **Pull before you start**: Always do `git pull origin main` before editing files.
+- **Push rejected?** That means someone changed the remote first. Run:
+  ```bash
+git pull origin main
+```
+  Resolve any conflicts, then `git push` again.
+- **Merge conflicts?** VS Code highlights conflict markers. Keep the best content, save, and finish with:
+  ```bash
+git add <file>
+git commit -m "Resolve merge conflict"
+```
+- **Code not showing on GitHub?** Check the branch dropdown – switch to `main` or your branch.
+- **Vulnerabilities in npm audit?** They're in dev deps; safe for local development. For production, consider switching to `http-server`.
 
 ### Tips for Smooth Sailing
 - Test your changes in multiple browsers
