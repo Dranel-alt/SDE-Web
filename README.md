@@ -2,6 +2,20 @@
 
 Welcome to the **Barangay Lapasan Complaint System** (e-Reklamo)! This web app streamlines community issue reporting, tracking, and management. Built with vanilla HTML, CSS, and JavaScript, it focuses on improving information flow and follow-up without needing a backend.
 
+## Table of Contents
+- [🚀 Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Quick Setup for Contributors](#quick-setup-for-contributors)
+  - [Optional: Daily Workflow for Contributors (Safer Approach)](#optional-daily-workflow-for-contributors-safer-approach)
+  - [Alternative: Live Server Extension](#alternative-live-server-extension)
+- [📁 Project Structure](#-project-structure)
+- [🎯 How It Works](#-how-it-works)
+- [🤝 Contributing](#-contributing)
+- [📞 Support](#-support)
+- [How the Pages Connect](#how-the-pages-connect)
+- [How Data is Stored](#how-data-is-stored)
+- [Want to Customize?](#want-to-customize)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -36,6 +50,25 @@ Welcome to the **Barangay Lapasan Complaint System** (e-Reklamo)! This web app s
    ```
    - If you are using a feature branch, replace `main` with your branch name
    - If `git push` is rejected, run `git pull origin main` first and resolve any merge conflicts
+
+### Optional: Daily Workflow for Contributors (Safer Approach)
+Want to contribute regularly but keep things safe? This optional workflow ensures your changes get reviewed before merging into the main codebase. Always work on your own fork and use pull requests for collaboration!
+
+**Every time you start working:**
+```bash
+git pull origin main  # Sync with the latest changes
+git checkout -b feature/your-feature-name  # Create a new branch for your work
+# Make your changes here
+npm start  # Test locally
+```
+
+**When ready to share:**
+```bash
+git add .
+git commit -m "Describe your awesome changes"
+git push origin feature/your-feature-name
+```
+Then, head to GitHub and create a **Pull Request** from your branch to the main repo. The maintainers will review your changes and merge them once approved. This keeps the main code stable and high-quality!
 
 ### Alternative: Live Server Extension
 If npm feels overwhelming:
@@ -82,44 +115,24 @@ This project is beginner-friendly. Here's what to expect:
 5. **Commit & Push**: `git add .; git commit -m "Add cool feature"; git push --set-upstream origin my-feature`
 6. **Pull Request**: Open a PR on GitHub – we'll review!
 
-### Daily Workflow for Contributors
-Use this every time you start working:
-
-```bash
-git pull origin main
-git checkout -b feature/your-name
-# make your changes
-npm start
-```
-
-When you're ready to share your work:
-
-```bash
-git add .
-git commit -m "Describe what you changed"
-git push --set-upstream origin feature/your-name
-```
-
-Then create a Pull Request on GitHub.
-
 ### Common Hiccups & Fixes
 - **"npm start not working?"** Run `npm install` first. If issues persist, try `npx live-server --open=./index.html`
 - **Git branch confusion?** If you see "main vs master", rename:
   ```bash
-git branch -m master main
-git push -u origin main
-```
+  git branch -m master main
+  git push -u origin main
+  ```
 - **Pull before you start**: Always do `git pull origin main` before editing files.
 - **Push rejected?** That means someone changed the remote first. Run:
   ```bash
-git pull origin main
-```
+  git pull origin main
+  ```
   Resolve any conflicts, then `git push` again.
 - **Merge conflicts?** VS Code highlights conflict markers. Keep the best content, save, and finish with:
-  ``bash
-git add <file>
-git commit -m "Resolve merge conflict"
-``
+  ```bash
+  git add <file>
+  git commit -m "Resolve merge conflict"
+  ```
 - **Code not showing on GitHub?** Check the branch dropdown – switch to `main` or your branch.
 - **Vulnerabilities in npm audit?** They're in dev deps; safe for local development. For production, consider switching to `http-server`.
 
