@@ -1,11 +1,12 @@
 # Barangay Issue Reporting and Tracking System
 
-Welcome to the **Barangay Lapasan Complaint System** (e-Reklamo)! This web app streamlines community issue reporting, tracking, and management. Built with vanilla HTML, CSS, and JavaScript, it focuses on improving information flow and follow-up without needing a backend.
+Welcome to the **Barangay Lapasan Complaint System** (e-Reklamo)! This web app streamlines community issue reporting, tracking, and management. The frontend is built with vanilla HTML, CSS, and JavaScript, with a Node/TypeScript backend foundation under `server/`.
 
 ## Table of Contents
 - [🚀 Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Quick Setup for Contributors](#quick-setup-for-contributors)
+  - [Backend API Setup](#backend-api-setup)
   - [Optional: Daily Workflow for Contributors (Safer Approach)](#optional-daily-workflow-for-contributors-safer-approach)
   - [Alternative: Live Server Extension](#alternative-live-server-extension)
 - [📁 Project Structure](#-project-structure)
@@ -51,6 +52,48 @@ Welcome to the **Barangay Lapasan Complaint System** (e-Reklamo)! This web app s
    - If you are using a feature branch, replace `main` with your branch name
    - If `git push` is rejected, run `git pull origin main` first and resolve any merge conflicts
 
+### Backend API Setup
+The backend is a real Node/TypeScript service under `server/`. These files, scripts, dependency versions, and migrations are committed so every collaborator can reproduce the same setup.
+
+1. **Create your local environment file**:
+   ```powershell
+   Copy-Item .env.example .env
+   ```
+   On macOS/Linux:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Start a local PostgreSQL database**:
+   ```bash
+   docker compose up -d db
+   ```
+   If you use Supabase or another hosted Postgres database, update `DATABASE_URL` in `.env` instead.
+
+3. **Create the required database tables**:
+   ```bash
+   npm run migrate:api
+   ```
+
+4. **Run the backend API**:
+   ```bash
+   npm run dev:api
+   ```
+   The API runs at `http://localhost:3000`.
+
+5. **Useful backend checks**:
+   ```bash
+   npm run typecheck
+   npm run build:api
+   ```
+
+Available starter endpoints:
+- `GET /api/health`
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+- `POST /api/auth/refresh`
+- `GET /api/auth/me`
+
 ### Optional: Daily Workflow for Contributors (Safer Approach)
 Want to contribute regularly but keep things safe? This optional workflow ensures your changes get reviewed before merging into the main codebase. Always work on your own fork and use pull requests for collaboration!
 
@@ -82,6 +125,12 @@ SDE-Web/
 ├── index.html              # Homepage
 ├── package.json            # npm scripts & deps
 ├── README.md               # This file!
+├── .env.example            # Backend environment template
+├── docker-compose.yml      # Local PostgreSQL for collaborators
+├── server/                 # Node/TypeScript backend API
+│   ├── migrations/         # Database schema migrations
+│   ├── scripts/            # Local maintenance scripts
+│   └── src/                # API source code
 ├── assets/                 # Images & media
 ├── css/
 │   └── style.css           # All styles
@@ -100,8 +149,9 @@ SDE-Web/
 
 - **Residents** log in, submit complaints, and track status
 - **Officials** manage complaints via a dashboard
-- Data stored in browser's localStorage (no server needed)
-- Demo credentials: `resident` / `password123` or `official` / `official123`
+- Complaint demo data is still stored in browser localStorage until those pages are connected to the API
+- Authentication has a backend foundation in `server/src/modules/users`
+- Frontend demo credentials are still available until the pages are connected to the API: `resident` / `password123` or `official` / `official123`
 
 ## 🤝 Contributing
 
@@ -173,9 +223,9 @@ Track Complaint (track.html)
 ---
 
 ## How Data is Stored
-- Complaints are saved in **localStorage** (browser storage)
-- No backend/server needed — works completely in the browser
-- Data persists even after closing the tab
+- Existing complaint demo data is still saved in **localStorage** until those pages are connected to the API.
+- User authentication now has a backend foundation in `server/src/modules/users`.
+- The backend uses PostgreSQL and can connect to local Docker Postgres, Supabase Postgres, or another hosted Postgres database through `DATABASE_URL`.
 
 ---
 

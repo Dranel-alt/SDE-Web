@@ -8,3 +8,9 @@ build/
 dist/
 out/
 .env
+.env.*
+!.env.example
+
+# Avoid accidentally committing a cloned copy of the Supabase OSS repository.
+# Keep app-owned database migrations under server/migrations instead.
+supabase/
