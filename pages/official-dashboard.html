@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Official Dashboard | e-Reklamo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .dash-header { background: var(--primary); color: #fff; padding: 20px 48px; font-size: 1.1rem; font-weight: 900; letter-spacing: 0.04em; text-transform: uppercase; }
+    .dash-body { padding: 36px 48px; max-width: 1100px; margin: 0 auto; }
+    .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+    .table-section { background: #fff; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow); overflow: hidden; }
+    .table-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+    .table-header h3 { font-size: 1rem; font-weight: 800; }
+    .table-controls { display: flex; gap: 10px; align-items: center; }
+    .sort-select { padding: 7px 12px; border-radius: 8px; border: 1.5px solid var(--border); font-size: 0.82rem; font-family: inherit; font-weight: 600; cursor: pointer; }
+    .action-btn { padding: 5px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; border: 1.5px solid var(--border); background: #fff; }
+    .action-btn:hover { background: var(--light-gray); }
+    .status-select { padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--border); font-size: 0.78rem; cursor: pointer; }
+    .no-data { text-align:center; padding: 56px 24px; color: var(--text-light); }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <div class="dash-header">
+    Barangay Issue Reporting and Tracking System
+  </div>
+
+  <div class="dash-body">
+    <!-- Stats -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card green">
+        <div><div class="stat-label">Open Issues</div><div class="stat-num" id="stat-open">0</div></div>
+        <div class="stat-icon"></div>
+      </div>
+      <div class="stat-card yellow">
+        <div><div class="stat-label">In Progress</div><div class="stat-num" id="stat-progress">0</div></div>
+        <div class="stat-icon"></div>
+      </div>
+      <div class="stat-card blue">
+        <div><div class="stat-label">Resolved</div><div class="stat-num" id="stat-resolved">0</div></div>
+        <div class="stat-icon"></div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-section">
+      <div class="table-header">
+        <h3>Recent Reports</h3>
+        <div class="table-controls">
+          <div style="position:relative;">
+            <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-light); font-size:0.9rem;"></span>
+            <input class="form-control" id="dash-search" placeholder="Search..." style="padding-left:32px; width:200px; font-size:0.85rem; height:36px;" oninput="renderTableDebounced()"/>
+          </div>
+          <select class="sort-select" id="status-filter" onchange="renderTable()" title="Filter by status">
+            <option value="">All Queue</option>
+            <option value="submitted">Submitted</option>
+            <option value="under_review">Under Review</option>
+            <option value="assigned">Assigned</option>
+            <option value="in_progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+          </select>
+          <select class="sort-select" id="sort-by" title="Sort by" aria-label="Sort by" onchange="renderTable()">
+            <option value="date">By Date</option>
+            <option value="priority">By Priority</option>
+            <option value="status">By Status</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th>Report No.</th>
+              <th>Complaint</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Date Reported</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="dash-tbody"></tbody>
+        </table>
+        <div id="no-data" class="no-data" style="display:none;">
+          <div style="font-size:2rem; margin-bottom:8px;"></div>
+          No complaints found
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <style>
+    .modal-content { max-width:580px; max-height:90vh; overflow-y:auto; }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+    .modal-title { font-size:1.2rem; font-weight:900; }
+    .modal-actions { margin-top:20px; display:flex; gap:10px; flex-wrap:wrap; }
+    .modal-flex { flex:1; }
+    .modal-input-group { margin-top:12px; }
+    .modal-footer { margin-top:14px; }
+  </style>
+  <div id="detail-modal" class="modal-overlay hidden">
+    <div class="modal modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Complaint Details</h2>
+        <button type="button" class="modal-close-btn" onclick="closeModal()" aria-label="Close" title="Close">×</button>
+      </div>
+      <div id="modal-body"></div>
+      <div class="modal-actions">
+        <select class="form-control modal-flex" id="modal-status" title="Complaint status" aria-label="Complaint status">
+          <option value="submitted">Submitted</option>
+          <option value="under_review">Under Review</option>
+          <option value="assigned">Assigned</option>
+          <option value="in_progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+          <option value="closed">Closed</option>
+        </select>
+        <select class="form-control modal-flex" id="modal-department" title="Assign department" aria-label="Assign department">
+          <option value="">Assign department</option>
+          <option>Sanitation</option>
+          <option>Infrastructure</option>
+          <option>Peace and Order</option>
+          <option>Health</option>
+          <option>Disaster Response</option>
+          <option>Administration</option>
+        </select>
+      </div>
+      <div class="modal-input-group">
+        <label class="form-label" for="modal-note">Internal note</label>
+        <textarea class="form-control" id="modal-note" rows="3" placeholder="Add a status note for the audit log"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="update-status-btn" onclick="updateStatus()">Update Status</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/appState.js"></script>
+  <script src="../js/components.js"></script>
+  <script>
+    let currentId = null;
+    let cachedComplaints = [];
+
+    async function loadComplaints() {
+      cachedComplaints = await window.eReklamo.listComplaints({
+        search: document.getElementById('dash-search').value,
+        status: document.getElementById('status-filter').value,
+        limit: 50,
+      });
+      return cachedComplaints;
+    }
+
+    async function updateStats() {
+      const list = cachedComplaints.length ? cachedComplaints : await loadComplaints();
+      document.getElementById('stat-open').textContent = list.filter(c => ['submitted', 'under_review', 'assigned'].includes(c.status)).length;
+      document.getElementById('stat-progress').textContent = list.filter(c => c.status === 'in_progress').length;
+      document.getElementById('stat-resolved').textContent = list.filter(c => c.status === 'resolved' || c.status === 'closed').length;
+    }
+
+    function getPriorityBadge(urgency) {
+      const map = { critical:'badge-critical', high:'badge-review', medium:'badge-progress', low:'badge-resolved' };
+      return `<span class="badge ${map[urgency] || 'badge-pending'}">${urgency ? urgency.charAt(0).toUpperCase()+urgency.slice(1) : 'Normal'}</span>`;
+    }
+
+    function getStatusBadge(status) {
+      const map = {
+        submitted: 'badge-pending',
+        pending_review: 'badge-pending',
+        under_review: 'badge-review',
+        assigned: 'badge-review',
+        in_progress: 'badge-progress',
+        resolved: 'badge-resolved',
+        closed: 'badge-resolved'
+      };
+      return `<span class="badge ${map[status] || 'badge-pending'}">${window.eReklamo.statusLabel(status)}</span>`;
+    }
+
+    async function renderTable() {
+      const tbody = document.getElementById('dash-tbody');
+      tbody.innerHTML = '<tr><td colspan="6"><div class="skeleton"></div></td></tr>';
+      let list = [];
+      try {
+        list = await loadComplaints();
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6"><div class="alert alert-danger">Unable to load complaints: ${window.eReklamo.escapeHtml(err.message)}</div></td></tr>`;
+        return;
+      }
+
+      const search = document.getElementById('dash-search').value.toLowerCase();
+      const sortBy = document.getElementById('sort-by').value;
+
+      let filtered = list.filter(c =>
+        !search || c.subject.toLowerCase().includes(search) ||
+        c.category.toLowerCase().includes(search) || c.referenceNo.toLowerCase().includes(search)
+      );
+
+      filtered.sort((a, b) => {
+        if (sortBy === 'priority') {
+          const order = { critical:0, high:1, medium:2, low:3 };
+          return (order[a.urgency]||4) - (order[b.urgency]||4);
+        }
+        if (sortBy === 'status') return window.eReklamo.statusLabel(a.status).localeCompare(window.eReklamo.statusLabel(b.status));
+        return new Date(b.dateRaw) - new Date(a.dateRaw);
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        document.getElementById('no-data').style.display = 'block';
+        return;
+      }
+      document.getElementById('no-data').style.display = 'none';
+
+      tbody.innerHTML = filtered.map(c => `
+        <tr>
+          <td style="font-weight:700; font-size:0.82rem; color:var(--primary);">${window.eReklamo.escapeHtml(c.referenceNo)}</td>
+          <td>
+            <div style="font-weight:700; font-size:0.9rem;">${window.eReklamo.escapeHtml(c.subject)}</div>
+            <div style="font-size:0.78rem; color:var(--text-light);">${window.eReklamo.escapeHtml(c.category)}${c.assignedDepartment ? ` / ${window.eReklamo.escapeHtml(c.assignedDepartment)}` : ''}</div>
+          </td>
+          <td>${getStatusBadge(c.status)}</td>
+          <td>${getPriorityBadge(c.urgency)}</td>
+          <td style="font-size:0.82rem; color:var(--text-light);">${c.date}</td>
+          <td>
+            <button class="action-btn" onclick="openModal('${c.referenceNo}')">View</button>
+          </td>
+        </tr>
+      `).join('');
+      await updateStats();
+    }
+
+    function openModal(id) {
+      const list = cachedComplaints;
+      const c = list.find(x => x.id === id);
+      const byReference = list.find(x => x.referenceNo === id);
+      const complaint = c || byReference;
+      if (!complaint) return;
+      currentId = id;
+
+      document.getElementById('modal-title').textContent = complaint.subject;
+      document.getElementById('modal-status').value = complaint.status;
+      document.getElementById('modal-department').value = complaint.assignedDepartment || '';
+      document.getElementById('modal-note').value = '';
+      document.getElementById('modal-body').innerHTML = `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+          <div><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase;">Reference No.</div><div style="font-weight:700; color:var(--primary);">${window.eReklamo.escapeHtml(complaint.referenceNo)}</div></div>
+          <div><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase;">Category</div><div>${window.eReklamo.escapeHtml(complaint.category)}</div></div>
+          <div><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase;">Complainant</div><div>${window.eReklamo.escapeHtml(complaint.fullName || `${complaint.firstName} ${complaint.lastName}`)}</div></div>
+          <div><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase;">Date Filed</div><div>${complaint.date}</div></div>
+          <div><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase;">Phone</div><div>${window.eReklamo.escapeHtml(complaint.phone)}</div></div>
+          <div><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase;">Email</div><div style="font-size:0.85rem;">${window.eReklamo.escapeHtml(complaint.email)}</div></div>
+        </div>
+        <div style="margin-bottom:12px;"><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase; margin-bottom:4px;">Address</div><div>${window.eReklamo.escapeHtml(complaint.address)}</div></div>
+        <div style="margin-bottom:12px;"><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase; margin-bottom:4px;">Location of Concern</div><div>${window.eReklamo.escapeHtml(complaint.location)}</div></div>
+        <div style="margin-bottom:12px;"><div style="font-size:0.75rem; color:var(--text-light); font-weight:700; text-transform:uppercase; margin-bottom:4px;">Description</div><div style="background:var(--light-gray); padding:12px; border-radius:8px; font-size:0.88rem; line-height:1.6;">${window.eReklamo.escapeHtml(complaint.description)}</div></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <div>${getPriorityBadge(complaint.urgency)}</div>
+          <div>${getStatusBadge(complaint.status)}</div>
+        </div>
+        ${window.eReklamo.renderTimeline(complaint.status, complaint.history)}
+      `;
+      document.getElementById('detail-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('detail-modal').classList.add('hidden');
+      currentId = null;
+    }
+
+    async function updateStatus() {
+      const newStatus = document.getElementById('modal-status').value;
+      const assignedDepartment = document.getElementById('modal-department').value;
+      const note = document.getElementById('modal-note').value.trim();
+      const button = document.getElementById('update-status-btn');
+
+      button.disabled = true;
+      button.textContent = 'Updating...';
+      try {
+        await window.eReklamo.updateComplaintStatus(currentId, { status: newStatus, assignedDepartment, note });
+        await renderTable();
+        closeModal();
+        window.eReklamo.showToast('Status updated successfully.', 'success');
+      } catch (err) {
+        window.eReklamo.showToast('Status update failed: ' + err.message, 'danger');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Update Status';
+      }
+    }
+
+    document.getElementById('detail-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    window.renderTableDebounced = window.eReklamo.debounce(renderTable, 300);
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await window.eReklamo.requireAuth({ roles: ['official', 'admin'] });
+      if (!user) return;
+      await renderTable();
+    });
+  </script>
+</body>
+</html>

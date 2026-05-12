@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Reklamo Admin Debug Panel</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Monaco', 'Courier New', monospace;
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { color: #58a6ff; margin-bottom: 20px; font-size: 2rem; }
+    .section { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 20px; margin-bottom: 20px; }
+    .section h2 { color: #79c0ff; margin-bottom: 10px; font-size: 1.3rem; }
+    button {
+      background: #238636;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin: 5px 5px 5px 0;
+    }
+    button:hover { background: #2ea043; }
+    button.danger { background: #da3633; }
+    button.danger:hover { background: #f85149; }
+    .status { 
+      display: inline-block; 
+      padding: 4px 8px; 
+      border-radius: 4px; 
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+    .status.ok { background: #238636; color: #fff; }
+    .status.error { background: #da3633; color: #fff; }
+    .status.warning { background: #9e6a03; color: #fff; }
+    .output {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .output.success { border-color: #238636; }
+    .output.error { border-color: #da3633; color: #f85149; }
+    .info-box {
+      background: #0d1117;
+      border-left: 4px solid #58a6ff;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    table { width: 100%; margin-top: 10px; border-collapse: collapse; }
+    td, th { padding: 8px; text-align: left; border-bottom: 1px solid #30363d; }
+    th { background: #0d1117; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1> E-Reklamo Admin Debug Panel</h1>
+
+    <!-- Connection Status -->
+    <div class="section">
+      <h2> System Status</h2>
+      <table>
+        <tr>
+          <th>Component</th>
+          <th>Status</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td>Frontend</td>
+          <td><span class="status ok"> OK</span></td>
+          <td>You're viewing this page</td>
+        </tr>
+        <tr>
+          <td>Backend API</td>
+          <td id="api-status"><span class="status warning"> Checking...</span></td>
+          <td id="api-details">Connecting...</td>
+        </tr>
+        <tr>
+          <td>Database</td>
+          <td id="db-status"><span class="status warning"> Checking...</span></td>
+          <td id="db-details">Checking...</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Backend Health Check -->
+    <div class="section">
+      <h2> Backend Health Check</h2>
+      <button onclick="checkBackendHealth()">Test API Connection</button>
+      <div id="health-output" class="output" style="display:none;"></div>
+    </div>
+
+    <!-- Database Inspection -->
+    <div class="section">
+      <h2> Database Status</h2>
+      <button onclick="checkDatabaseStatus()">Check Database</button>
+      <button onclick="showComplaints()" class="info-box" style="border: none; background: none; padding: 0;">View All Complaints</button>
+      <div id="db-output" class="output" style="display:none;"></div>
+    </div>
+
+    <!-- Local Storage Inspection -->
+    <div class="section">
+      <h2> Local Storage Management</h2>
+      <div class="info-box"> Local storage should be EMPTY when database is working properly.</div>
+      <button onclick="inspectLocalStorage()">Inspect Local Storage</button>
+      <button onclick="clearOldData()" class="danger">Clear Old Storage Data</button>
+      <div id="storage-output" class="output" style="display:none;"></div>
+    </div>
+
+    <!-- API Configuration -->
+    <div class="section">
+      <h2> Configuration</h2>
+      <table>
+        <tr>
+          <th>Setting</th>
+          <th>Value</th>
+        </tr>
+        <tr>
+          <td>API Base URL</td>
+          <td id="config-api">http://localhost:3000/api</td>
+        </tr>
+        <tr>
+          <td>Frontend Host</td>
+          <td id="config-host" style="word-break: break-all;"></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Troubleshooting -->
+    <div class="section">
+      <h2> Troubleshooting</h2>
+      <div class="info-box">
+        <strong>Common Issues:</strong>
+        <ul style="margin-left: 20px; margin-top: 8px;">
+          <li><strong>API Status: Error?</strong>  Run: <code>npm run dev:api</code></li>
+          <li><strong>Database Status: Error?</strong>  Run: <code>npm run migrate:api</code></li>
+          <li><strong>Still using localStorage?</strong>  Click "Clear Old Storage Data" button</li>
+          <li><strong>CORS Error?</strong>  Check CORS_ORIGIN in server/.env includes your frontend URL</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:3000/api';
+
+    // Display config
+    document.getElementById('config-host').textContent = window.location.href;
+
+    async function checkBackendHealth() {
+      const output = document.getElementById('health-output');
+      output.style.display = 'block';
+      output.className = 'output';
+
+      try {
+        const response = await fetch(`${API_BASE}/health`);
+        const data = await response.json();
+
+        if (response.ok) {
+          output.className = 'output success';
+          output.innerHTML = ` Backend is running!\n${JSON.stringify(data, null, 2)}`;
+          updateStatusBox('api-status', 'ok', ' Running');
+          document.getElementById('api-details').textContent = 'Connected successfully';
+        } else {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (err) {
+        output.className = 'output error';
+        output.innerHTML = ` Failed to connect to backend:\n${err.message}\n\nMake sure:\n1. Backend is running: npm run dev:api\n2. Running on http://localhost:3000`;
+        updateStatusBox('api-status', 'error', ' Failed');
+        document.getElementById('api-details').textContent = err.message;
+      }
+    }
+
+    async function checkDatabaseStatus() {
+      const output = document.getElementById('db-output');
+      output.style.display = 'block';
+      output.className = 'output';
+
+      try {
+        // Try to fetch complaints which requires database
+        const response = await fetch(`${API_BASE}/complaints/my`, {
+          headers: { 'Authorization': `Bearer temp` }
+        });
+
+        // Even if auth fails, if we got a response, database is up
+        if (response.status === 401) {
+          // Auth error but database responded - database is OK
+          output.className = 'output success';
+          output.innerHTML = ` Database is connected!\n(Auth failed as expected - need proper login)`;
+          updateStatusBox('db-status', 'ok', ' Connected');
+          document.getElementById('db-details').textContent = 'Database responding';
+        } else if (response.ok) {
+          output.className = 'output success';
+          output.innerHTML = ` Database OK\n${JSON.stringify(await response.json(), null, 2)}`;
+          updateStatusBox('db-status', 'ok', ' OK');
+          document.getElementById('db-details').textContent = 'All systems operational';
+        } else {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (err) {
+        output.className = 'output error';
+        output.innerHTML = ` Database error:\n${err.message}\n\nEnsure:\n1. Backend running: npm run dev:api\n2. Migrations run: npm run migrate:api\n3. Database URL configured in .env`;
+        updateStatusBox('db-status', 'error', ' Failed');
+        document.getElementById('db-details').textContent = err.message;
+      }
+    }
+
+    function inspectLocalStorage() {
+      const output = document.getElementById('storage-output');
+      output.style.display = 'block';
+
+      const data = localStorage.getItem('ereklamo_complaints');
+      if (data) {
+        try {
+          const parsed = JSON.parse(data);
+          output.className = 'output warning';
+          output.innerHTML = ` Found ${parsed.length} items in localStorage:\n${JSON.stringify(parsed, null, 2)}\n\n Tip: Clear this to force database usage`;
+        } catch (e) {
+          output.innerHTML = `Error parsing data: ${e.message}`;
+        }
+      } else {
+        output.className = 'output success';
+        output.innerHTML = ` No old localStorage data found (Good!)`;
+      }
+    }
+
+    function clearOldData() {
+      if (confirm('Clear localStorage data? This cannot be undone.')) {
+        localStorage.removeItem('ereklamo_complaints');
+        const output = document.getElementById('storage-output');
+        output.style.display = 'block';
+        output.className = 'output success';
+        output.innerHTML = ` Cleared!\n\nSystem will now use database exclusively. Refresh the page.`;
+        setTimeout(() => location.reload(), 2000);
+      }
+    }
+
+    function updateStatusBox(elementId, status, text) {
+      const el = document.getElementById(elementId);
+      el.innerHTML = `<span class="status ${status}">${text}</span>`;
+    }
+
+    function showComplaints() {
+      const data = localStorage.getItem('ereklamo_complaints');
+      if (data) {
+        alert('Complaints in storage:\n' + JSON.stringify(JSON.parse(data), null, 2));
+      } else {
+        alert('No complaints in storage');
+      }
+    }
+
+    // Run checks on load
+    window.addEventListener('load', () => {
+      checkBackendHealth();
+      checkDatabaseStatus();
+      inspectLocalStorage();
+    });
+  </script>
+</body>
+</html>

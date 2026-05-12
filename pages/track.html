@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Complaint | e-Reklamo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <div style="max-width:600px; margin:0 auto; padding:56px 24px;">
+    <div style="text-align:center; margin-bottom:36px;">
+      <div style="font-size:3rem; margin-bottom:12px;"></div>
+      <h1 style="font-size:1.8rem; font-weight:900; margin-bottom:8px;">Track Your Complaint</h1>
+      <p style="color:var(--text-light);">Enter your complaint reference number or email to check the status.</p>
+    </div>
+
+    <div class="card">
+      <div class="form-group">
+        <label class="form-label">Reference Number or Email</label>
+        <input class="form-control" id="track-input" placeholder="e.g. CMP-2026-A83F21 or your email"/>
+      </div>
+      <button class="btn btn-primary btn-full" id="track-btn" onclick="trackComplaint()">Track Complaint</button>
+    </div>
+
+    <div id="track-result" style="margin-top:24px; display:none;"></div>
+  </div>
+
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseConfig.js"></script>
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/appState.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/script.js"></script>
+  <script>
+    async function trackComplaint() {
+      const query = document.getElementById('track-input').value.trim();
+      if (!query) return;
+      const el = document.getElementById('track-result');
+      const button = document.getElementById('track-btn');
+      el.style.display = 'block';
+      el.innerHTML = '<div class="skeleton"></div>';
+      button.disabled = true;
+      button.textContent = 'Searching...';
+
+      try {
+        const found = await window.eReklamo.trackComplaints(query);
+
+        if (found.length === 0) {
+          el.innerHTML = `
+            <div class="card" style="text-align:center; color:var(--text-light);">
+              <div style="font-size:2rem; margin-bottom:8px;"></div>
+              <strong>No complaint found</strong><br/>
+              <small>Double-check your ID or email and try again.</small>
+            </div>`;
+          return;
+        }
+
+        const progressColors = { submitted:'#F59E0B', pending_review:'#F59E0B', under_review:'#3B82F6', assigned:'#6366F1', in_progress:'#8B5CF6', resolved:'#10B981', closed:'#6B7280' };
+
+        el.innerHTML = found.map(c => `
+          <div class="card" style="margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+              <div>
+                <div style="font-weight:900; font-size:1rem;">${window.eReklamo.escapeHtml(c.subject)}</div>
+                <div style="font-size:0.8rem; color:var(--primary); font-weight:700;">${window.eReklamo.escapeHtml(c.referenceNo)}</div>
+              </div>
+              <span class="badge badge-pending">${window.eReklamo.statusLabel(c.status)}</span>
+            </div>
+            <div style="font-size:0.82rem; color:var(--text-light); margin-bottom:8px;">${window.eReklamo.escapeHtml(c.category)} &nbsp;|&nbsp; Filed: ${c.date}</div>
+            ${window.eReklamo.renderTimeline(c.status, c.history)}
+            <div style="margin-top:12px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:4px;">
+                <span style="color:var(--text-light);">Progress</span>
+                <span style="font-weight:700;">${c.progress}%</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" style="width:${c.progress}%; background:${progressColors[c.status]||'#F59E0B'};"></div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        el.innerHTML = `
+          <div class="card" style="text-align:center; color:var(--danger);">
+            <div style="font-size:2rem; margin-bottom:8px;"></div>
+            <strong>Tracking failed</strong><br/>
+            <small>${window.eReklamo.escapeHtml(err.message)}</small>
+          </div>`;
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Track Complaint';
+      }
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') trackComplaint(); });
+  </script>
+</body>
+</html>

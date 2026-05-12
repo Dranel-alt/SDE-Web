@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resident Dashboard | e-Reklamo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .resident-shell { max-width: 1040px; margin: 0 auto; padding: 36px 24px; }
+    .resident-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .resident-header h1 { font-size: 1.7rem; font-weight: 900; color: var(--primary); }
+    .dashboard-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .resident-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    @media (max-width: 768px) { .resident-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main class="resident-shell">
+    <section class="resident-header">
+      <div>
+        <h1 id="welcome-title">Resident Dashboard</h1>
+        <p style="color:var(--text-light);">Track your reports and follow each complaint timeline.</p>
+      </div>
+      <div class="dashboard-actions">
+        <a class="btn btn-primary" href="complaint.html">Submit Complaint</a>
+        <a class="btn btn-outline" href="track.html">Track by Reference</a>
+      </div>
+    </section>
+
+    <section class="resident-grid">
+      <div class="stat-card green"><div><div class="stat-label">Submitted</div><div class="stat-num" id="stat-submitted">0</div></div></div>
+      <div class="stat-card yellow"><div><div class="stat-label">Active</div><div class="stat-num" id="stat-active">0</div></div></div>
+      <div class="stat-card blue"><div><div class="stat-label">Resolved</div><div class="stat-num" id="stat-resolved">0</div></div></div>
+    </section>
+
+    <section class="table-section">
+      <div class="table-header">
+        <h3>My Complaints</h3>
+        <div style="position:relative;">
+          <input class="form-control" id="resident-search" placeholder="Search by reference, subject, or category" style="width:280px;" oninput="renderResidentComplaintsDebounced()"/>
+        </div>
+      </div>
+      <div id="resident-list" style="padding:20px;"></div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseConfig.js"></script>
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/appState.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/script.js"></script>
+  <script>
+    async function renderResidentComplaints() {
+      const el = document.getElementById('resident-list');
+      const search = document.getElementById('resident-search').value.trim();
+      el.innerHTML = '<div class="skeleton"></div>';
+
+      let complaints = [];
+      try {
+        complaints = await window.eReklamo.listComplaints({ mine: true, search, limit: 25 });
+      } catch (err) {
+        el.innerHTML = `<div class="alert alert-danger">Unable to load complaints: ${window.eReklamo.escapeHtml(err.message)}</div>`;
+        return;
+      }
+
+      document.getElementById('stat-submitted').textContent = complaints.filter(c => c.status === 'submitted' || c.status === 'pending_review').length;
+      document.getElementById('stat-active').textContent = complaints.filter(c => ['under_review', 'assigned', 'in_progress'].includes(c.status)).length;
+      document.getElementById('stat-resolved').textContent = complaints.filter(c => c.status === 'resolved' || c.status === 'closed').length;
+
+      if (!complaints.length) {
+        el.innerHTML = `<div class="empty-state"><h3>No complaints yet</h3><p>Submit your first complaint to see status updates here.</p></div>`;
+        return;
+      }
+
+      el.innerHTML = complaints.map(c => `
+        <article class="complaint-card">
+          <div class="complaint-card-header">
+            <div>
+              <div class="complaint-card-title">${window.eReklamo.escapeHtml(c.subject)}</div>
+              <div class="complaint-card-meta">${window.eReklamo.escapeHtml(c.referenceNo)} | ${window.eReklamo.escapeHtml(c.category)} | ${c.date}</div>
+            </div>
+            <span class="badge badge-pending">${window.eReklamo.statusLabel(c.status)}</span>
+          </div>
+          <div class="complaint-card-desc">${window.eReklamo.escapeHtml(c.description.substring(0, 180))}${c.description.length > 180 ? '...' : ''}</div>
+          ${window.eReklamo.renderTimeline(c.status, c.history)}
+        </article>
+      `).join('');
+    }
+
+    window.renderResidentComplaintsDebounced = window.eReklamo.debounce(renderResidentComplaints, 300);
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await window.eReklamo.requireAuth({ roles: ['resident'] });
+      if (!user) return;
+      document.getElementById('welcome-title').textContent = `Welcome, ${window.eReklamo.userDisplayName(user)}`;
+      await renderResidentComplaints();
+    });
+  </script>
+</body>
+</html>
