@@ -3,435 +3,765 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Complaint | e-Reklamo Barangay Lapasan</title>
+  <title>File Complaint | e-Reklamo Barangay Lapasan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/style.css"/>
   <style>
-    .complaint-wrapper { max-width: 760px; margin: 0 auto; padding: 32px 24px; }
-    .page-hero { text-align:center; margin-bottom:28px; }
-    .page-hero h1 { font-size:1.8rem; font-weight:900; color: var(--primary); }
-    .page-hero p { color:var(--text-light); font-size:0.9rem; margin-top:4px; }
-    .form-section-title { font-weight:800; font-size:1rem; margin-bottom:16px; padding-bottom:8px; border-bottom:1.5px solid var(--border); }
-    .step-indicator { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:28px; }
-    .step-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:800; border:2px solid var(--border); color:var(--text-light); }
-    .step-dot.active { background:var(--primary); color:#fff; border-color:var(--primary); }
-    .step-dot.done { background:var(--success); color:#fff; border-color:var(--success); }
-    .step-line { flex:1; max-width:60px; height:2px; background:var(--border); }
-    .step-line.done { background:var(--success); }
+    .complaint-wrapper { max-width: 780px; margin: 0 auto; padding: 32px 24px 64px; }
+    .page-hero { text-align:center; margin-bottom:28px; padding: 20px 0 0; }
+    .page-hero h1 { font-size:1.8rem; font-weight:900; color:var(--primary); }
+    .form-section-title { font-weight:900; font-size:0.95rem; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border); text-transform:uppercase; letter-spacing:0.04em; color:var(--text-dark); display:flex; align-items:center; gap:8px; }
+
+    /* AI suggestion bubble */
+    .ai-suggestion {
+      background: linear-gradient(135deg, #FFF8F0, #FFF5E6);
+      border: 1.5px solid #FFE4B5; border-radius: 10px;
+      padding: 12px 16px; margin-top: 10px; font-size: 0.82rem;
+      display: none; animation: fadeSlideIn 0.3s ease;
+    }
+    .ai-suggestion.show { display: flex; align-items: flex-start; gap: 10px; }
+    @keyframes fadeSlideIn { from{opacity:0;transform:translateY(-6px);} to{opacity:1;transform:translateY(0);} }
+    .ai-tag { display:inline-flex; align-items:center; gap:4px; background:#fff; border:1.5px solid #C4B5FD; border-radius:6px; padding:3px 10px; font-size:0.78rem; font-weight:800; color:#5B21B6; margin-right:6px; cursor:pointer; transition:all 0.2s; }
+    .ai-tag:hover { background:#EDE9FE; }
+
+    /* Priority visualizer */
+    .urgency-visual { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-top:8px; }
+    .urgency-opt { border:2px solid var(--border); border-radius:10px; padding:10px 8px; text-align:center; cursor:pointer; transition:all 0.2s; }
+    .urgency-opt:hover { border-color:var(--primary); }
+    .urgency-opt.selected { border-color:var(--primary); background:var(--primary-bg); }
+    .urgency-opt.selected.low      { border-color:var(--success); background:#FEF3E2; }
+    .urgency-opt.selected.medium   { border-color:var(--warning); background:#FFFBF0; }
+    .urgency-opt.selected.high     { border-color:#F97316; background:#FFF7ED; }
+    .urgency-opt.selected.critical { border-color:var(--danger); background:var(--danger-bg); }
+    .urgency-icon { font-size:1.5rem; margin-bottom:4px; }
+    .urgency-label { font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; }
+
+    /* Draft badge */
+    .draft-badge { display:inline-flex; align-items:center; gap:5px; background:#FFF5E6; border:1px solid #FFE4B5; color:#5C4C45; font-size:0.72rem; font-weight:800; padding:3px 10px; border-radius:6px; }
+
+    /* Receipt modal */
+    .receipt-box { border:2px dashed var(--border); border-radius:12px; padding:20px; text-align:center; margin:16px 0; background:var(--light-gray); }
+    .receipt-id { font-size:1.6rem; font-weight:800; color:var(--primary); font-family:var(--font-heading); letter-spacing:0; }
+
+    /* My complaints filter row */
+    .complaints-toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
+    .complaints-toolbar select { padding:8px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:0.85rem; font-family:inherit; font-weight:700; cursor:pointer; }
+
+    @media(max-width:600px){ .urgency-visual{grid-template-columns:1fr 1fr;} }
   </style>
 </head>
 <body>
-  <div id="navbar"></div>
+<div id="navbar"></div>
 
-  <div class="complaint-wrapper">
-    <!-- Back link -->
-    <a href="services.html" style="display:inline-flex; align-items:center; gap:6px; font-size:0.88rem; color:var(--text-light); margin-bottom:16px;"> Back</a>
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a>
+  <span class="sep">&gt;</span>
+  <a href="services.html">Services</a>
+  <span class="sep">&gt;</span>
+  <span>File Complaint</span>
+</nav>
 
-    <div class="page-hero">
-      <h1>Welcome to e-Reklamo!</h1>
-      <p>Submit a complaint or track the status of your existing complaints</p>
-    </div>
+<main id="main-content" class="page-fade">
+<div class="complaint-wrapper">
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('submit', this)">Submit Complaint</button>
-      <button class="tab-btn" onclick="switchTab('my', this)">My Complaints</button>
-    </div>
+  <div class="page-hero">
+    <h1>e-Reklamo</h1>
+    <p style="color:var(--text-light); font-size:0.9rem; margin-top:4px;">Submit a complaint or track the status of your existing complaints</p>
+  </div>
 
-    <!-- ===== SUBMIT TAB ===== -->
-    <div id="tab-submit">
-      <!-- Step 1: Personal Info -->
-      <div id="step-1">
-        <div class="card">
-          <div style="text-align:center; margin-bottom:24px;">
-            <div style="width:56px; height:56px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 12px;"></div>
-            <h2 style="font-size:1.4rem; font-weight:900;">Submit a Complaint</h2>
-            <p style="color:var(--text-light); font-size:0.88rem;">Fill out the form below to report your concern</p>
-          </div>
+  <!-- TABS -->
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('submit',this)" role="tab" aria-selected="true" aria-controls="tab-submit">Submit Complaint</button>
+    <button class="tab-btn" onclick="switchTab('my',this)" role="tab" aria-selected="false" aria-controls="tab-my">My Complaints</button>
+  </div>
 
-          <div class="step-indicator">
-            <div class="step-dot active" id="dot-1">1</div>
-            <div class="step-line" id="line-1"></div>
-            <div class="step-dot" id="dot-2">2</div>
-          </div>
+  <!-- ===== SUBMIT TAB ===== -->
+  <div id="tab-submit" role="tabpanel">
 
-          <div id="global-error" class="alert alert-danger" style="display:none;">
-            <span></span>
-            <div id="global-error-msg">Please fill in all required fields.</div>
-          </div>
-
-          <div class="form-section-title">Personal Information</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">First Name <span class="required">*</span></label>
-              <input class="form-control" id="firstName" placeholder="Juan"/>
-              <div class="form-error" id="err-firstName" style="display:none;"> First name is required</div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Last Name <span class="required">*</span></label>
-              <input class="form-control" id="lastName" placeholder="Dela Cruz"/>
-              <div class="form-error" id="err-lastName" style="display:none;"> Last name is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email Address <span class="required">*</span></label>
-            <input type="email" class="form-control" id="email" placeholder="juan.delacruz@email.com"/>
-            <div class="form-error" id="err-email" style="display:none;"> Valid email is required</div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Phone Number <span class="required">*</span></label>
-            <input class="form-control" id="phone" placeholder="+63 912 345 6789"/>
-            <div class="form-error" id="err-phone" style="display:none;"> Phone number is required</div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Complete Address <span class="required">*</span></label>
-            <input class="form-control" id="address" placeholder="Block, Lot, Street, Barangay"/>
-            <div class="form-error" id="err-address" style="display:none;"> Address is required</div>
-          </div>
-
-          <button class="btn btn-primary btn-full" onclick="goToStep2()">Next</button>
+    <!-- STEP 1 -->
+    <div id="step-1">
+      <div class="card">
+        <div style="text-align:center; margin-bottom:20px;">
+          <h2 style="font-size:1.3rem; font-weight:900;">Personal Information</h2>
+          <p style="color:var(--text-light); font-size:0.88rem;">Step 1 of 2 - Tell us who you are</p>
         </div>
-      </div>
+        <div class="step-indicator" aria-label="Step 1 of 2">
+          <div><div class="step-dot active" id="dot-1" aria-current="step">1</div><div class="step-label">Personal Info</div></div>
+          <div class="step-line" id="line-1"></div>
+          <div><div class="step-dot" id="dot-2">2</div><div class="step-label">Complaint Details</div></div>
+        </div>
 
-      <!-- Step 2: Complaint Details -->
-      <div id="step-2" style="display:none;">
-        <div class="card">
-          <div style="text-align:center; margin-bottom:24px;">
-            <div style="width:56px; height:56px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 12px;"></div>
-            <h2 style="font-size:1.4rem; font-weight:900;">Submit a Complaint</h2>
-            <p style="color:var(--text-light); font-size:0.88rem;">Fill out the form below to report your concern</p>
-          </div>
+        <div id="global-error" class="alert alert-danger" style="display:none;"><div id="global-error-msg">Please fill in all required fields.</div></div>
 
-          <div class="step-indicator">
-            <div class="step-dot done"></div>
-            <div class="step-line done"></div>
-            <div class="step-dot active">2</div>
-          </div>
-
-          <div class="form-section-title">Complaint Details</div>
-
+        <div class="form-section-title">Your Information</div>
+        <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Complaint Category <span class="required">*</span></label>
-            <select class="form-control" id="category">
-              <option value="">Select a category</option>
-              <option>Garbage / Waste Management</option>
-              <option>Noise Complaint</option>
-              <option>Road / Infrastructure</option>
-              <option>Peace and Order</option>
-              <option>Flooding / Drainage</option>
-              <option>Street Lights</option>
-              <option>Health / Sanitation</option>
-              <option>Illegal Structures</option>
-              <option>Other</option>
-            </select>
-            <div class="form-error" id="err-category" style="display:none;"> Please select a category</div>
+            <label class="form-label" for="firstName">First Name <span class="required">*</span></label>
+            <input class="form-control" id="firstName" placeholder="Juan" autocomplete="given-name"/>
+            <div class="form-error" id="err-firstName" style="display:none;">First name is required</div>
           </div>
-
           <div class="form-group">
-            <label class="form-label">Subject / Title <span class="required">*</span></label>
-            <input class="form-control" id="subject" placeholder="Brief description of your complaint"/>
-            <div class="form-error" id="err-subject" style="display:none;"> Subject is required</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Detailed Description <span class="required">*</span></label>
-            <textarea class="form-control" id="description" rows="4" placeholder="Provide detailed information about your complaint..." style="resize:vertical;"></textarea>
-            <div class="form-error" id="err-description" style="display:none;"> Description is required (minimum 20 characters)</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Specific Location <span class="required">*</span></label>
-            <input class="form-control" id="location" placeholder="Street name, house number, landmark"/>
-            <div class="form-error" id="err-location" style="display:none;"> Location is required</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Urgency Level <span class="required">*</span></label>
-            <select class="form-control" id="urgency">
-              <option value="">Select urgency level</option>
-              <option value="low">Low  Not urgent</option>
-              <option value="medium">Medium  Needs attention soon</option>
-              <option value="high">High  Urgent</option>
-              <option value="critical">Critical  Immediate action needed</option>
-            </select>
-            <div class="form-error" id="err-urgency" style="display:none;"> Please select urgency level</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Attachments <span style="color:var(--text-light); font-weight:400;">(Optional)</span></label>
-            <div class="upload-area" onclick="document.getElementById('file-input').click()">
-              <div style="font-size:2rem; margin-bottom:8px;"></div>
-              <p>Click to upload photos or documents</p>
-              <div style="font-size:0.78rem; color:var(--primary); margin-top:4px;">PNG, JPG, PDF up to 10MB</div>
-              <div id="file-name" style="margin-top:8px; font-size:0.82rem; color:var(--success); display:none;"></div>
-            </div>
-            <input type="file" id="file-input" style="display:none;" accept=".png,.jpg,.jpeg,.pdf" multiple onchange="handleFile(this)"/>
-          </div>
-
-          <div class="alert alert-warning" style="font-size:0.82rem;">
-            <span></span>
-            <div><strong>Note:</strong> All complaints are reviewed and processed within 3-5 business days. You will receive updates via email.</div>
-          </div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <button class="btn btn-outline" onclick="goToStep1()"> Back</button>
-            <button class="btn btn-primary" id="submit-complaint-btn" onclick="submitComplaint()">Submit Complaint</button>
+            <label class="form-label" for="lastName">Last Name <span class="required">*</span></label>
+            <input class="form-control" id="lastName" placeholder="Dela Cruz" autocomplete="family-name"/>
+            <div class="form-error" id="err-lastName" style="display:none;">Last name is required</div>
           </div>
         </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+            <div class="input-icon-wrap">
+              
+              <input type="email" class="form-control" id="email" placeholder="juan@email.com" autocomplete="email"/>
+            </div>
+            <div class="form-error" id="err-email" style="display:none;">Valid email is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone Number <span class="required">*</span></label>
+            <div class="input-icon-wrap">
+              
+              <input class="form-control" id="phone" placeholder="09XX XXX XXXX" autocomplete="tel"/>
+            </div>
+            <div class="form-error" id="err-phone" style="display:none;">Phone number is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="address">Complete Home Address <span class="required">*</span></label>
+          <input class="form-control" id="address" placeholder="Block, Lot, Street, Purok" autocomplete="street-address"/>
+          <div class="form-error" id="err-address" style="display:none;">Address is required</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="purok">Purok / Zone</label>
+          <select class="form-control" id="purok">
+            <option value="">Select your Purok (optional)</option>
+            <option>Purok 1</option><option>Purok 2</option><option>Purok 3</option>
+            <option>Purok 4</option><option>Purok 5</option><option>Purok 6</option>
+            <option>Purok 7</option><option>Purok 8</option>
+          </select>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px;">
+          <span id="draft-indicator" class="draft-badge" style="display:none;">Draft Saved</span>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="goToStep2()">Next: Complaint Details </button>
       </div>
+    </div>
 
-      <!-- SUCCESS -->
-      <div id="step-success" style="display:none;">
-        <div class="card" style="text-align:center; padding:48px 36px;">
-          <div style="position:relative; width:80px; height:80px; margin:0 auto 24px;">
-            <div style="width:80px; height:80px; border-radius:50%; border:4px solid var(--success); display:flex; align-items:center; justify-content:center; font-size:2rem; background:#f0fff4;"></div>
-            <div style="position:absolute; bottom:0; right:0; width:28px; height:28px; background:var(--orange-bg); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.9rem;"></div>
-          </div>
-          <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:8px;">Complaint Successfully Submitted!</h2>
-          <p style="color:var(--text-light); margin-bottom:28px;">Your concern has been received and will be reviewed by our team</p>
-          <div style="background:var(--light-gray); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:20px;">
-            <div style="font-size:0.78rem; color:var(--text-light); font-weight:800; text-transform:uppercase;">Reference Number</div>
-            <div id="reference-no" style="font-size:1.25rem; color:var(--primary); font-weight:900; letter-spacing:0.04em;"></div>
-          </div>
+    <!-- STEP 2 -->
+    <div id="step-2" style="display:none;">
+      <div class="card">
+        <div style="text-align:center; margin-bottom:20px;">
+          <h2 style="font-size:1.3rem; font-weight:900;">Complaint Details</h2>
+          <p style="color:var(--text-light); font-size:0.88rem;">Step 2 of 2 - Describe your concern</p>
+        </div>
+        <div class="step-indicator" aria-label="Step 2 of 2">
+          <div><div class="step-dot done" aria-label="Completed"></div><div class="step-label">Personal Info</div></div>
+          <div class="step-line done"></div>
+          <div><div class="step-dot active" aria-current="step">2</div><div class="step-label">Complaint Details</div></div>
+        </div>
 
-          <div class="two-col" style="margin-bottom:24px; gap:12px;">
-            <div style="background:#fff8f0; border-radius:12px; padding:16px; display:flex; align-items:center; gap:12px;">
-              <div style="width:40px; height:40px; background:var(--primary); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;"></div>
-              <div style="text-align:left;">
-                <div style="font-size:0.78rem; color:var(--text-light);">Submitted</div>
-                <div style="font-weight:700;" id="submit-date"></div>
-              </div>
-            </div>
-            <div style="background:#fffbf0; border-radius:12px; padding:16px; display:flex; align-items:center; gap:12px;">
-              <div style="width:40px; height:40px; background:var(--warning); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;"></div>
-              <div style="text-align:left;">
-                <div style="font-size:0.78rem; color:var(--text-light);">Status</div>
-                <div style="font-weight:700; color:var(--warning);">Pending Review</div>
-              </div>
-            </div>
-          </div>
+        <div class="form-section-title">Complaint Information</div>
 
-          <div class="alert alert-info" style="text-align:left; margin-bottom:24px;">
+        <div class="form-group">
+          <label class="form-label" for="category">Complaint Category <span class="required">*</span></label>
+          <select class="form-control" id="category" onchange="onCategoryChange()">
+            <option value="">Select a category</option>
+            <option>Garbage / Waste Management</option>
+            <option>Noise Complaint</option>
+            <option>Road / Infrastructure</option>
+            <option>Peace and Order</option>
+            <option>Flooding / Drainage</option>
+            <option>Street Lights</option>
+            <option>Health / Sanitation</option>
+            <option>Illegal Structures</option>
+            <option>Environmental</option>
+            <option>Animal Control</option>
+            <option>Other</option>
+          </select>
+          <div class="form-error" id="err-category" style="display:none;">Please select a category</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="subject">Subject / Title <span class="required">*</span></label>
+          <input class="form-control" id="subject" placeholder="Brief description of your complaint"/>
+          <div class="form-error" id="err-subject" style="display:none;">Subject is required</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="description">Detailed Description <span class="required">*</span>
+            <span id="ai-loading" style="display:none; font-size:0.72rem; color:var(--info); font-weight:700; margin-left:8px;">Analyzing</span>
+          </label>
+          <textarea class="form-control" id="description" rows="5" placeholder="Describe the problem in detail: When did it start? How does it affect you? Who else is affected?..." oninput="onDescriptionInput(this)"></textarea>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+            <div class="form-error" id="err-description" style="display:none;">Description is required (minimum 20 characters)</div>
+            <div class="char-count" id="desc-count">0 / 1000</div>
+          </div>
+          <!-- AI Suggestion -->
+          <div class="ai-suggestion" id="ai-suggestion">
+            <span style="font-size:1.1rem; flex-shrink:0;"></span>
             <div>
-              <strong>What happens next?</strong>
-              <ul style="margin-top:8px; padding-left:16px; font-size:0.88rem; list-style:disc;">
-                <li>Our team will review your complaint within <strong>3-5 business days</strong></li>
-                <li>You'll receive email updates about your complaint status</li>
-                <li>Track your complaint anytime using your Complaint ID</li>
-              </ul>
+              <div style="font-weight:800; font-size:0.82rem; color:#1E40AF; margin-bottom:6px;">AI Suggestion</div>
+              <div id="ai-suggestion-text" style="color:var(--text-mid); margin-bottom:8px;"></div>
+              <div id="ai-tags-wrap"></div>
             </div>
           </div>
+        </div>
 
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <button class="btn btn-yellow btn-full" onclick="switchTab('my', document.querySelectorAll('.tab-btn')[1])">Track My Complaints</button>
-            <button class="btn btn-white-outline btn-full" style="color:var(--text-dark); border-color:var(--border);" onclick="resetForm()">Submit Another</button>
+        <div class="form-group">
+          <label class="form-label" for="location">Specific Location of Concern <span class="required">*</span></label>
+          <div class="input-icon-wrap">
+            
+            <input class="form-control" id="location" placeholder="Street name, house number, landmark"/>
           </div>
+          <div class="form-error" id="err-location" style="display:none;">Location is required</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Urgency Level <span class="required">*</span></label>
+          <div class="urgency-visual" role="radiogroup" aria-label="Urgency level">
+            <div class="urgency-opt low"      onclick="selectUrgency('low')"      role="radio" tabindex="0" aria-label="Low urgency">
+              <div class="urgency-icon"></div>
+              <div class="urgency-label">Low</div>
+              <div style="font-size:0.7rem; color:var(--text-light); margin-top:2px;">Not urgent</div>
+            </div>
+            <div class="urgency-opt medium"   onclick="selectUrgency('medium')"   role="radio" tabindex="0" aria-label="Medium urgency">
+              <div class="urgency-icon"></div>
+              <div class="urgency-label">Medium</div>
+              <div style="font-size:0.7rem; color:var(--text-light); margin-top:2px;">Needs attention</div>
+            </div>
+            <div class="urgency-opt high"     onclick="selectUrgency('high')"     role="radio" tabindex="0" aria-label="High urgency">
+              <div class="urgency-icon"></div>
+              <div class="urgency-label">High</div>
+              <div style="font-size:0.7rem; color:var(--text-light); margin-top:2px;">Urgent</div>
+            </div>
+            <div class="urgency-opt critical" onclick="selectUrgency('critical')" role="radio" tabindex="0" aria-label="Critical urgency">
+              <div class="urgency-icon"></div>
+              <div class="urgency-label">Critical</div>
+              <div style="font-size:0.7rem; color:var(--text-light); margin-top:2px;">Immediate action</div>
+            </div>
+          </div>
+          <input type="hidden" id="urgency" value=""/>
+          <div class="form-error" id="err-urgency" style="display:none;">Please select urgency level</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Attachments <span style="color:var(--text-light); font-weight:600;">(Optional)</span></label>
+          <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+            <div style="font-size:2rem; margin-bottom:8px;"></div>
+            <p style="font-weight:700;">Click to upload or drag & drop</p>
+            <p style="font-size:0.78rem; color:var(--primary); margin-top:4px;">PNG, JPG, PDF up to 10MB</p>
+          </div>
+          <input type="file" id="file-input" style="display:none;" accept=".png,.jpg,.jpeg,.pdf" multiple onchange="handleFiles(this.files)"/>
+          <div class="upload-preview" id="upload-preview"></div>
+        </div>
+
+        <div class="alert alert-warning" style="font-size:0.82rem;">
+          
+          <div><strong>Note:</strong> Complaints are reviewed within 3-5 business days. You'll receive status updates by email.</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:4px;">
+          <button class="btn btn-outline" onclick="goToStep1()">Back</button>
+          <button class="btn btn-primary" id="submit-btn" onclick="submitComplaint()">Submit Complaint</button>
         </div>
       </div>
     </div>
 
-    <!-- ===== MY COMPLAINTS TAB ===== -->
-    <div id="tab-my" style="display:none;">
-      <div class="search-wrap">
-        <span class="search-icon"></span>
-        <input class="form-control" id="search-input" placeholder="Search by report number, subject, or category..." oninput="filterComplaints()" style="padding-left:38px;"/>
-      </div>
+    <!-- SUCCESS -->
+    <div id="step-success" style="display:none;">
+      <div class="card" style="text-align:center; padding:44px 32px;">
+        <div style="width:80px; height:80px; border-radius:50%; background:#FEF3E2; border:3px solid var(--success); display:flex; align-items:center; justify-content:center; font-size:2.2rem; margin:0 auto 20px;"><span class="material-symbols-outlined icon">check_circle</span></div>
+        <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:8px;">Complaint Submitted!</h2>
+        <p style="color:var(--text-light); margin-bottom:24px;">Your concern has been received and will be reviewed by our team.</p>
 
-      <div id="complaints-list"></div>
+        <div class="receipt-box">
+          <div style="font-size:0.75rem; font-weight:800; color:var(--text-light); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px;">Your Complaint ID</div>
+          <div class="receipt-id" id="receipt-id">RPT-0000000000</div>
+          <button class="copy-btn" style="margin:10px auto 0;" onclick="copyToClipboard(document.getElementById('receipt-id').textContent, this)">Copy ID</button>
+        </div>
+
+        <div class="two-col" style="margin-bottom:20px; gap:12px;">
+          <div style="background:#FFF8F0; border-radius:10px; padding:14px; display:flex; align-items:center; gap:10px;">
+            <div style="width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;"></div>
+            <div style="text-align:left;">
+              <div style="font-size:0.75rem; color:var(--text-light);">Submitted</div>
+              <div style="font-weight:800; font-size:0.88rem;" id="submit-date"></div>
+            </div>
+          </div>
+          <div style="background:#FFFBF0; border-radius:10px; padding:14px; display:flex; align-items:center; gap:10px;">
+            <div style="width:38px;height:38px;background:var(--warning);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;"></div>
+            <div style="text-align:left;">
+              <div style="font-size:0.75rem; color:var(--text-light);">Status</div>
+              <div style="font-weight:800; font-size:0.88rem; color:var(--warning);">Pending Review</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline preview -->
+        <div style="text-align:left; margin-bottom:24px;">
+          <div style="font-size:0.82rem; font-weight:800; color:var(--text-light); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:12px;">What Happens Next</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot done"><span class="td-icon"> </span></div>
+              <div class="timeline-content"><strong>Complaint Filed</strong><small>Your report has been received</small></div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot active"><span class="td-icon"> </span></div>
+              <div class="timeline-content"><strong>Under Review</strong><small>Officials will review within 12 days</small></div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"><span class="td-icon"> </span></div>
+              <div class="timeline-content"><strong>In Progress</strong><small>Action is being taken</small></div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"><span class="td-icon"> </span></div>
+              <div class="timeline-content"><strong>Resolved</strong><small>Issue has been addressed</small></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+          <button class="btn btn-primary" onclick="switchTab('my', document.querySelectorAll('.tab-btn')[1])">View My Complaints</button>
+          <button class="btn btn-outline" onclick="printReceipt()">Print Receipt</button>
+        </div>
+        <button class="btn btn-outline btn-full" style="border-color:var(--border); color:var(--text-mid);" onclick="resetForm()">Submit Another Complaint</button>
+      </div>
     </div>
   </div>
 
-  <div id="footer"></div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabaseConfig.js"></script>
-  <script src="../js/supabaseClient.js"></script>
-  <script src="../js/appState.js"></script>
-  <script src="../js/components.js"></script>
-  <script src="../js/script.js"></script>
-  <script>
-    let selectedAttachments = [];
-    let isSubmitting = false;
+  <!-- ===== MY COMPLAINTS TAB ===== -->
+  <div id="tab-my" style="display:none;" role="tabpanel">
+    <div class="complaints-toolbar">
+      <div class="search-wrap" style="flex:1; min-width:200px; margin-bottom:0;">
+        
+        <input class="form-control" id="search-input" placeholder="Search by ID, subject, or category" oninput="renderComplaints(this.value.toLowerCase())"/>
+      </div>
+      <select id="filter-status" class="form-control" style="width:auto;" onchange="renderComplaints()">
+        <option value="">All Status</option>
+        <option>Pending Review</option>
+        <option>Under Review</option>
+        <option>In Progress</option>
+        <option>Resolved</option>
+        <option>Closed</option>
+      </select>
+      <select id="sort-complaints" class="form-control" style="width:auto;" onchange="renderComplaints()">
+        <option value="date">Newest First</option>
+        <option value="urgency">By Urgency</option>
+        <option value="status">By Status</option>
+      </select>
+    </div>
+    <div id="complaints-list"></div>
+  </div>
 
-    async function switchTab(tab, btn) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-submit').style.display = tab === 'submit' ? 'block' : 'none';
-      document.getElementById('tab-my').style.display = tab === 'my' ? 'block' : 'none';
-      if (tab === 'my') await renderComplaints();
+</div>
+</main>
+
+<!-- COMPLAINT DETAIL MODAL -->
+<div id="detail-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-label="Complaint details">
+  <div class="modal" style="max-width:560px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2 style="font-size:1.1rem; font-weight:900;" id="detail-title">Complaint Details</h2>
+      <button onclick="closeDetailModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text-light);" aria-label="Close"></button>
+    </div>
+    <div id="detail-body"></div>
+  </div>
+</div>
+
+<div id="footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabaseConfig.js"></script>
+<script src="../js/supabaseClient.js"></script>
+<script src="../js/appState.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/script.js"></script>
+<script>let selectedUrgency = '';
+  let aiDebounce = null;
+
+  // ===== TAB SWITCH =====
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+    document.getElementById('tab-submit').style.display = tab === 'submit' ? 'block' : 'none';
+    document.getElementById('tab-my').style.display     = tab === 'my'     ? 'block' : 'none';
+    if (tab === 'my') renderComplaints();
+  }
+
+  // ===== URGENCY =====
+  function selectUrgency(val) {
+    selectedUrgency = val;
+    document.getElementById('urgency').value = val;
+    document.querySelectorAll('.urgency-opt').forEach(o => {
+      o.classList.toggle('selected', o.classList.contains(val));
+      o.setAttribute('aria-checked', o.classList.contains(val));
+    });
+    document.getElementById('err-urgency').style.display = 'none';
+  }
+
+  // ===== STEP NAVIGATION =====
+  function goToStep2() {
+    let valid = true;
+    let firstInvalid = null;
+    ['firstName','lastName','email','phone','address'].forEach(f => {
+      const input = document.getElementById(f);
+      const val = input.value.trim();
+      const err = document.getElementById('err-'+f);
+      const isValid = f === 'email' ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) : val.length >0;
+      input.classList.toggle('error', !isValid);
+      if (err) err.style.display = isValid ? 'none' : 'flex';
+      if (!isValid) {
+        valid = false;
+        firstInvalid ||= input;
+      }
+    });
+    if (valid) {
+      saveDraft();
+      document.getElementById('step-1').style.display = 'none';
+      document.getElementById('step-2').style.display = 'block';
+      document.getElementById('dot-1').classList.add('done');
+      document.getElementById('dot-2').classList.add('active');
+      document.getElementById('line-1').classList.add('active');
+      window.scrollTo(0,0);
+    } else if (firstInvalid) {
+      firstInvalid.focus();
     }
+  }
+  function goToStep1() {
+    document.getElementById('step-2').style.display = 'none';
+    document.getElementById('step-1').style.display = 'block';
+    document.getElementById('dot-2').classList.remove('active');
+    document.getElementById('line-1').classList.remove('active');
+    window.scrollTo(0,0);
+  }
 
-    function goToStep2() {
-      let valid = true;
-      const fields = ['firstName','lastName','email','phone','address'];
-      fields.forEach(f => {
-        const val = document.getElementById(f).value.trim();
-        const err = document.getElementById('err-' + f);
-        if (!val) { document.getElementById(f).classList.add('error'); err.style.display='flex'; valid = false; }
-        else { document.getElementById(f).classList.remove('error'); err.style.display='none'; }
+  // ===== DESCRIPTION INPUT =====
+  function onDescriptionInput(el) {
+    const len = el.value.length;
+    const cc = document.getElementById('desc-count');
+    cc.textContent = len + ' / 1000';
+    cc.className = 'char-count' + (len >900 ? ' over' : len >700 ? ' warn' : '');
+    if (el.value.length >1000) el.value = el.value.substring(0,1000);
+    clearTimeout(aiDebounce);
+    if (len >30) {
+      aiDebounce = setTimeout(() =>triggerAISuggestion(el.value), 1200);
+    }
+    saveDraft();
+  }
+
+  // ===== AI SUGGESTION (Anthropic API) =====
+  async function triggerAISuggestion(text) {
+    const loadEl = document.getElementById('ai-loading');
+    const sugEl  = document.getElementById('ai-suggestion');
+    const sugText= document.getElementById('ai-suggestion-text');
+    const tagsEl = document.getElementById('ai-tags-wrap');
+    loadEl.style.display = 'inline';
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{
+            role: 'user',
+            content: `You are an assistant for a Philippine barangay complaint system. Analyze this complaint description and respond ONLY with a JSON object (no markdown, no preamble): {"category":"(best matching category from: Garbage / Waste Management, Noise Complaint, Road / Infrastructure, Peace and Order, Flooding / Drainage, Street Lights, Health / Sanitation, Illegal Structures, Environmental, Animal Control, Other)","urgency":"(low|medium|high|critical)","tip":"(one short helpful tip in 1 sentence for the resident, in plain English)","tags":["tag1","tag2","tag3"]}\n\nComplaint: "${text.substring(0,300)}"`
+          }]
+        })
       });
-      if (valid) {
-        document.getElementById('step-1').style.display = 'none';
-        document.getElementById('step-2').style.display = 'block';
+      const data = await resp.json();
+      const raw  = (data.content||[]).map(i=>i.text||'').join('');
+      const json = JSON.parse(raw.replace(/```json|```/g,'').trim());
+      loadEl.style.display = 'none';
+      sugText.textContent = json.tip || '';
+      tagsEl.innerHTML = '';
+      // Suggest category
+      if (json.category && !document.getElementById('category').value) {
+        const catTag = document.createElement('span');
+        catTag.className = 'ai-tag';
+        catTag.innerHTML = ' Use: ' + json.category;
+        catTag.onclick = () => { document.getElementById('category').value = json.category; sugEl.classList.remove('show'); };
+        tagsEl.appendChild(catTag);
       }
-    }
-
-    function goToStep1() {
-      document.getElementById('step-2').style.display = 'none';
-      document.getElementById('step-1').style.display = 'block';
-    }
-
-    function handleFile(input) {
-      const files = Array.from(input.files || []);
-      const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
-      const maxSize = 10 * 1024 * 1024;
-      const invalid = files.find(file => !allowedTypes.includes(file.type) || file.size > maxSize);
-
-      if (invalid) {
-        input.value = '';
-        selectedAttachments = [];
-        document.getElementById('file-name').style.display = 'none';
-        window.eReklamo.showToast('Attachments must be PNG, JPG, or PDF and 10MB or less.', 'danger');
-        return;
+      // Suggest urgency
+      if (json.urgency && !selectedUrgency) {
+        const urgTag = document.createElement('span');
+        urgTag.className = 'ai-tag';
+        urgTag.innerHTML = ' Urgency: ' + json.urgency;
+        urgTag.onclick = () => { selectUrgency(json.urgency); sugEl.classList.remove('show'); };
+        tagsEl.appendChild(urgTag);
       }
-
-      selectedAttachments = files.map(file => ({ name: file.name, type: file.type, size: file.size }));
-      if (selectedAttachments.length) {
-        document.getElementById('file-name').textContent = selectedAttachments.map(file => file.name).join(', ');
-        document.getElementById('file-name').style.display = 'block';
-      }
+      sugEl.classList.add('show');
+    } catch(e) {
+      loadEl.style.display = 'none';
     }
+  }
 
-    async function submitComplaint() {
-      if (isSubmitting) return;
-      let valid = true;
-      const fields = ['category','subject','description','location','urgency'];
-      fields.forEach(f => {
-        const el = document.getElementById(f);
-        const val = el.value.trim();
-        const err = document.getElementById('err-' + f);
-        let fieldValid = true;
-        if (!val) fieldValid = false;
-        if (f === 'description' && val.length < 20) fieldValid = false;
-        if (!fieldValid) { el.classList.add('error'); err.style.display='flex'; valid = false; }
-        else { el.classList.remove('error'); err.style.display='none'; }
-      });
-      if (!valid) return;
+  function onCategoryChange() {
+    document.getElementById('err-category').style.display = 'none';
+    document.getElementById('category').classList.remove('error');
+    saveDraft();
+  }
 
-      const button = document.getElementById('submit-complaint-btn');
-      isSubmitting = true;
-      button.disabled = true;
-      button.textContent = 'Submitting...';
+  // ===== FILE UPLOAD =====
+  function handleFiles(files) {
+    const preview = document.getElementById('upload-preview');
+    Array.from(files).forEach(file => {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement('img');
+          img.src = e.target.result; img.className = 'upload-thumb'; img.alt = file.name;
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:0.78rem;padding:6px 10px;background:var(--light-gray);border-radius:6px;border:1px solid var(--border);';
+        div.innerHTML = ' ' + file.name;
+        preview.appendChild(div);
+      }
+    });
+    showToast('Files attached!');
+  }
+  function handleDragOver(e) { e.preventDefault(); document.getElementById('upload-area').classList.add('dragging'); }
+  function handleDrop(e) { e.preventDefault(); document.getElementById('upload-area').classList.remove('dragging'); handleFiles(e.dataTransfer.files); }
 
-      const complaint = {
+  // ===== DRAFT =====
+  function saveDraft() {
+    const draft = {
+      firstName: document.getElementById('firstName').value,
+      lastName:  document.getElementById('lastName').value,
+      email:     document.getElementById('email').value,
+      phone:     document.getElementById('phone').value,
+      address:   document.getElementById('address').value,
+      purok:     document.getElementById('purok').value,
+      category:  document.getElementById('category').value,
+      subject:   document.getElementById('subject').value,
+      description:document.getElementById('description').value,
+      location:  document.getElementById('location').value,
+      urgency:   selectedUrgency,
+    };
+    localStorage.setItem('ereklamo_draft', JSON.stringify(draft));
+    document.getElementById('draft-indicator').style.display = 'inline-flex';
+  }
+  function loadDraft() {
+    const d = JSON.parse(localStorage.getItem('ereklamo_draft')||'null');
+    if (!d) return;
+    ['firstName','lastName','email','phone','address','purok','category','subject','description','location'].forEach(f => {
+      const el = document.getElementById(f);
+      if (el && d[f]) el.value = d[f];
+    });
+    if (d.urgency) selectUrgency(d.urgency);
+    if (d.description) document.getElementById('desc-count').textContent = d.description.length + ' / 1000';
+    document.getElementById('draft-indicator').style.display = 'inline-flex';
+  }
+
+  // ===== SUBMIT =====
+  async function submitComplaint() {
+    let valid = true;
+    ['category','subject','description','location'].forEach(f => {
+      const el = document.getElementById(f);
+      const val = el.value.trim();
+      let ok = val.length >0;
+      if (f === 'description' && val.length < 20) ok = false;
+      el.classList.toggle('error', !ok);
+      document.getElementById('err-'+f).style.display = ok ? 'none' : 'flex';
+      if (!ok) valid = false;
+    });
+    if (!selectedUrgency) { document.getElementById('err-urgency').style.display = 'flex'; valid = false; }
+    if (!valid) { showToast('Please fill in all required fields.', 'error'); return; }
+
+    const btn = document.getElementById('submit-btn');
+    btn.classList.add('loading');
+    btn.textContent = 'Submitting...';
+
+    try {
+      const saved = await window.eReklamo.createComplaint({
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
         address: document.getElementById('address').value,
+        purok: document.getElementById('purok').value,
         category: document.getElementById('category').value,
         subject: document.getElementById('subject').value,
         description: document.getElementById('description').value,
         location: document.getElementById('location').value,
-        urgency: document.getElementById('urgency').value,
-        attachments: selectedAttachments,
-      };
-
-      try {
-        const saved = await window.eReklamo.createComplaint(complaint);
-        document.getElementById('reference-no').textContent = saved.referenceNo;
-        document.getElementById('submit-date').textContent = saved.date || new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-        document.getElementById('step-2').style.display = 'none';
-        document.getElementById('step-success').style.display = 'block';
-        window.eReklamo.showToast(`Complaint submitted: ${saved.referenceNo}`, 'success');
-      } catch (err) {
-        window.eReklamo.showToast('Failed to submit complaint: ' + err.message, 'danger');
-      } finally {
-        isSubmitting = false;
-        button.disabled = false;
-        button.textContent = 'Submit Complaint';
-      }
-    }
-
-    function resetForm() {
-      ['firstName','lastName','email','phone','address','category','subject','description','location','urgency'].forEach(f => {
-        document.getElementById(f).value = '';
-        document.getElementById(f).classList.remove('error');
+        urgency: selectedUrgency,
       });
-      selectedAttachments = [];
-      document.getElementById('file-input').value = '';
-      document.getElementById('file-name').style.display = 'none';
-      document.getElementById('step-success').style.display = 'none';
-      document.getElementById('step-1').style.display = 'block';
+
+      localStorage.removeItem('ereklamo_draft');
+      document.getElementById('receipt-id').textContent = saved.referenceNo;
+      document.getElementById('submit-date').textContent = saved.date;
+      document.getElementById('step-2').style.display = 'none';
+      document.getElementById('step-success').style.display = 'block';
+      showToast('Complaint submitted successfully!');
+      window.scrollTo(0,0);
+    } catch(err) {
+      showToast('Failed to submit complaint: ' + err.message, 'error');
+    } finally {
+      btn.classList.remove('loading');
+      btn.textContent = 'Submit Complaint';
     }
+  }
 
-    function getUrgencyBadge(urgency) {
-      const map = { low:'badge-resolved', medium:'badge-progress', high:'badge-review', critical:'badge-critical' };
-      return `<span class="badge ${map[urgency] || 'badge-pending'}">${urgency ? urgency.charAt(0).toUpperCase()+urgency.slice(1) : 'Normal'}</span>`;
-    }
+  // ===== PRINT RECEIPT =====
+  function printReceipt() {
+    const id = document.getElementById('receipt-id').textContent;
+    const date = document.getElementById('submit-date').textContent;
+    const w = window.open('','_blank','width=600,height=700');
+    if (!w) return;
+    const esc = window.eReklamo.escapeHtml;
+    w.document.title = 'Complaint Receipt';
+    w.document.body.innerHTML = `
+      <main class="receipt">
+        <h1>e-Reklamo - Barangay Lapasan</h1>
+        <p>Official Complaint Receipt</p>
+        <hr>
+        <div class="label">Complaint ID</div>
+        <div class="id">${esc(id)}</div>
+        <p class="filed"><strong>Date Filed:</strong> ${esc(date)}</p>
+        <p><strong>Status:</strong> Pending Review</p>
+        <p><strong>Next Steps:</strong> Officials will review within 3-5 business days.</p>
+        <p>Track online: ereklamo.lapasan.ph/track</p>
+        <div class="footer">2026 Barangay Lapasan e-Reklamo System. Keep this receipt for your records.</div>
+      </main>
+    `;
+    const style = w.document.createElement('style');
+    style.textContent = 'body{font-family:sans-serif;padding:32px;}h1{color:#FF9F4A;}hr{margin:20px 0;}.id{font-size:1.6rem;font-weight:900;color:#FF9F4A;letter-spacing:0.05em;}.label{font-size:0.75rem;color:#8B7968;text-transform:uppercase;margin-bottom:2px;}.filed{margin-top:16px;}.footer{margin-top:40px;font-size:0.8rem;color:#8B7968;border-top:1px solid #eee;padding-top:16px;}';
+    w.document.head.appendChild(style);
+    setTimeout(() => w.print(), 400);
+  }
 
-    async function renderComplaints(filter = '') {
-      const el = document.getElementById('complaints-list');
-      el.innerHTML = '<div class="skeleton"></div>';
-
-      let filtered = [];
-      try {
-        filtered = await window.eReklamo.listComplaints({ mine: true, search: filter, limit: 25 });
-      } catch (err) {
-        el.innerHTML = `<div class="alert alert-danger">Unable to load complaints: ${window.eReklamo.escapeHtml(err.message)}</div>`;
-        return;
-      }
-
-      if (filtered.length === 0) {
-        el.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon"></div>
-            <h3>No complaints found</h3>
-            <p>No results match your search.</p>
-          </div>`;
-        return;
-      }
-
-      el.innerHTML = filtered.map(c => `
-        <div class="complaint-card">
-          <div class="complaint-card-header">
-            <div class="complaint-card-title">
-              ${window.eReklamo.escapeHtml(c.subject)}
-              ${c.urgency === 'critical' ? '<span class="badge badge-critical">Critical</span>' : ''}
-            </div>
-            <span class="badge badge-pending">${window.eReklamo.statusLabel(c.status)}</span>
-          </div>
-          <div class="complaint-card-meta">${window.eReklamo.escapeHtml(c.referenceNo)} &nbsp;|&nbsp; ${window.eReklamo.escapeHtml(c.category)} &nbsp;|&nbsp; ${c.date || 'Recent'}</div>
-          <div class="complaint-card-desc">${window.eReklamo.escapeHtml(c.description.substring(0, 160))}${c.description.length > 160 ? '...' : ''}</div>
-          <div class="complaint-card-location">${window.eReklamo.escapeHtml(c.location)}</div>
-          ${window.eReklamo.renderTimeline(c.status, c.history)}
-          <div class="complaint-card-progress">
-            <div class="progress-bar-wrap" style="flex:1; margin-right:10px;">
-              <div class="progress-bar" style="width:${c.progress || 25}%"></div>
-            </div>
-            <span>${c.progress || 25}%</span>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.filterComplaints = window.eReklamo.debounce(async function() {
-      await renderComplaints(document.getElementById('search-input').value.toLowerCase());
-    }, 300);
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      const user = await window.eReklamo.requireAuth({ roles: ['resident'] });
-      if (!user) return;
-
-      document.getElementById('email').value ||= user.email || '';
-      const names = (user.fullName || '').split(' ');
-      document.getElementById('firstName').value ||= names[0] || '';
-      document.getElementById('lastName').value ||= names.slice(1).join(' ') || '';
-
-      if (window.location.hash === '#my-complaints') {
-        switchTab('my', document.querySelectorAll('.tab-btn')[1]);
-      }
+  // ===== RESET =====
+  function resetForm() {
+    ['firstName','lastName','email','phone','address','purok','category','subject','description','location'].forEach(f => {
+      document.getElementById(f).value = '';
+      document.getElementById(f).classList && document.getElementById(f).classList.remove('error');
     });
-  </script>
+    selectUrgency('');
+    selectedUrgency = '';
+    document.getElementById('upload-preview').innerHTML = '';
+    document.getElementById('step-success').style.display = 'none';
+    document.getElementById('step-1').style.display = 'block';
+    document.getElementById('ai-suggestion').classList.remove('show');
+    document.getElementById('draft-indicator').style.display = 'none';
+    document.getElementById('desc-count').textContent = '0 / 1000';
+    window.scrollTo(0,0);
+  }
+
+  // ===== DETAIL MODAL =====
+  function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); }
+  function statusToV2(status) {
+    const labels = {
+      submitted: 'Pending Review',
+      pending_review: 'Pending Review',
+      under_review: 'Under Review',
+      assigned: 'Under Review',
+      in_progress: 'In Progress',
+      resolved: 'Resolved',
+      closed: 'Closed',
+    };
+    return labels[status] || status || 'Pending Review';
+  }
+
+  function complaintToCard(c) {
+    const displayStatus = statusToV2(c.status);
+    return {
+      ...c,
+      id: c.referenceNo || c.id,
+      rawStatus: c.status,
+      status: displayStatus,
+      progress: c.progress || window.eReklamo.STATUS_PROGRESS[c.status] || 10,
+      purok: c.purok || '',
+      timeline: (c.history || []).map(item => ({
+        status: statusToV2(item.status),
+        date: item.created_at || c.dateRaw,
+        note: item.note || 'Status updated.',
+      })),
+    };
+  }
+
+  async function renderComplaints(search='') {
+    if (typeof search !== 'string') search = (document.getElementById('search-input')||{value:''}).value.toLowerCase();
+    const statusFilter = (document.getElementById('filter-status')||{value:''}).value;
+    const sortBy = (document.getElementById('sort-complaints')||{value:'date'}).value;
+    const el = document.getElementById('complaints-list');
+    el.innerHTML = '<div class="skeleton"></div>';
+    let list = [];
+    try {
+      list = (await window.eReklamo.listComplaints({ mine: true, search, limit: 50 })).map(complaintToCard);
+    } catch(err) {
+      el.innerHTML = `<div class="alert alert-danger">Unable to load complaints: ${window.eReklamo.escapeHtml(err.message)}</div>`;
+      return;
+    }
+    if (statusFilter) list = list.filter(c =>c.status === statusFilter);
+    list.sort((a,b) => {
+      if (sortBy === 'urgency') { const o={critical:0,high:1,medium:2,low:3}; return (o[a.urgency]||4)-(o[b.urgency]||4); }
+      if (sortBy === 'status') return a.status.localeCompare(b.status);
+      return new Date(b.dateRaw) - new Date(a.dateRaw);
+    });
+    if (list.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-state-icon"></div><h3>No complaints found</h3><p>No results match your search.</p></div>`;
+      return;
+    }
+    const statusClsMap = {'Pending Review':'status-pending','Under Review':'status-review','In Progress':'status-progress','Resolved':'status-resolved','Closed':'status-resolved'};
+    const badgeMap = {'Pending Review':'badge-pending','Under Review':'badge-review','In Progress':'badge-progress','Resolved':'badge-resolved','Closed':'badge-closed'};
+    window.currentComplaintCards = list;
+    el.innerHTML = list.map(c => {
+      const cat = getCatMeta(c.category);
+      const sla = getSLAInfo(c);
+      return `<div class="complaint-card ${statusClsMap[c.status]||''}" onclick="openDetailModal('${c.id}')" tabindex="0" role="button" aria-label="View complaint: ${window.eReklamo.escapeHtml(c.subject)}">
+        <div class="complaint-card-header">
+          <div class="complaint-card-title"><div class="cat-icon" style="background:${cat.bg}; color:${cat.color}; width:36px;height:36px;font-size:1.1rem;">${cat.icon}</div>${window.eReklamo.escapeHtml(c.subject)}</div>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;"><span class="badge ${badgeMap[c.status]||'badge-pending'}">${c.status}</span><span class="sla-badge ${sla.cls}">${sla.label}</span></div>
+        </div>
+        <div class="complaint-card-meta"><span>${window.eReklamo.escapeHtml(c.category)}</span><span>${c.date}</span><span style="font-size:0.72rem;font-family:monospace;color:var(--primary);font-weight:800;">${window.eReklamo.escapeHtml(c.id)}</span></div>
+        <div class="complaint-card-desc">${window.eReklamo.escapeHtml(c.description.substring(0,150))}${c.description.length>150?'...':''}</div>
+        <div class="complaint-card-footer"><div style="display:flex;align-items:center;gap:8px;flex:1;"><div class="progress-bar-wrap" style="flex:1;"><div class="progress-bar" style="width:${c.progress}%;"></div></div><span style="font-size:0.8rem;font-weight:700;color:var(--text-light);">${c.progress}%</span></div><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();copyToClipboard('${c.id}',this);" style="padding:4px 10px;font-size:0.72rem;">Copy ID</button></div>
+      </div>`;
+    }).join('');
+  }
+
+  function openDetailModal(id) {
+    const c = (window.currentComplaintCards || []).find(x =>x.id === id);
+    if (!c) return;
+    document.getElementById('detail-title').textContent = c.subject;
+    document.getElementById('detail-body').innerHTML = `
+      <div style="font-family:monospace;color:var(--primary);font-weight:900;margin-bottom:12px;">${window.eReklamo.escapeHtml(c.id)}</div>
+      <p style="margin-bottom:12px;color:var(--text-mid);">${window.eReklamo.escapeHtml(c.description)}</p>
+      ${window.eReklamo.renderTimeline(c.rawStatus || 'submitted', c.history || [])}
+      <a href="track.html?id=${encodeURIComponent(c.id)}" class="btn btn-primary btn-full" style="margin-top:12px;">Full Tracking Page</a>`;
+    document.getElementById('detail-modal').classList.remove('hidden');
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('detail-modal').addEventListener('click', e => { if(e.target.id==='detail-modal') closeDetailModal(); });
+    const user = await window.eReklamo.requireAuth({ roles: ['resident'] });
+    if (!user) return;
+    document.getElementById('email').value ||= user.email || '';
+    const names = (user.fullName || '').split(' ');
+    document.getElementById('firstName').value ||= names[0] || '';
+    document.getElementById('lastName').value ||= names.slice(1).join(' ') || '';
+    loadDraft();
+    if (window.location.hash === '#my-complaints') switchTab('my', document.querySelectorAll('.tab-btn')[1]);
+  });
+
+  window.switchTab = switchTab;
+  window.selectUrgency = selectUrgency;
+  window.goToStep1 = goToStep1;
+  window.goToStep2 = goToStep2;
+  window.onDescriptionInput = onDescriptionInput;
+  window.onCategoryChange = onCategoryChange;
+  window.handleFiles = handleFiles;
+  window.handleDragOver = handleDragOver;
+  window.handleDrop = handleDrop;
+  window.submitComplaint = submitComplaint;
+  window.printReceipt = printReceipt;
+  window.resetForm = resetForm;
+  window.renderComplaints = renderComplaints;
+  window.openDetailModal = openDetailModal;
+  window.closeDetailModal = closeDetailModal;
+</script>
 </body>
 </html>
+

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Resident Dashboard | e-Reklamo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/style.css"/>
   <style>
     .resident-shell { max-width: 1040px; margin: 0 auto; padding: 36px 24px; }
@@ -55,8 +55,7 @@
   <script src="../js/appState.js"></script>
   <script src="../js/components.js"></script>
   <script src="../js/script.js"></script>
-  <script>
-    async function renderResidentComplaints() {
+  <script>async function renderResidentComplaints() {
       const el = document.getElementById('resident-list');
       const search = document.getElementById('resident-search').value.trim();
       el.innerHTML = '<div class="skeleton"></div>';
@@ -69,9 +68,9 @@
         return;
       }
 
-      document.getElementById('stat-submitted').textContent = complaints.filter(c => c.status === 'submitted' || c.status === 'pending_review').length;
+      document.getElementById('stat-submitted').textContent = complaints.filter(c =>c.status === 'submitted' || c.status === 'pending_review').length;
       document.getElementById('stat-active').textContent = complaints.filter(c => ['under_review', 'assigned', 'in_progress'].includes(c.status)).length;
-      document.getElementById('stat-resolved').textContent = complaints.filter(c => c.status === 'resolved' || c.status === 'closed').length;
+      document.getElementById('stat-resolved').textContent = complaints.filter(c =>c.status === 'resolved' || c.status === 'closed').length;
 
       if (!complaints.length) {
         el.innerHTML = `<div class="empty-state"><h3>No complaints yet</h3><p>Submit your first complaint to see status updates here.</p></div>`;
@@ -87,7 +86,7 @@
             </div>
             <span class="badge badge-pending">${window.eReklamo.statusLabel(c.status)}</span>
           </div>
-          <div class="complaint-card-desc">${window.eReklamo.escapeHtml(c.description.substring(0, 180))}${c.description.length > 180 ? '...' : ''}</div>
+          <div class="complaint-card-desc">${window.eReklamo.escapeHtml(c.description.substring(0, 180))}${c.description.length >180 ? '...' : ''}</div>
           ${window.eReklamo.renderTimeline(c.status, c.history)}
         </article>
       `).join('');
@@ -104,3 +103,4 @@
   </script>
 </body>
 </html>
+

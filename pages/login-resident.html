@@ -5,428 +5,266 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login | e-Reklamo Barangay Lapasan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/style.css"/>
   <style>
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    /* ===== SCREEN 1: SELECT ACCOUNT TYPE ===== */
-    .select-type-page {
-      min-height: calc(100vh - 144px);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; padding: 48px 24px;
-    }
-    .select-type-page h1 {
-      font-size: 1.9rem; font-weight: 900;
-      color: var(--primary); margin-bottom: 32px; text-align: center;
-    }
-    .type-card {
-      background: #fff; border-radius: 20px;
-      box-shadow: 0 4px 32px rgba(0,0,0,0.10);
-      padding: 40px 48px; text-align: center; max-width: 500px; width: 100%;
-    }
-    .type-card h2 { font-size: 1.05rem; font-weight: 700; color: var(--text-mid); margin-bottom: 28px; }
-    .type-avatars { display: flex; justify-content: center; gap: 64px; margin-bottom: 28px; }
-    .type-avatar {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: linear-gradient(135deg, #F5A623, #E8724A);
-      display: flex; align-items: center; justify-content: center; font-size: 2.2rem;
-      box-shadow: 0 4px 16px rgba(232,114,74,0.3);
-    }
-    .type-btns { display: flex; gap: 16px; justify-content: center; }
-    .type-btn {
-      flex: 1; max-width: 175px; padding: 14px 20px; border-radius: 12px;
-      background: linear-gradient(135deg, #FDE68A, #FDBA74);
-      border: none; cursor: pointer; font-family: inherit;
-      font-size: 1rem; font-weight: 800; color: var(--text-dark);
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .type-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(232,114,74,0.3);
-      background: linear-gradient(135deg, #FCD34D, #FB923C);
-    }
-    .type-btn svg { width: 22px; height: 22px; }
-
-    /* ===== SCREEN 2: LOGIN FORM ===== */
-    .login-page {
-      display: grid; grid-template-columns: 1fr 1fr;
-      min-height: calc(100vh - 144px);
-    }
-    .login-illustration {
-      background: #fff5f2;
-      display: flex; align-items: center; justify-content: center; padding: 48px;
-    }
-    .illus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .illus-cell {
-      width: 150px; height: 150px; border-radius: 16px;
-      display: flex; align-items: center; justify-content: center; font-size: 4.5rem;
-    }
-    .illus-cell:nth-child(1) { background: #FFE4DD; }
-    .illus-cell:nth-child(2) { background: #E8D5FF; }
-    .illus-cell:nth-child(3) { background: #FFE4A8; }
-    .illus-cell:nth-child(4) { background: #D5E8FF; }
-    .login-form-side {
-      display: flex; align-items: center; justify-content: center; padding: 48px;
-    }
-    .login-box { width: 100%; max-width: 400px; }
-    .back-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.85rem; color: var(--text-light); margin-bottom: 16px;
-      background: none; border: none; font-family: inherit; padding: 0; cursor: pointer;
-    }
-    .back-link:hover { color: var(--primary); }
-    .role-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: linear-gradient(135deg, #FDE68A, #FDBA74);
-      padding: 5px 14px; border-radius: 20px;
-      font-size: 0.82rem; font-weight: 800; color: var(--text-dark); margin-bottom: 18px;
-    }
-    .signup-link { text-align: center; margin-top: 16px; font-size: 0.9rem; }
-    .signup-link a { color: var(--primary); font-weight: 700; cursor: pointer; }
-    .forgot-link { text-align: center; margin-top: 10px; }
-    .forgot-link a { font-size: 0.82rem; color: var(--text-light); cursor: pointer; }
-    .forgot-link a:hover { color: var(--primary); }
-
-    @media (max-width: 768px) {
-      .login-page { grid-template-columns: 1fr; }
-      .login-illustration { display: none; }
-    }
+    .login-page{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 130px);}
+    .login-illustration{background:linear-gradient(135deg,#fff5f2,#fde8df,#fff3e0);display:flex;align-items:center;justify-content:center;padding:48px;flex-direction:column;gap:20px;}
+    .illus-logo{width:100px;height:100px;border-radius:24px;overflow:hidden;box-shadow:0 8px 32px rgba(204,34,0,0.2);}
+    .illus-logo img{width:100%;height:100%;object-fit:cover;}
+    .illus-text{text-align:center;}
+    .illus-text h2{font-size:1.6rem;font-weight:900;color:var(--primary);margin-bottom:6px;}
+    .illus-text p{color:var(--text-light);font-size:0.88rem;line-height:1.6;max-width:280px;}
+    .illus-features{display:flex;flex-direction:column;gap:10px;max-width:280px;width:100%;}
+    .illus-feature{display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:10px 14px;border:1px solid var(--border);box-shadow:var(--shadow-sm);}
+    .illus-feature span:first-child{font-size:1.2rem;}
+    .illus-feature div{font-size:0.82rem;font-weight:700;color:var(--text-mid);}
+    .login-form-side{display:flex;align-items:center;justify-content:center;padding:48px;}
+    .login-box{width:100%;max-width:400px;}
+    .role-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--light-gray);padding:4px;border-radius:10px;margin-bottom:24px;}
+    .role-btn{padding:10px;border-radius:8px;font-weight:800;font-size:0.88rem;border:none;cursor:pointer;background:transparent;color:var(--text-light);transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+    .role-btn.active{background:#fff;color:var(--primary);box-shadow:var(--shadow-sm);}
+    .pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--text-light);}
+    .divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--text-light);font-size:0.78rem;font-weight:700;}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+    .demo-box{background:var(--light-gray);border:1.5px dashed var(--border);border-radius:10px;padding:14px;font-size:0.8rem;}
+    .demo-box strong{display:block;margin-bottom:6px;font-size:0.82rem;}
+    .demo-row{display:flex;justify-content:space-between;margin-bottom:4px;color:var(--text-mid);}
+    .demo-row span:last-child{font-family:monospace;font-weight:700;color:var(--text-dark);}
+    @media(max-width:768px){.login-page{grid-template-columns:1fr;}.login-illustration{display:none;}.login-form-side{padding:32px 20px;}}
   </style>
 </head>
 <body>
-  <div id="navbar"></div>
-
-  <!-- ===== SCREEN 1: SELECT ACCOUNT TYPE ===== -->
-  <div class="screen active" id="screen-select">
-    <div class="select-type-page">
-      <h1>Welcome to e-Reklamo!</h1>
-      <div class="type-card">
-        <h2>Select Your Account Type</h2>
-        <div class="type-avatars">
-          <div class="type-avatar"></div>
-          <div class="type-avatar"></div>
-        </div>
-        <div class="type-btns">
-          <button class="type-btn" onclick="selectRole('resident')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            Resident
-          </button>
-          <button class="type-btn" onclick="selectRole('official')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-            Official
-          </button>
-        </div>
-      </div>
+<div id="navbar"></div>
+<main id="main-content" class="page-fade">
+<div class="login-page">
+  <div class="login-illustration">
+    <div class="illus-logo"><img src="../assets/logo.png" alt="Barangay Lapasan Logo"/></div>
+    <div class="illus-text">
+      <h2>e-Reklamo</h2>
+      <p>Barangay Lapasan's official complaint management system. File, track, and resolve community concerns.</p>
+    </div>
+    <div class="illus-features">
+      <div class="illus-feature"><div>Submit complaints online anytime</div></div>
+      <div class="illus-feature"><div>Track real-time status updates</div></div>
+      <div class="illus-feature"><div>Official barangay response</div></div>
+      <div class="illus-feature"><div>Secure & confidential</div></div>
     </div>
   </div>
-
-  <!-- ===== SCREEN 2: LOGIN FORM ===== -->
-  <div class="screen" id="screen-login">
-    <div class="login-page">
-      <div class="login-illustration">
-        <div class="illus-grid">
-          <div class="illus-cell"></div>
-          <div class="illus-cell"></div>
-          <div class="illus-cell"></div>
-          <div class="illus-cell"></div>
-        </div>
+  <div class="login-form-side">
+    <div class="login-box">
+      <div style="margin-bottom:24px;">
+        <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:4px;" id="form-title">Welcome Back</h2>
+        <p style="color:var(--text-light);font-size:0.88rem;" id="form-sub">Sign in to your account to continue</p>
       </div>
-      <div class="login-form-side">
-        <div class="login-box">
-          <button class="back-link" onclick="goBack()">Back</button>
-          <div class="role-badge" id="role-badge"> Resident</div>
-
-          <div id="login-panel">
-            <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:4px;">Login</h2>
-            <p style="color:var(--text-light);margin-bottom:24px;font-size:0.9rem;">Login to your account</p>
-
-            <div id="login-error" class="alert alert-danger" style="display:none;">
-              <span></span>
-              <div><strong>Login Failed</strong><br/><span id="error-msg"></span></div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" id="email" class="form-control" placeholder="Enter your email" onkeydown="if(event.key==='Enter') doLogin()"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Password</label>
-              <input type="password" id="password" class="form-control" placeholder="Enter your password" onkeydown="if(event.key==='Enter') doLogin()"/>
-            </div>
-
-            <button class="btn btn-primary btn-full" id="login-btn" onclick="doLogin()">Login</button>
-            <div class="forgot-link"><a onclick="goForgot()">Forgot Password?</a></div>
-            <div class="signup-link">Don't have an account? <a onclick="showSignup()">Sign up here</a></div>
-          </div>
-
-          <div id="success-panel" style="display:none; text-align:center;">
-            <div style="width:72px;height:72px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:2rem;"></div>
-            <h2 style="margin-bottom:4px;">Login Successful!</h2>
-            <p style="color:var(--text-light);margin-bottom:24px;font-size:0.9rem;">Welcome back to e-Reklamo<br/><small>Submit a complaint or track your existing complaints.</small></p>
-            <div style="background:var(--light-gray);border-radius:12px;padding:16px;margin-bottom:24px;text-align:left;">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                <span style="color:var(--success);font-size:1.2rem;"></span>
-                <div><strong>Authentication verified</strong><br/><small style="color:var(--text-light);">Your credentials have been confirmed</small></div>
-              </div>
-              <div style="display:flex;align-items:center;gap:10px;">
-                <span style="color:var(--success);font-size:1.2rem;"></span>
-                <div><strong>Session established</strong><br/><small style="color:var(--text-light);">You're now logged into your account</small></div>
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <a href="complaint.html" class="btn btn-outline">Submit Complaint</a>
-              <a href="resident-dashboard.html" class="btn btn-primary">My Dashboard</a>
-            </div>
-          </div>
-        </div>
+      <div class="role-toggle" role="tablist">
+        <button class="role-btn active" id="btn-resident" onclick="setRole('resident')" role="tab">Resident</button>
+        <button class="role-btn" id="btn-official" onclick="setRole('official')" role="tab">Official</button>
       </div>
-    </div>
-  </div>
+      <div id="global-err" class="alert alert-danger" style="display:none;"><span id="global-err-msg">Invalid credentials.</span></div>
 
-  <!-- SIGNUP MODAL -->
-  <div id="signup-modal" class="modal-overlay hidden">
-    <div class="modal">
-      <button class="back-link" onclick="hideSignup()">Back to Login</button>
-      <h2 id="signup-title" style="font-size:1.4rem;font-weight:900;margin-bottom:4px;">Create Account</h2>
-      <p style="color:var(--text-light);font-size:0.88rem;margin-bottom:20px;" id="signup-subtitle">Sign up to access the system</p>
-      <div id="resident-signup">
-        <div class="form-group"><label class="form-label">Full Name</label><input class="form-control" id="signup-fullname" placeholder="Enter your full name"/></div>
-        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-control" id="signup-email" placeholder="Enter your email"/></div>
-        <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-control" id="signup-password" placeholder="Choose a password"/></div>
-        <div class="form-group"><label class="form-label">Confirm Password</label><input type="password" class="form-control" id="signup-confirm" placeholder="Confirm your password"/></div>
+      <!-- LOGIN FORM -->
+      <div id="login-form">
         <div class="form-group">
-          <label class="form-label">Verification Document <span class="required">*</span></label>
-          <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:8px;">Upload a valid ID, utility bill, or proof of residence</p>
-          <div class="upload-area" onclick="document.getElementById('resident-doc').click()">
-            <div style="font-size:2rem;margin-bottom:6px;"></div>
-            <p>Click to upload document</p>
-            <div style="font-size:0.78rem;color:var(--primary);margin-top:4px;">PDF, JPG, PNG (Max 5MB)</div>
+          <label class="form-label" for="login-user">Username or Email</label>
+          <div class="input-icon-wrap">
+            
+            <input class="form-control" id="login-user" placeholder="Enter username or email" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"/>
           </div>
-          <input type="file" id="resident-doc" style="display:none;" accept=".pdf,.jpg,.png"/>
         </div>
-        <button class="btn btn-primary btn-full" id="signup-btn" onclick="handleSignup()">Create Account</button>
-      </div>
-      <div id="official-signup" style="display:none;">
-        <div class="alert alert-info"><span></span><div><strong>Secure Registration</strong><br/>Your registration will be reviewed by the admin.</div></div>
-        <div class="form-group"><label class="form-label">Full Name <span class="required">*</span></label><input id="official-fullname" class="form-control" placeholder="Enter Full Name"/></div>
-        <div class="form-group"><label class="form-label">Position/Role <span class="required">*</span></label><input id="official-position" class="form-control" placeholder="e.g. Barangay Kagawad"/></div>
-        <div class="form-group"><label class="form-label">Username <span class="required">*</span></label><input id="official-username" class="form-control" placeholder="Choose a Username"/></div>
-        <div class="form-group"><label class="form-label">Password <span class="required">*</span></label><input id="official-password" type="password" class="form-control" placeholder="Choose a Password"/></div>
-        <div class="form-group"><label class="form-label">Confirm Password</label><input id="official-confirm" type="password" class="form-control" placeholder="Confirm your password"/></div>
         <div class="form-group">
-          <label class="form-label">Verification Document <span class="required">*</span></label>
-          <p style="font-size:0.78rem;color:var(--text-light);margin-bottom:8px;">Upload your appointment letter, official ID, or certificate of position</p>
-          <div class="upload-area" onclick="document.getElementById('official-doc').click()">
-            <div style="font-size:2rem;margin-bottom:6px;"></div>
-            <p>Click to upload document</p>
-            <div style="font-size:0.78rem;color:var(--primary);margin-top:4px;">PDF, JPG, PNG (Max 5MB)</div>
+          <label class="form-label" for="login-pw" style="display:flex;justify-content:space-between;">Password <a href="forgot-password.html" style="font-weight:700;font-size:0.8rem;color:var(--primary);">Forgot password?</a>
+          </label>
+          <div class="input-icon-wrap" style="position:relative;">
+            
+            <input class="form-control" type="password" id="login-pw" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+            <button class="pw-toggle" type="button" onclick="togglePw('login-pw',this)" aria-label="Show/hide password"></button>
           </div>
-          <input type="file" id="official-doc" style="display:none;" accept=".pdf,.jpg,.png"/>
         </div>
-        <button class="btn btn-primary btn-full" onclick="handleOfficialSignup()">Submit</button>
-        <p style="font-size:0.75rem;color:var(--text-light);text-align:center;margin-top:10px;">By submitting, you agree your info will be verified by the barangay administrator.</p>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+          <input type="checkbox" id="remember-me" style="accent-color:var(--primary);width:16px;height:16px;"/>
+          <label for="remember-me" style="font-size:0.85rem;font-weight:700;cursor:pointer;">Remember me</label>
+        </div>
+        <button class="btn btn-primary btn-full" id="login-btn" onclick="doLogin()">Login</button>
+        <div class="divider">or</div>
+        <button class="btn btn-full" style="background:var(--light-gray);border:1.5px solid var(--border);color:var(--text-mid);" onclick="showSignup()">Create New Account</button>
+        <div class="demo-box" style="margin-top:16px;">
+          <strong>Demo Credentials</strong>
+          <div class="demo-row"><span>Resident:</span><span>resident / password123</span></div>
+          <div class="demo-row"><span>Official:</span><span>official / official123</span></div>
+        </div>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div id="signup-form" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="su-fn">First Name <span class="required">*</span></label>
+            <input class="form-control" id="su-fn" placeholder="Juan" autocomplete="given-name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="su-ln">Last Name <span class="required">*</span></label>
+            <input class="form-control" id="su-ln" placeholder="Dela Cruz" autocomplete="family-name"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-email">Email <span class="required">*</span></label>
+          <div class="input-icon-wrap"><input type="email" class="form-control" id="su-email" placeholder="juan@email.com" autocomplete="email"/></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-user">Username <span class="required">*</span></label>
+          <div class="input-icon-wrap"><input class="form-control" id="su-user" placeholder="Choose a username"/></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-pw">Password <span class="required">*</span></label>
+          <div class="input-icon-wrap" style="position:relative;">
+            
+            <input type="password" class="form-control" id="su-pw" placeholder="Min. 8 characters" oninput="checkPwStrength(this.value)"/>
+            <button class="pw-toggle" type="button" onclick="togglePw('su-pw',this)"></button>
+          </div>
+          <div class="pw-strength-bar"><div class="pw-strength-fill" id="pw-fill"></div></div>
+          <div class="form-hint" id="pw-hint">Enter a password</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-phone">Phone Number</label>
+          <div class="input-icon-wrap"><input class="form-control" id="su-phone" placeholder="09XX XXX XXXX" autocomplete="tel"/></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-purok">Purok / Zone</label>
+          <select class="form-control" id="su-purok">
+            <option value="">Select purok (optional)</option>
+            <option>Purok 1</option><option>Purok 2</option><option>Purok 3</option>
+            <option>Purok 4</option><option>Purok 5</option><option>Purok 6</option>
+            <option>Purok 7</option><option>Purok 8</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="doSignup()">Create Account</button>
+        <div class="divider">or</div>
+        <button class="btn btn-full" style="background:var(--light-gray);border:1.5px solid var(--border);color:var(--text-mid);" onclick="showLogin()">Back to Login</button>
       </div>
     </div>
   </div>
+</div>
+</main>
+<div id="footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabaseConfig.js"></script>
+<script src="../js/supabaseClient.js"></script>
+<script src="../js/appState.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/script.js"></script>
+<script>let currentRole='resident';
 
-  <div id="footer"></div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabaseConfig.js"></script>
-  <script src="../js/supabaseClient.js"></script>
-  <script src="../js/appState.js"></script>
-  <script src="../js/components.js"></script>
-  <script src="../js/script.js"></script>
-  <script>
-    let currentRole = 'resident';
-    const DEMO_USERS = {
-      resident: { email: 'resident@example.com', password: 'password123' },
-      official:  { email: 'official@example.com',  password: 'official123'  }
-    };
+  function setRole(r){
+    currentRole=r;
+    document.getElementById('btn-resident').classList.toggle('active',r==='resident');
+    document.getElementById('btn-official').classList.toggle('active',r==='official');
+    document.getElementById('form-title').textContent = r==='official'?'Official Login':'Welcome Back';
+    document.getElementById('form-sub').textContent   = r==='official'?'Barangay officials only':'Sign in to your resident account';
+    document.getElementById('global-err').style.display='none';
+  }
 
-    function selectRole(role) {
-      currentRole = role;
-      document.getElementById('role-badge').textContent = role === 'resident' ? 'Resident' : 'Official';
-      document.getElementById('screen-select').classList.remove('active');
-      document.getElementById('screen-login').classList.add('active');
-      document.getElementById('login-panel').style.display = 'block';
-      document.getElementById('success-panel').style.display = 'none';
-      document.getElementById('login-error').style.display = 'none';
-      document.getElementById('email').value = '';
-      document.getElementById('password').value = '';
+  function togglePw(id,btn){
+    const el=document.getElementById(id);
+    const show=el.type==='password';
+    el.type=show?'text':'password';
+    btn.textContent=show?'':'';
+  }
+
+  function checkPwStrength(pw){
+    const fill=document.getElementById('pw-fill');
+    const hint=document.getElementById('pw-hint');
+    let score=0;
+    if(pw.length>=8)score++;
+    if(/[A-Z]/.test(pw))score++;
+    if(/[0-9]/.test(pw))score++;
+    if(/[^A-Za-z0-9]/.test(pw))score++;
+    const configs=[
+      {w:'0%',bg:'#eee',t:'Enter a password'},
+      {w:'25%',bg:'#DC2626',t:'Weak'},
+      {w:'50%',bg:'#F59E0B',t:'Fair'},
+      {w:'75%',bg:'#3B82F6',t:'Good'},
+      {w:'100%',bg:'#FF9F4A',t:'Strong '}
+    ];
+    const c=configs[score]||configs[0];
+    fill.style.width=c.w; fill.style.background=c.bg;
+    hint.textContent=c.t; hint.style.color=c.bg;
+  }
+
+  function showSignup(){
+    document.getElementById('login-form').style.display='none';
+    document.getElementById('signup-form').style.display='block';
+    document.getElementById('form-title').textContent='Create Account';
+    document.getElementById('form-sub').textContent='Join the Barangay Lapasan community';
+  }
+  function showLogin(){
+    document.getElementById('signup-form').style.display='none';
+    document.getElementById('login-form').style.display='block';
+    document.getElementById('form-title').textContent='Welcome Back';
+    document.getElementById('form-sub').textContent='Sign in to your account to continue';
+  }
+
+  async function doLogin(){
+    const u=document.getElementById('login-user').value.trim();
+    const p=document.getElementById('login-pw').value;
+    const errEl=document.getElementById('global-err');
+    const btn=document.getElementById('login-btn');
+    if(!u||!p){errEl.querySelector('#global-err-msg').textContent='Please enter username and password.';errEl.style.display='flex';return;}
+    btn.classList.add('loading');btn.textContent='Signing in...';
+    try {
+      const loginId = u === 'resident' ? 'resident@example.com' : u === 'official' ? 'official@example.com' : u;
+      const user = await window.eReklamo.signIn(loginId, p);
+      if(currentRole==='official' && !['official','admin'].includes(user.role)){
+        throw new Error('Invalid official credentials.');
+      }
+      if(document.getElementById('remember-me').checked) localStorage.setItem('ereklamo_remember',u);
+      showToast('Welcome back, '+window.eReklamo.userDisplayName(user)+'!');
+      if (typeof renderNavbar === 'function') renderNavbar();
+      setTimeout(()=>{window.location.href=window.eReklamo.roleHome(user.role);},400);
+    } catch(err) {
+      errEl.querySelector('#global-err-msg').textContent=err.message||'Incorrect username or password.';
+      errEl.style.display='flex';
+      document.getElementById('login-pw').classList.add('error');
+    } finally {
+      btn.classList.remove('loading');btn.textContent='Login';
     }
+  }
 
-    function goBack() {
-      document.getElementById('screen-login').classList.remove('active');
-      document.getElementById('screen-select').classList.add('active');
+  async function doSignup(){
+    const fn=document.getElementById('su-fn').value.trim();
+    const ln=document.getElementById('su-ln').value.trim();
+    const em=document.getElementById('su-email').value.trim();
+    const un=document.getElementById('su-user').value.trim();
+    const pw=document.getElementById('su-pw').value;
+    const errEl=document.getElementById('global-err');
+    if(!fn||!ln||!em||!un||!pw){errEl.querySelector('#global-err-msg').textContent='Please fill in all required fields.';errEl.style.display='flex';return;}
+    if(pw.length<8){errEl.querySelector('#global-err-msg').textContent='Password must be at least 8 characters.';errEl.style.display='flex';return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){errEl.querySelector('#global-err-msg').textContent='Please enter a valid email address.';errEl.style.display='flex';return;}
+    try {
+      await window.eReklamo.signUp(em,pw,`${fn} ${ln}`.trim(),'resident');
+      showToast('Account created! Welcome, '+fn+'!');
+      setTimeout(()=>{window.location.href='resident-dashboard.html';},700);
+    } catch(err) {
+      errEl.querySelector('#global-err-msg').textContent=err.message||'Signup failed. Please try again.';
+      errEl.style.display='flex';
     }
+  }
 
-    async function doLogin() {
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const errorDiv = document.getElementById('login-error');
-      const errorMsg = document.getElementById('error-msg');
-      const button = document.getElementById('login-btn');
-      if (!email || !password) {
-        errorMsg.textContent = 'Please enter your email and password.';
-        errorDiv.style.display = 'flex'; return;
-      }
+  document.addEventListener('DOMContentLoaded',()=>{
+    const rem=localStorage.getItem('ereklamo_remember');
+    if(rem) document.getElementById('login-user').value=rem;
+    const err=document.getElementById('global-err');
+    document.getElementById('login-user').addEventListener('input',()=>{err.style.display='none';document.getElementById('login-pw').classList.remove('error');});
+    document.getElementById('login-pw').addEventListener('input',()=>{err.style.display='none';document.getElementById('login-pw').classList.remove('error');});
+  });
 
-      button.disabled = true;
-      button.textContent = 'Logging in...';
-      try {
-        const user = await window.eReklamo.signIn(email, password);
-
-        errorDiv.style.display = 'none';
-        window.location.href = window.eReklamo.roleHome(user.role);
-      } catch (err) {
-        errorMsg.textContent = err.message || 'Login failed. Please try again.';
-        errorDiv.style.display = 'flex';
-        document.getElementById('password').classList.add('error');
-      } finally {
-        button.disabled = false;
-        button.textContent = 'Login';
-      }
+  document.addEventListener('DOMContentLoaded', async () => {
+    const user = await window.eReklamo.currentUser();
+    if (user) {
+      window.location.replace(window.eReklamo.roleHome(user.role));
     }
-
-    function goForgot() { window.location.href = 'forgot-password.html'; }
-
-    function getSignupHistory() {
-      try {
-        return JSON.parse(localStorage.getItem('ereklamo_signup_history') || '[]');
-      } catch {
-        return [];
-      }
-    }
-
-    function saveSignupHistory(record) {
-      const history = getSignupHistory();
-      history.push(record);
-      localStorage.setItem('ereklamo_signup_history', JSON.stringify(history));
-    }
-
-    function isDuplicateSignup({ fullName, email, username }) {
-      const history = getSignupHistory();
-      const normalizedFullName = fullName?.trim().toLowerCase();
-      const normalizedEmail = email?.trim().toLowerCase();
-      const normalizedUsername = username?.trim().toLowerCase();
-
-      return history.some((item) => {
-        if (normalizedEmail && item.email?.toLowerCase() === normalizedEmail) return true;
-        if (normalizedFullName && item.fullName?.toLowerCase() === normalizedFullName) return true;
-        if (normalizedUsername && item.username?.toLowerCase() === normalizedUsername) return true;
-        return false;
-      });
-    }
-
-    function showSignup() {
-      document.getElementById('signup-modal').classList.remove('hidden');
-      if (currentRole === 'official') {
-        document.getElementById('resident-signup').style.display = 'none';
-        document.getElementById('official-signup').style.display = 'block';
-        document.getElementById('signup-title').textContent = 'Official Registration';
-        document.getElementById('signup-subtitle').textContent = 'Request access to the official portal';
-      } else {
-        document.getElementById('resident-signup').style.display = 'block';
-        document.getElementById('official-signup').style.display = 'none';
-        document.getElementById('signup-title').textContent = 'Create Account';
-        document.getElementById('signup-subtitle').textContent = 'Sign up to access the system';
-      }
-    }
-
-    function hideSignup() { document.getElementById('signup-modal').classList.add('hidden'); }
-
-    async function handleSignup() {
-      const fullName = document.getElementById('signup-fullname').value.trim();
-      const email = document.getElementById('signup-email').value.trim();
-      const password = document.getElementById('signup-password').value;
-      const confirm = document.getElementById('signup-confirm').value;
-      const doc = document.getElementById('resident-doc').files[0];
-      const button = document.getElementById('signup-btn');
-
-      if (!fullName || !email || !password || !confirm || !doc) {
-        window.eReklamo.showToast('Please fill in all resident signup fields and upload your verification document.', 'danger');
-        return;
-      }
-      if (password !== confirm) {
-        window.eReklamo.showToast('Passwords do not match.', 'danger');
-        return;
-      }
-      if (isDuplicateSignup({ fullName, email })) {
-        window.eReklamo.showToast('This name or email is already registered. Please use a different account.', 'danger');
-        return;
-      }
-
-      button.disabled = true;
-      button.textContent = 'Creating account...';
-      try {
-        const signupResult = await window.eReklamo.signUp(email, password, fullName, currentRole);
-        const user = await window.eReklamo.currentUser();
-        if (user) {
-          saveSignupHistory({ type: 'resident', fullName, email, username: '', createdAt: new Date().toISOString() });
-          window.location.href = window.eReklamo.roleHome(user.role);
-          return;
-        }
-
-        saveSignupHistory({ type: 'resident', fullName, email, username: '', createdAt: new Date().toISOString() });
-        window.eReklamo.showToast('Account created. Please verify your email if required, then log in.', 'success');
-        hideSignup();
-      } catch (err) {
-        const message = err.message || 'Please try again.';
-        if (message.toLowerCase().includes('already registered') || message.toLowerCase().includes('already exists') || message.toLowerCase().includes('duplicate')) {
-          window.eReklamo.showToast('This email is already registered. Please use a different email or log in.', 'danger');
-        } else {
-          window.eReklamo.showToast('Signup failed: ' + message, 'danger');
-        }
-      } finally {
-        button.disabled = false;
-        button.textContent = 'Create Account';
-      }
-    }
-
-    function handleOfficialSignup() {
-      const fullName = document.getElementById('official-fullname').value.trim();
-      const position = document.getElementById('official-position').value.trim();
-      const username = document.getElementById('official-username').value.trim();
-      const password = document.getElementById('official-password').value;
-      const confirm = document.getElementById('official-confirm').value;
-      const doc = document.getElementById('official-doc').files[0];
-
-      if (!fullName || !position || !username || !password || !confirm || !doc) {
-        window.eReklamo.showToast('Please fill in all official signup fields and upload your verification document.', 'danger');
-        return;
-      }
-      if (password !== confirm) {
-        window.eReklamo.showToast('Passwords do not match.', 'danger');
-        return;
-      }
-      const history = getSignupHistory();
-      const normalizedFullName = fullName.toLowerCase();
-      const residentMatch = history.some((item) => item.type === 'resident' && item.fullName?.toLowerCase() === normalizedFullName);
-      if (residentMatch) {
-        window.eReklamo.showToast('You have already signed up for Residents', 'danger');
-        return;
-      }
-      if (isDuplicateSignup({ fullName, username })) {
-        window.eReklamo.showToast('This name or username is already registered. Please choose a different one.', 'danger');
-        return;
-      }
-
-      saveSignupHistory({ type: 'official', fullName, email: '', username, createdAt: new Date().toISOString() });
-      window.eReklamo.showToast('Registration submitted! Admin will review and notify you.', 'success');
-      hideSignup();
-    }
-
-    document.getElementById('signup-modal').addEventListener('click', function(e) {
-      if (e.target === this) hideSignup();
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
+

@@ -66,6 +66,12 @@ alter table public.complaints enable row level security;
 alter table public.complaint_status_events enable row level security;
 alter table public.complaint_attachments enable row level security;
 
+grant usage on schema public to anon, authenticated;
+grant select, insert, update on public.profiles to authenticated;
+grant select, insert, update on public.complaints to authenticated;
+grant select, insert on public.complaint_status_events to authenticated;
+grant select, insert on public.complaint_attachments to authenticated;
+
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -99,28 +105,34 @@ as $$
   select role from public.profiles where id = auth.uid()
 $$;
 
+drop policy if exists "profiles_select_own_or_staff" on public.profiles;
 create policy "profiles_select_own_or_staff"
 on public.profiles for select
 using (id = auth.uid() or public.current_profile_role() in ('official', 'admin'));
 
+drop policy if exists "profiles_update_own_name" on public.profiles;
 create policy "profiles_update_own_name"
 on public.profiles for update
 using (id = auth.uid())
 with check (id = auth.uid() and role = (select role from public.profiles where id = auth.uid()));
 
+drop policy if exists "complaints_insert_own" on public.complaints;
 create policy "complaints_insert_own"
 on public.complaints for insert
 with check (resident_id = auth.uid());
 
+drop policy if exists "complaints_select_own_or_staff" on public.complaints;
 create policy "complaints_select_own_or_staff"
 on public.complaints for select
 using (resident_id = auth.uid() or public.current_profile_role() in ('official', 'admin'));
 
+drop policy if exists "complaints_update_staff" on public.complaints;
 create policy "complaints_update_staff"
 on public.complaints for update
 using (public.current_profile_role() in ('official', 'admin'))
 with check (public.current_profile_role() in ('official', 'admin'));
 
+drop policy if exists "events_select_related" on public.complaint_status_events;
 create policy "events_select_related"
 on public.complaint_status_events for select
 using (
@@ -131,10 +143,19 @@ using (
   )
 );
 
+drop policy if exists "events_insert_staff" on public.complaint_status_events;
 create policy "events_insert_staff"
 on public.complaint_status_events for insert
-with check (public.current_profile_role() in ('official', 'admin') or changed_by = auth.uid());
+with check (
+  public.current_profile_role() in ('official', 'admin')
+  or exists (
+    select 1 from public.complaints c
+    where c.id = complaint_id
+    and c.resident_id = auth.uid()
+  )
+);
 
+drop policy if exists "attachments_select_related" on public.complaint_attachments;
 create policy "attachments_select_related"
 on public.complaint_attachments for select
 using (

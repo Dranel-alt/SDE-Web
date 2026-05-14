@@ -2,6 +2,7 @@
   const STORAGE = {
     complaints: 'ereklamo_complaints',
     user: 'user',
+    legacyUser: 'ereklamo_user',
     accessToken: 'accessToken',
     refreshToken: 'refreshToken',
   };
@@ -59,16 +60,34 @@
     return user?.fullName || user?.full_name || user?.email || 'User';
   }
 
+  function normalizeSessionUser(user) {
+    if (!user) return null;
+    const fullName = user.fullName || user.full_name || [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email || user.username || '';
+    return {
+      id: user.id || user.userId || user.email || user.username || '',
+      email: user.email || user.username || '',
+      username: user.username || user.email || '',
+      role: normalizeRole(user.role),
+      fullName,
+      firstName: user.firstName || fullName.split(' ')[0] || '',
+      lastName: user.lastName || fullName.split(' ').slice(1).join(' ') || '',
+      phone: user.phone || '',
+      purok: user.purok || '',
+    };
+  }
+
   function getLocalUser() {
     try {
-      return JSON.parse(localStorage.getItem(STORAGE.user) || 'null');
+      return normalizeSessionUser(JSON.parse(localStorage.getItem(STORAGE.user) || localStorage.getItem(STORAGE.legacyUser) || 'null'));
     } catch {
       return null;
     }
   }
 
   function setLocalSession(sessionUser, tokens = {}) {
-    localStorage.setItem(STORAGE.user, JSON.stringify(sessionUser));
+    const normalized = normalizeSessionUser(sessionUser);
+    localStorage.setItem(STORAGE.user, JSON.stringify(normalized));
+    localStorage.setItem(STORAGE.legacyUser, JSON.stringify(normalized));
     if (tokens.accessToken) localStorage.setItem(STORAGE.accessToken, tokens.accessToken);
     if (tokens.refreshToken) localStorage.setItem(STORAGE.refreshToken, tokens.refreshToken);
   }
@@ -122,13 +141,20 @@
   }
 
   async function signIn(email, password) {
+    const demo = DEMO_USERS[email.toLowerCase()];
     if (isSupabaseReady()) {
       const { data, error } = await db().auth.signInWithPassword({ email, password });
-      if (error) throw error;
-      return saveSupabaseSession(data);
+      if (!error) {
+        return saveSupabaseSession(data);
+      }
+
+      if (!demo || demo.password !== password) {
+        throw error;
+      }
+
+      console.warn('Supabase sign-in failed for demo account, using local demo session:', error.message);
     }
 
-    const demo = DEMO_USERS[email.toLowerCase()];
     if (!demo || demo.password !== password) {
       throw new Error(
         'Supabase is not configured. Local demo auth is active, and only demo credentials work. ' +
@@ -191,6 +217,7 @@
     localStorage.removeItem(STORAGE.accessToken);
     localStorage.removeItem(STORAGE.refreshToken);
     localStorage.removeItem(STORAGE.user);
+    localStorage.removeItem(STORAGE.legacyUser);
   }
 
   function roleHome(role) {
@@ -317,14 +344,20 @@
         .select('*')
         .single();
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
-      await db().from('complaint_status_events').insert({
+      const { error: eventError } = await db().from('complaint_status_events').insert({
         complaint_id: data.id,
         status: 'submitted',
         note: 'Complaint submitted',
         changed_by: user?.id || null,
       });
+
+      if (eventError) {
+        console.warn('Complaint was created, but initial status history could not be saved:', eventError.message);
+      }
 
       return normalizeComplaint(data);
     }
@@ -355,7 +388,7 @@
       const { data, error } = await query;
       if (error) throw error;
       const historyByComplaint = await fetchComplaintHistory(data || []);
-      return (data || []).map((row) => normalizeComplaint({
+      return (data || []).map((row) =>normalizeComplaint({
         ...row,
         history: historyByComplaint[row.id] || [],
       }));
@@ -363,14 +396,13 @@
 
     let list = readLocalComplaints();
     if (options.mine && user?.email) {
-      list = list.filter((item) => item.email === user.email || item.residentId === user.id);
+      list = list.filter((item) =>item.email === user.email || item.residentId === user.id);
     }
-    if (options.status) list = list.filter((item) => item.status === options.status);
+    if (options.status) list = list.filter((item) =>item.status === options.status);
     if (search) {
       const q = search.toLowerCase();
       list = list.filter((item) =>
-        [item.referenceNo, item.subject, item.category, item.email].some((value) =>
-          String(value || '').toLowerCase().includes(q),
+        [item.referenceNo, item.subject, item.category, item.email].some((value) =>String(value || '').toLowerCase().includes(q),
         ),
       );
     }
@@ -386,7 +418,7 @@
 
       if (error) throw error;
       const historyByComplaint = await fetchComplaintHistory(data || []);
-      return (data || []).map((row) => normalizeComplaint({
+      return (data || []).map((row) =>normalizeComplaint({
         ...row,
         history: historyByComplaint[row.id] || [],
       }));
@@ -394,7 +426,7 @@
 
     const q = value.toLowerCase();
     return readLocalComplaints().filter(
-      (item) => item.email.toLowerCase() === q || item.referenceNo.toLowerCase() === q || item.id.toLowerCase() === q,
+      (item) =>item.email.toLowerCase() === q || item.referenceNo.toLowerCase() === q || item.id.toLowerCase() === q,
     );
   }
 
@@ -438,7 +470,7 @@
     }
 
     const list = readLocalComplaints();
-    const index = list.findIndex((item) => item.referenceNo === referenceNo || item.id === referenceNo);
+    const index = list.findIndex((item) =>item.referenceNo === referenceNo || item.id === referenceNo);
     if (index < 0) throw new Error('Complaint not found');
 
     list[index] = {
@@ -462,7 +494,7 @@
   async function fetchComplaintHistory(complaints) {
     if (!isSupabaseReady() || !complaints.length) return {};
 
-    const ids = complaints.map((item) => item.id).filter(Boolean);
+    const ids = complaints.map((item) =>item.id).filter(Boolean);
     if (!ids.length) return {};
 
     const { data, error } = await db()
@@ -521,7 +553,7 @@
     let timer;
     return (...args) => {
       clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), wait);
+      timer = setTimeout(() =>fn(...args), wait);
     };
   }
 
@@ -530,10 +562,10 @@
     toast.className = `toast toast-${type}`;
     toast.textContent = message;
     document.body.appendChild(toast);
-    requestAnimationFrame(() => toast.classList.add('show'));
+    requestAnimationFrame(() =>toast.classList.add('show'));
     setTimeout(() => {
       toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 250);
+      setTimeout(() =>toast.remove(), 250);
     }, 3000);
   }
 

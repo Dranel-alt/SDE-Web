@@ -5,63 +5,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact | e-Reklamo Barangay Lapasan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/style.css"/>
+  <style>body{background:linear-gradient(180deg,#fff 0%,#fff 34%,#fff8f0 100%);}
+    .contact-shell{max-width:1100px;margin:0 auto;padding:56px 24px 64px;}
+    .contact-hero{text-align:center;margin-bottom:34px;}
+    .contact-kicker{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid var(--border);border-radius:999px;color:var(--primary-dark);background:#fff;font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;box-shadow:var(--shadow-sm);}
+    .contact-kicker .material-symbols-outlined{font-size:18px;}
+    .contact-hero .section-title{font-size:var(--page-heading-size);margin-bottom:12px;}
+    .contact-hero p{max-width:660px;margin:0 auto;color:var(--text-light);font-size:var(--body-lead-size);line-height:1.55;}
+    .contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,0.85fr);gap:22px;align-items:stretch;margin-bottom:28px;}
+    .contact-card{background:rgba(255,255,255,0.92);border:1.5px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--shadow-sm);}
+    .contact-card h2{display:flex;align-items:center;gap:10px;font-size:1.15rem;margin-bottom:20px;}
+    .contact-card h2>.material-symbols-outlined{width:38px;height:38px;border-radius:12px;background:var(--primary);color:#fff;font-size:22px;}
+    .contact-list{display:grid;gap:14px;}
+    .contact-row{display:flex;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--border);border-radius:14px;background:#fff;}
+    .contact-row>.material-symbols-outlined{width:40px;height:40px;flex:0 0 40px;border-radius:12px;color:#fff;font-size:22px;background:var(--primary);}
+    .contact-row:nth-child(2)>.material-symbols-outlined{background:#43A047;}
+    .contact-row:nth-child(3)>.material-symbols-outlined{background:#FF8673;}
+    .contact-row:nth-child(4)>.material-symbols-outlined{background:#E5C526;}
+    .contact-label{font-size:0.72rem;font-weight:900;color:var(--text-light);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;}
+    .contact-value{font-weight:700;color:var(--text-dark);font-size:0.95rem;line-height:1.45;}
+    .contact-muted{font-size:0.86rem;color:var(--text-light);line-height:1.45;}
+    .hotlines-panel{border-color:#ffd9d3;display:flex;flex-direction:column;}
+    .hotlines-panel h2>.material-symbols-outlined{background:#FF8673;}
+    .hotlines-list{display:grid;gap:10px;}
+    .contact-warning{display:flex;gap:10px;align-items:flex-start;margin-top:14px;color:var(--text-mid);font-size:0.9rem;line-height:1.5;}
+    .contact-warning .material-symbols-outlined{color:#FF8673;font-size:22px;}
+    .message-card{max-width:760px;margin:0 auto 30px;}
+    .message-card h2{margin-bottom:6px;}
+    .message-card>p{color:var(--text-light);font-size:0.94rem;margin-bottom:22px;}
+    .contact-map{max-width:900px;margin:0 auto;background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:24px;box-shadow:var(--shadow-sm);}
+    .contact-map h2{display:flex;justify-content:center;align-items:center;gap:8px;font-size:1.2rem;margin-bottom:16px;}
+    .contact-map h2 .material-symbols-outlined{color:var(--primary);font-size:26px;}
+    @media(max-width:900px){.contact-grid{grid-template-columns:1fr}.contact-shell{padding:38px 20px 48px}}
+  </style>
 </head>
 <body>
-  <div id="navbar"></div>
+<div id="navbar"></div>
+<nav class="breadcrumbs"><a href="../index.html">Home</a><span class="sep">&gt;</span><span>Contact</span></nav>
+<main id="main-content" class="page-fade">
+  <section class="contact-shell">
+    <div class="contact-hero">
+      <div class="contact-kicker"><span class="material-symbols-outlined icon">contact_support</span> Contact Center</div>
+      <h1 class="section-title">Contact Us</h1>
+      <p>Reach Barangay Lapasan for office inquiries, complaint support, and urgent hotline information.</p>
+    </div>
 
-  <section style="padding:56px 48px; max-width:960px; margin:0 auto;">
-    <div class="two-col">
-      <!-- Office Info -->
-      <div class="office-card" style="border-radius:14px; border:1.5px solid var(--border); padding:28px; background:#fff;">
-        <h3 style="font-size:1.2rem; font-weight:900; margin-bottom:20px;">Barangay Office</h3>
-        <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:16px;">
-          <span style="font-size:1.2rem; color:var(--primary);"></span>
-          <div>
-            <div style="font-size:0.75rem; font-weight:700; color:var(--text-light); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:3px;">Phone</div>
-            <div>09171409503</div>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:16px;">
-          <span style="font-size:1.2rem; color:var(--primary);"></span>
-          <div>
-            <div style="font-size:0.75rem; font-weight:700; color:var(--text-light); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:3px;">Email</div>
-            <a href="mailto:barangay.office@example.ph">barangay.office@example.ph</a>
-            <br>
-            <a href="mailto:complaints@barangay.ph">complaints@barangay.ph</a>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:14px;">
-          <span style="font-size:1.2rem; color:var(--primary);"></span>
-          <div>
-            <div style="font-size:0.75rem; font-weight:700; color:var(--text-light); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:3px;">Address</div>
-            <div>81 Claro M. Recto Ave, Cagayan De Oro City, Misamis Oriental</div>
-          </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h2><span class="material-symbols-outlined icon">domain</span> Barangay Office</h2>
+        <div class="contact-list">
+          <div class="contact-row"><span class="material-symbols-outlined icon">phone</span><div><div class="contact-label">Phone</div><div class="contact-value">09678770251</div></div></div>
+          <div class="contact-row"><span class="material-symbols-outlined icon">mail</span><div><div class="contact-label">Email</div><div class="contact-value">barangaylapasan@example.ph</div><div class="contact-muted">complaints@lapasan.ph</div></div></div>
+          <div class="contact-row"><span class="material-symbols-outlined icon">place</span><div><div class="contact-label">Address</div><div class="contact-value">Barangay Lapasan, Cagayan de Oro City, Philippines 9000</div></div></div>
+          <div class="contact-row"><span class="material-symbols-outlined icon">schedule</span><div><div class="contact-label">Office Hours</div><div class="contact-value">Monday - Friday</div><div class="contact-muted">8:00 AM - 5:00 PM</div></div></div>
         </div>
       </div>
 
-      <!-- Hotlines -->
-      <div style="border-radius:14px; border:1.5px solid #f5c6c6; padding:28px; background:#fff;">
-        <h3 style="display:flex; align-items:center; gap:8px; font-size:1.2rem; font-weight:900; margin-bottom:18px; color:var(--danger);"> Emergency Hotlines</h3>
-        <div class="hotline-card hotline-tanod">
-          <span>Barangay Tanod</span><span>09171409503</span>
+      <div class="contact-card hotlines-panel">
+        <h2><span class="material-symbols-outlined icon">emergency_home</span> Emergency Hotlines</h2>
+        <div class="hotlines-list">
+          <div class="hotline-card hotline-fire"><span>BFP Lapasan</span><span>09756094097 / 911</span></div>
+          <div class="hotline-card hotline-bdrrmo"><span>Police Station 3</span><span>09052149550</span></div>
+          <div class="hotline-card hotline-tanod"><span>Barangay Admin</span><span>09678770251</span></div>
+          <div class="hotline-card hotline-social"><span>Tanod Hotline</span><span>09550482473</span></div>
         </div>
-        <div class="hotline-card hotline-bdrrmo">
-          <span>BDRRMO</span><span>0916-216-2703</span>
-        </div>
-        <div class="hotline-card hotline-fire">
-          <span>FIRE STATION</span><span>09971821022 | 911</span>
-        </div>
-        <div class="hotline-card hotline-social">
-          <span>BRGY. SOCIAL SERVICES</span><span>09854009928</span>
-        </div>
-        <div style="font-size:0.78rem; color:var(--text-light); margin-top:10px;">For emergencies, please call the appropriate hotline immediately.</div>
+        <div class="contact-warning"><span class="material-symbols-outlined icon">warning</span><div>For life-threatening emergencies, call <strong>911</strong> immediately.</div></div>
       </div>
     </div>
-  </section>
 
-  <div id="footer"></div>
-  <script src="../js/components.js"></script>
+    <div class="contact-card message-card">
+      <h2><span class="material-symbols-outlined icon">mail</span> Send Us a Message</h2>
+      <p>For non-emergency inquiries. We respond within 1-2 business days.</p>
+      <div id="contact-sent" class="alert alert-success" style="display:none;"><span class="material-symbols-outlined icon">check_circle</span><div>Message sent! We'll get back to you within 1-2 business days.</div></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">First Name <span class="required">*</span></label><input class="form-control" id="c-fn" placeholder="Juan"/></div>
+        <div class="form-group"><label class="form-label">Last Name <span class="required">*</span></label><input class="form-control" id="c-ln" placeholder="Dela Cruz"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email <span class="required">*</span></label><input type="email" class="form-control" id="c-email" placeholder="juan@email.com"/></div>
+      <div class="form-group"><label class="form-label">Subject</label><input class="form-control" id="c-subject" placeholder="What is your inquiry about?"/></div>
+      <div class="form-group"><label class="form-label">Message <span class="required">*</span></label><textarea class="form-control" id="c-msg" rows="4" placeholder="Write your message here..."></textarea></div>
+      <button class="btn btn-primary btn-full" onclick="sendContact()">Send Message</button>
+    </div>
+
+    <div class="contact-map">
+      <h2><span class="material-symbols-outlined icon">place</span> Find Us</h2>
+      <iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.1234!2d124.6609!3d8.4792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32fff2e6b5a27d9d%3A0x4a8d8b1234567890!2sLapasan%20Barangay%20Hall!5e0!3m2!1sen!2sph!4v1234567890" allowfullscreen loading="lazy" title="Barangay Lapasan Map"></iframe>
+    </div>
+  </section>
+</main>
+<div id="footer"></div>
+<script src="../js/components.js"></script>
+<script>function sendContact(){
+  const fn=document.getElementById('c-fn').value.trim();
+  const ln=document.getElementById('c-ln').value.trim();
+  const em=document.getElementById('c-email').value.trim();
+  const msg=document.getElementById('c-msg').value.trim();
+  if(!fn||!ln||!em||!msg){showToast('Please fill in all required fields.','error');return;}
+  document.getElementById('contact-sent').style.display='flex';
+  ['c-fn','c-ln','c-email','c-subject','c-msg'].forEach(id=>document.getElementById(id).value='');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
 </body>
 </html>
+
+
+
+

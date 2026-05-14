@@ -1,246 +1,237 @@
-<!-- 
-Need Verification for Residents - done
-Fix File Complaint (Don't need to login/signup if already logged in)
-
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>e-Reklamo | Barangay Lapasan</title>
+  <meta name="description" content="Official complaint management system of Barangay Lapasan, Cagayan de Oro City."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    /* === HERO: image block on top, no overlay === */
+    /* HERO */
     .hero { min-height: unset; background: none; display: block; position: relative; }
-    .hero-img-block {
-      width: 100%;
-      max-height: 500px;
-      overflow: hidden;
-      display: block;
-      line-height: 0;
-    }
-    .hero-img-block img {
-      width: 100%;
-      height: 500px;
-      object-fit: cover;
-      object-position: center 30%;
-      display: block;
-    }
-    /* Title overlaid on image */
-    .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.30); pointer-events:none; max-height:500px; }
+    .hero-img-block { width:100%; min-height:560px; max-height:640px; overflow:hidden; display:block; line-height:0; }
+    .hero-img-block img { width:100%; height:560px; object-fit:cover; object-position:center 30%; display:block; }
+    .hero-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.45); pointer-events:none; }
     .hero-title-overlay {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: #fff;
-      z-index: 2;
-      width: 100%;
-      padding: 0 24px;
+      position:absolute; top:48%; left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center; color:var(--hero-text, #FFFFFF); z-index:2;
+      width:100%; padding:0 24px;
+      animation: heroIn 0.8s ease;
     }
-    .hero-title-overlay h1 {
-      font-size: 2.8rem; font-weight: 900;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.35);
-      line-height: 1.2;
-    }
-    /* Buttons section: BELOW the image, gradient bg */
-    .hero-btns-section {
-      background: linear-gradient(180deg, #fce8df 0%, #fdf3e3 50%, #fefbe8 100%);
-      padding: 32px 24px 20px;
-      text-align: center;
-    }
-    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    @keyframes heroIn { from { opacity:0; transform:translate(-50%,-55%); } to { opacity:1; transform:translate(-50%,-50%); } }
+    .hero-title-overlay h1 { font-size:var(--display-heading-size); font-weight:800; text-shadow:0 2px 16px rgba(0,0,0,0.4); line-height:1.08; font-family:var(--font-heading); letter-spacing:0; }
+    .hero-title-overlay p  { font-size:1.1rem; margin-top:8px; opacity:0.92; font-weight:600; text-shadow:0 1px 6px rgba(0,0,0,0.3); }
+    .hero-title-overlay .hero-support { margin-top:16px; color:rgba(255,255,255,0.92); }
+
+    /* HERO CTA */
+    .hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
     .btn-hero-login {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 11px 26px; border-radius: 8px; font-weight: 700; font-size: 0.95rem;
-      background: transparent; border: 2px solid var(--primary); color: var(--primary);
-      cursor: pointer; transition: all 0.2s; text-decoration: none;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:13px 28px; border-radius:10px; font-weight:800; font-size:1rem;
+      background:rgba(255,255,255,0.14); border:2px solid #fff; color:#fff;
+      cursor:pointer; transition:all 0.2s; text-decoration:none;
+      backdrop-filter:blur(4px);
     }
-    .btn-hero-login:hover { background: var(--primary); color: #fff; }
+    .btn-hero-login:hover { background:#fff; color:var(--primary); transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,0.18); }
     .btn-hero-track {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 11px 26px; border-radius: 8px; font-weight: 700; font-size: 0.95rem;
-      background: var(--primary); border: 2px solid var(--primary); color: #fff;
-      cursor: pointer; transition: all 0.2s; text-decoration: none;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:13px 28px; border-radius:10px; font-weight:800; font-size:1rem;
+      background:var(--primary); border:2px solid var(--primary); color:#fff;
+      cursor:pointer; transition:all 0.2s; text-decoration:none;
     }
-    .btn-hero-track:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
-    .home-intro { text-align: center; padding: 24px 48px 32px; max-width: 100%; margin: 0 auto; color: var(--text-mid); line-height: 1.6; background: linear-gradient(180deg, #fefbe8 0%, #ffffff 100%); }
-    .feature-card { text-align: center; padding: 28px 24px; border-radius: 14px; border: 1.5px solid var(--border); background: #fff; transition: box-shadow 0.2s; }
-    .feature-card:hover { box-shadow: var(--shadow-md); }
-    .feature-icon { width: 56px; height: 56px; background: var(--primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 16px; }
-    .feature-icon span { font-size: 1.5rem; }
-    .map-section { padding: 48px; background: var(--gradient-bg); }
-    .map-section .section-title { text-align: center; }
-    .map-section .section-sub { text-align: center; display: block; }
-    .map-embed { width: 100%; height: 320px; border-radius: 14px; border: none; margin-top: 24px; }
-    .vision-mission { background: linear-gradient(135deg, #fff8f5, #fff3e0); padding: 48px; }
-    .vm-card { border-radius: 16px; padding: 28px; background: #fff; border: 1.5px solid var(--border); }
-    .vm-card h3 { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 900; margin-bottom: 14px; }
-    .vm-icon { font-size: 1.3rem; }
-    .vm-card p { color: var(--text-mid); line-height: 1.65; font-size: 0.92rem; }
-    .contact-section { padding: 0 48px 48px; }
-    .office-card { border-radius: 14px; border: 1.5px solid var(--border); padding: 24px; background: #fff; }
-    .office-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 18px; }
-    .office-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 0.88rem; }
-    .office-item-icon { font-size: 1.1rem; color: var(--primary); margin-top: 2px; }
-    .office-label { font-weight: 700; color: var(--text-light); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
-    .hotlines-card { border-radius: 14px; border: 1.5px solid #f5c6c6; padding: 24px; background: #fff; }
-    .hotlines-card h3 { display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: 800; margin-bottom: 16px; color: var(--danger); }
-    .hotlines-note { font-size: 0.78rem; color: var(--text-light); margin-top: 10px; }
+    .btn-hero-track:hover { background:var(--primary-dark); border-color:var(--primary-dark); transform:translateY(-2px); box-shadow:0 4px 16px rgba(255,159,74,0.3); }
+    .hero-title-overlay .hero-btns { margin-top:72px; }
+
+    /* FEATURES GRID */
+    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:960px; margin:0 auto; }
+    @media(max-width:768px){ .features-grid{grid-template-columns:1fr;} }
+
+    /* PROCESS STEPS */
+    .process-steps { display:flex; gap:0; justify-content:center; flex-wrap:wrap; max-width:860px; margin:0 auto; }
+    .process-step  { flex:1; min-width:160px; text-align:center; padding:20px 16px; position:relative; }
+    .ps-icon { width:64px; height:64px; background:#FF9F4A; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; box-shadow:0 4px 16px rgba(255,159,74,0.2); }
+    .ps-icon .material-symbols-outlined { color:#fff; font-size:30px; line-height:1; font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 28; }
+    .process-step:nth-child(1) .ps-icon { background:#FFE4B5; }
+    .process-step:nth-child(2) .ps-icon { background:#FF9F4A; }
+    .process-step:nth-child(3) .ps-icon { background:#E67C2A; }
+    .process-step:nth-child(4) .ps-icon { background:#FF9F4A; }
+    .ps-num  { font-size:0.72rem; font-weight:900; color:var(--primary); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+    .ps-title{ font-size:0.92rem; font-weight:800; margin-bottom:4px; }
+    .ps-desc { font-size:0.78rem; color:var(--text-light); line-height:1.5; }
+    @media(max-width:768px){ .process-step:not(:last-child)::after{ display:none; } }
+    @media(max-width:768px){
+      .hero-img-block, .hero-img-block img { min-height:620px; height:620px; }
+      .hero-title-overlay h1 { font-size:2.45rem; }
+    }
   </style>
 </head>
 <body>
-  <div id="navbar"></div>
+<div id="navbar"></div>
 
-  <!-- HERO: image + title overlaid, buttons BELOW -->
-  <section class="hero">
-    <!-- Image block -->
+<main id="main-content" class="page-fade">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Welcome banner">
     <div class="hero-img-block">
-      <!--
-        =====================================================
-        TO USE YOUR OWN PHOTO:
-        1. Save your crowd photo as: assets/hero.jpg
-        2. Replace the src below with: src="assets/hero.jpg"
-        =====================================================
-      -->
-      <img
-        src="assets/hero.png"
-        alt="Barangay Lapasan Community"
-        id="hero-img"
-      />
+      <img src="assets/hero.png" alt="Barangay Lapasan Community gathering" id="hero-img"/>
     </div>
-    <!-- Dark overlay on image -->
-    <div class="hero-overlay"></div>
-    <!-- Title centered over image -->
+    <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-title-overlay">
       <h1>Welcome to<br/>Barangay Lapasan</h1>
+      <p>Your Voice, Our Priority - e-Reklamo</p>
+    <div class="hero-btns"><a href="pages/login-resident.html" class="btn-hero-login"><span class="material-symbols-outlined icon">login</span> Login / Sign Up</a><a href="pages/track.html" class="btn-hero-track"><span class="material-symbols-outlined icon">search</span> Track Complaint</a></div><p class="hero-support">Serving our community with transparency, efficiency, and excellence.</p></div>
+  </section>
+  <!-- HOW IT WORKS -->
+  <section class="section" style="background:var(--light-gray); text-align:center;">
+    <h2 class="section-title" style="text-align:center;">How It Works</h2>
+    <p class="section-sub" style="text-align:center; max-width:500px; margin:0 auto 32px;">Simple steps to file and track your barangay complaint</p>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="ps-icon"><span class="material-symbols-outlined icon">person_add</span></div>
+        <div class="ps-num">Step 1</div>
+        <div class="ps-title">Login or Sign Up</div>
+        <div class="ps-desc">Create a free account or log in as a resident</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-icon"><span class="material-symbols-outlined icon">edit_document</span></div>
+        <div class="ps-num">Step 2</div>
+        <div class="ps-title">File Complaint</div>
+        <div class="ps-desc">Fill out the form with details and photos</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-icon"><span class="material-symbols-outlined icon">fact_check</span></div>
+        <div class="ps-num">Step 3</div>
+        <div class="ps-title">Get Confirmation</div>
+        <div class="ps-desc">Receive your unique complaint ID instantly</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-icon"><span class="material-symbols-outlined icon">manage_search</span></div>
+        <div class="ps-num">Step 4</div>
+        <div class="ps-title">Track Status</div>
+        <div class="ps-desc">Monitor real-time updates anytime</div>
+      </div>
     </div>
   </section>
 
-  <!-- BUTTONS: below image, gradient background -->
-  <div class="hero-btns-section">
-    <div class="hero-btns">
-      <a href="pages/login-resident.html" class="btn-hero-login"> Login/SignUp</a>
-      <a href="pages/track.html" class="btn-hero-track"> Track Complaint</a>
-    </div>
-  </div>
-
-  <!-- TAGLINE -->
-  <div class="home-intro">
-    <p style="max-width:600px; margin:0 auto;">Serving our community with transparency, efficiency, and excellence. Your voice matters in building a better barangay for everyone.</p>
-  </div>
-
-  <!-- COMPLAINT SYSTEM SECTION -->
-  <section class="section" style="padding-top:0; max-width:720px; margin:0 auto; text-align:center;">
-    <h2 class="section-title">Barangay Lapasan Complaint System</h2>
-    <p class="section-sub" style="display:block; margin-bottom:24px;">Convenient and accessible services for all Lapasan residents</p>
-    <hr style="border:none; border-top:1px solid var(--border); margin-bottom:24px;"/>
-    <a href="pages/login-resident.html" class="feature-card" style="display:flex; align-items:center; gap:16px; text-align:left; text-decoration:none; max-width:480px; margin:0 auto; border:1.5px solid var(--border); border-radius:14px; padding:22px 24px; background:#fff; transition:box-shadow 0.2s; cursor:pointer;">
-      <div class="feature-icon" style="flex-shrink:0;"><span></span></div>
+  <!-- COMPLAINT SYSTEM CARD -->
+  <section class="section" style="padding-top:48px; padding-bottom:24px; max-width:760px; margin:0 auto; text-align:center;">
+    <h2 class="section-title" style="text-align:center;">Barangay Lapasan Complaint System</h2>
+    <p class="section-sub" style="text-align:center; margin-bottom:28px;">Convenient and accessible services for all Lapasan residents</p>
+    <hr style="border:none; border-top:1px solid var(--border); margin-bottom:28px;"/>
+    <a href="pages/login-resident.html" class="feature-card" style="display:flex; align-items:center; gap:16px; text-align:left; text-decoration:none; max-width:520px; margin:0 auto 20px; padding:22px 24px; border:1.5px solid var(--border);">
+      <div class="feature-icon" style="flex-shrink:0;"><span class="material-symbols-outlined icon">edit_document</span></div>
       <div>
-        <div style="font-weight:800; font-size:1rem; margin-bottom:4px;">File your complaint.</div>
-        <div style="font-size:0.86rem; color:var(--text-light);">Submit and track your complaints and concerns online with ease and transparency.</div>
+        <div style="font-weight:900; font-size:1rem; margin-bottom:4px;">File your complaint online.</div>
+        <div style="font-size:0.86rem; color:var(--text-light);">Submit and track your complaints and concerns with ease and full transparency.</div>
+      </div>
+    </a>
+    <a href="pages/track.html" class="feature-card" style="display:flex; align-items:center; gap:16px; text-align:left; text-decoration:none; max-width:520px; margin:0 auto; padding:22px 24px; border:1.5px solid var(--border);">
+      <div class="feature-icon" style="flex-shrink:0; background:var(--primary);"><span class="material-symbols-outlined icon">manage_search</span></div>
+      <div>
+        <div style="font-weight:900; font-size:1rem; margin-bottom:4px;">Track an existing complaint.</div>
+        <div style="font-size:0.86rem; color:var(--text-light);">Check the status of your complaint anytime using your ID or email.</div>
       </div>
     </a>
   </section>
 
-  <!-- MAP -->
-  <section class="map-section">
-    <div style="text-align:center; margin-bottom:24px;">
-      <h2 class="section-title"> Barangay Location</h2>
-      <span class="section-sub" style="display:block; color:var(--text-light);">Visit us at our barangay hall</span>
+  <!-- FEATURES -->
+  <section class="section" style="background:var(--gradient-warm);">
+    <h2 class="section-title" style="text-align:center;">Why Use e-Reklamo?</h2>
+    <p class="section-sub" style="text-align:center; display:block; margin-bottom:32px;">Built for the residents of Barangay Lapasan</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#E5C526;"><span class="material-symbols-outlined icon">bolt</span></div>
+        <h3 style="font-weight:900; margin-bottom:8px;">Fast & Easy</h3>
+        <p style="font-size:0.86rem; color:var(--text-light); line-height:1.6;">File complaints in minutes from your phone or computer.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#43A047;"><span class="material-symbols-outlined icon">visibility</span></div>
+        <h3 style="font-weight:900; margin-bottom:8px;">Full Transparency</h3>
+        <p style="font-size:0.86rem; color:var(--text-light); line-height:1.6;">Track every step of your complaint with live status updates.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FF8673;"><span class="material-symbols-outlined icon">verified_user</span></div>
+        <h3 style="font-weight:900; margin-bottom:8px;">Official Response</h3>
+        <p style="font-size:0.86rem; color:var(--text-light); line-height:1.6;">Directly reviewed by barangay officials. Your voice matters.</p>
+      </div>
     </div>
-    <iframe class="map-embed"
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3946.171468143302!2d124.66211237501251!3d8.482702704045947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32fff2bf6be18857%3A0xfb6f6fc923cad618!2sLapasan%20Barangay%20Hall!5e0!3m2!1sen!2sph!4v1778392813300!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </iframe>
+  </section>
+
+  <!-- MAP -->
+  <section class="section" style="background:#fff;">
+    <h2 class="section-title" style="text-align:center;"><span class="material-symbols-outlined icon">place</span> Barangay Location</h2>
+    <p class="section-sub" style="text-align:center; display:block;">Visit us at the Barangay Lapasan Hall</p>
+    <div style="max-width:860px; margin:0 auto;">
+      <iframe class="map-embed"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.1234!2d124.6609!3d8.4792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32fff2e6b5a27d9d%3A0x4a8d8b1234567890!2sLapasan%20Barangay%20Hall!5e0!3m2!1sen!2sph!4v1234567890"
+        allowfullscreen="" loading="lazy" title="Barangay Lapasan location map">
+      </iframe>
+    </div>
   </section>
 
   <!-- VISION & MISSION -->
-  <section class="vision-mission">
+  <section class="section" style="background:linear-gradient(135deg,#FFF8F0,#FFF0E0);">
     <div class="two-col" style="max-width:960px; margin:0 auto;">
       <div class="vm-card">
-        <h3><span class="vm-icon"></span> Vision</h3>
+        <h3><span class="material-symbols-outlined icon">visibility</span> Vision</h3>
         <p>A progressive, peaceful, and prosperous barangay with empowered residents working together towards sustainable development and improved quality of life for all.</p>
       </div>
       <div class="vm-card">
-        <h3><span class="vm-icon"></span> Mission</h3>
+        <h3><span class="material-symbols-outlined icon">flag</span> Mission</h3>
         <p>To deliver efficient, transparent, and responsive public services while promoting community participation, good governance, and social welfare programs that benefit all residents.</p>
       </div>
     </div>
   </section>
 
   <!-- EMERGENCY + OFFICE -->
-  <section class="contact-section" style="padding-top:40px;">
+  <section class="section" style="padding-top:40px;">
     <div class="two-col" style="max-width:960px; margin:0 auto;">
-      <div class="hotlines-card">
-        <h3> Emergency Hotlines</h3>
-        <div class="hotline-card hotline-tanod">
-          <span>Barangay Tanod</span>
-          <span>09171409503</span>
-        </div>
-        <div class="hotline-card hotline-bdrrmo">
-          <span>BDRRMO</span>
-          <span>0916-216-2703</span>
-        </div>
-        <div class="hotline-card hotline-fire">
-          <span>FIRE STATION</span>
-          <span>09971821022 | 911</span>
-        </div>
-        <div class="hotline-card hotline-social">
-          <span>BRGY. SOCIAL SERVICES</span>
-          <span>09854009928</span>
-        </div>
-        <div class="hotlines-note">For emergencies, please call the appropriate hotline immediately.</div>
+      <div style="border-radius:14px; border:1.5px solid #FFCCC4; padding:28px; background:#fff;">
+        <h3 style="display:flex; align-items:center; gap:8px; font-size:1.1rem; font-weight:900; margin-bottom:16px; color:var(--danger);"><span class="material-symbols-outlined icon">report_problem</span> Emergency Hotlines</h3>
+        <div class="hotline-card hotline-fire"><span>BFP Lapasan</span><span>09756094097 / 911</span></div>
+        <div class="hotline-card hotline-bdrrmo"><span>Police Station 3</span><span>09052149550</span></div>
+        <div class="hotline-card hotline-tanod"><span>Barangay Admin</span><span>09678770251</span></div>
+        <div class="hotline-card hotline-social"><span>Tanod Hotline</span><span>09550482473</span></div>
+        <div style="font-size:0.78rem; color:var(--text-light); margin-top:10px;"><span class="material-symbols-outlined icon">warning</span> For emergencies, please call the appropriate hotline immediately.</div>
       </div>
-      <div class="office-card">
-        <h3>Barangay Office</h3>
-        <div class="office-item">
-          <span class="office-item-icon"></span>
-          <div>
-            <div class="office-label">Phone</div>
-            <div>09171409503</div>
-          </div>
+      <div style="border-radius:14px; border:1.5px solid var(--border); padding:28px; background:#fff;">
+        <h3 style="font-size:1.1rem; font-weight:900; margin-bottom:18px;"><span class="material-symbols-outlined icon">domain</span> Barangay Office</h3>
+        <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:0.88rem;">
+          <span style="font-size:1.1rem; color:var(--primary);"><span class="material-symbols-outlined icon">phone</span></span>
+          <div><div style="font-weight:700; color:var(--text-light); font-size:0.75rem; text-transform:uppercase; margin-bottom:2px;">Phone</div><div>09678770251</div></div>
         </div>
-        <div class="office-item">
-          <span class="office-item-icon"></span>
-          <div>
-            <div class="office-label">Email</div>
-            <a href="mailto:barangay.office@example.ph">barangay.office@example.ph</a>
-            <br>
-            <a href="mailto:complaints@barangay.ph">complaints@barangay.ph</a>
-          </div>
+        <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:0.88rem;">
+          <span style="font-size:1.1rem; color:var(--primary);"><span class="material-symbols-outlined icon">mail_outline</span></span>
+          <div><div style="font-weight:700; color:var(--text-light); font-size:0.75rem; text-transform:uppercase; margin-bottom:2px;">Email</div><div>barangaylapasan@example.ph</div></div>
         </div>
-        <div class="office-item">
-          <span class="office-item-icon"></span>
-          <div>
-            <div class="office-label">Address</div>
-            <div>81 Claro M. Recto Ave, Cagayan De Oro City, Misamis Oriental</div>
-          </div>
+        <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:0.88rem;">
+          <span style="font-size:1.1rem; color:var(--primary);"><span class="material-symbols-outlined icon">place</span></span>
+          <div><div style="font-weight:700; color:var(--text-light); font-size:0.75rem; text-transform:uppercase; margin-bottom:2px;">Address</div><div>Barangay Lapasan, Cagayan de Oro City, Philippines 9000</div></div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px; font-size:0.88rem;">
+          <span style="font-size:1.1rem; color:var(--primary);"><span class="material-symbols-outlined icon">schedule</span></span>
+          <div><div style="font-weight:700; color:var(--text-light); font-size:0.75rem; text-transform:uppercase; margin-bottom:2px;">Office Hours</div><div>Monday - Friday, 8:00 AM - 5:00 PM</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <div id="footer"></div>
-  <script src="js/components.js"></script>
-  <script src="js/script.js"></script>
-  <script>
-    // Override navbar links for root level
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.navbar-links a').forEach(a => {
-        const href = a.getAttribute('href');
-        if (href && href.startsWith('../')) {
-          a.setAttribute('href', href.replace('../', ''));
-        }
-        if (href && href.startsWith('pages/')) {
-          // keep as is
-        }
-      });
+</main>
+
+<div id="footer"></div>
+<script src="js/components.js"></script>
+<script>document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.navbar-links a, .mobile-menu a').forEach(a => {
+      const href = a.getAttribute('href');
+      if (href && href.startsWith('../')) a.setAttribute('href', href.replace('../',''));
     });
-  </script>
+  });
+</script>
 </body>
 </html>
+
+
+

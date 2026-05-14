@@ -68,11 +68,11 @@
 </head>
 <body>
   <div class="container">
-    <h1> E-Reklamo Admin Debug Panel</h1>
+    <h1>E-Reklamo Admin Debug Panel</h1>
 
     <!-- Connection Status -->
     <div class="section">
-      <h2> System Status</h2>
+      <h2>System Status</h2>
       <table>
         <tr>
           <th>Component</th>
@@ -81,17 +81,17 @@
         </tr>
         <tr>
           <td>Frontend</td>
-          <td><span class="status ok"> OK</span></td>
+          <td><span class="status ok">OK</span></td>
           <td>You're viewing this page</td>
         </tr>
         <tr>
           <td>Backend API</td>
-          <td id="api-status"><span class="status warning"> Checking...</span></td>
+          <td id="api-status"><span class="status warning">Checking...</span></td>
           <td id="api-details">Connecting...</td>
         </tr>
         <tr>
           <td>Database</td>
-          <td id="db-status"><span class="status warning"> Checking...</span></td>
+          <td id="db-status"><span class="status warning">Checking...</span></td>
           <td id="db-details">Checking...</td>
         </tr>
       </table>
@@ -99,14 +99,14 @@
 
     <!-- Backend Health Check -->
     <div class="section">
-      <h2> Backend Health Check</h2>
+      <h2>Backend Health Check</h2>
       <button onclick="checkBackendHealth()">Test API Connection</button>
       <div id="health-output" class="output" style="display:none;"></div>
     </div>
 
     <!-- Database Inspection -->
     <div class="section">
-      <h2> Database Status</h2>
+      <h2>Database Status</h2>
       <button onclick="checkDatabaseStatus()">Check Database</button>
       <button onclick="showComplaints()" class="info-box" style="border: none; background: none; padding: 0;">View All Complaints</button>
       <div id="db-output" class="output" style="display:none;"></div>
@@ -114,8 +114,8 @@
 
     <!-- Local Storage Inspection -->
     <div class="section">
-      <h2> Local Storage Management</h2>
-      <div class="info-box"> Local storage should be EMPTY when database is working properly.</div>
+      <h2>Local Storage Management</h2>
+      <div class="info-box">Local storage should be EMPTY when database is working properly.</div>
       <button onclick="inspectLocalStorage()">Inspect Local Storage</button>
       <button onclick="clearOldData()" class="danger">Clear Old Storage Data</button>
       <div id="storage-output" class="output" style="display:none;"></div>
@@ -123,7 +123,7 @@
 
     <!-- API Configuration -->
     <div class="section">
-      <h2> Configuration</h2>
+      <h2>Configuration</h2>
       <table>
         <tr>
           <th>Setting</th>
@@ -142,21 +142,20 @@
 
     <!-- Troubleshooting -->
     <div class="section">
-      <h2> Troubleshooting</h2>
+      <h2>Troubleshooting</h2>
       <div class="info-box">
         <strong>Common Issues:</strong>
         <ul style="margin-left: 20px; margin-top: 8px;">
-          <li><strong>API Status: Error?</strong>  Run: <code>npm run dev:api</code></li>
-          <li><strong>Database Status: Error?</strong>  Run: <code>npm run migrate:api</code></li>
-          <li><strong>Still using localStorage?</strong>  Click "Clear Old Storage Data" button</li>
-          <li><strong>CORS Error?</strong>  Check CORS_ORIGIN in server/.env includes your frontend URL</li>
+          <li><strong>API Status: Error?</strong> Run: <code>npm run dev:api</code></li>
+          <li><strong>Database Status: Error?</strong> Run: <code>npm run migrate:api</code></li>
+          <li><strong>Still using localStorage?</strong> Click "Clear Old Storage Data" button</li>
+          <li><strong>CORS Error?</strong> Check CORS_ORIGIN in server/.env includes your frontend URL</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <script>
-    const API_BASE = 'http://localhost:3000/api';
+  <script>const API_BASE = 'http://localhost:3000/api';
 
     // Display config
     document.getElementById('config-host').textContent = window.location.href;
@@ -246,7 +245,7 @@
         output.style.display = 'block';
         output.className = 'output success';
         output.innerHTML = ` Cleared!\n\nSystem will now use database exclusively. Refresh the page.`;
-        setTimeout(() => location.reload(), 2000);
+        setTimeout(() =>location.reload(), 2000);
       }
     }
 
@@ -273,3 +272,4 @@
   </script>
 </body>
 </html>
+

@@ -31,3 +31,43 @@ create index if not exists complaints_resident_id_idx on public.complaints(resid
 create index if not exists complaints_reference_no_idx on public.complaints(reference_no);
 create index if not exists complaints_created_at_idx on public.complaints(created_at desc);
 create index if not exists complaints_urgency_idx on public.complaints(urgency);
+
+alter table public.complaints enable row level security;
+
+grant usage on schema public to authenticated;
+grant select, insert, update on public.complaints to authenticated;
+
+drop policy if exists "complaints_insert_own" on public.complaints;
+create policy "complaints_insert_own"
+on public.complaints for insert
+with check (resident_id = auth.uid());
+
+drop policy if exists "complaints_select_own_or_staff" on public.complaints;
+create policy "complaints_select_own_or_staff"
+on public.complaints for select
+using (
+  resident_id = auth.uid()
+  or exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid()
+    and p.role in ('official', 'admin')
+  )
+);
+
+drop policy if exists "complaints_update_staff" on public.complaints;
+create policy "complaints_update_staff"
+on public.complaints for update
+using (
+  exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid()
+    and p.role in ('official', 'admin')
+  )
+)
+with check (
+  exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid()
+    and p.role in ('official', 'admin')
+  )
+);

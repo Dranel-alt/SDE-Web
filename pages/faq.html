@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FAQ | e-Reklamo Barangay Lapasan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>body{background:linear-gradient(180deg,#fff 0%,#fff 34%,#fff8f0 100%);}
+    .faq-shell{max-width:1040px;margin:0 auto;padding:56px 24px 64px;}
+    .faq-hero{text-align:center;margin-bottom:32px;}
+    .faq-kicker{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid var(--border);border-radius:999px;color:var(--primary-dark);background:#fff;font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;box-shadow:var(--shadow-sm);}
+    .faq-kicker .material-symbols-outlined{font-size:18px;}
+    .faq-hero .section-title{font-size:var(--page-heading-size);max-width:900px;margin:0 auto 12px;}
+    .faq-hero p{max-width:680px;margin:0 auto;color:var(--text-light);font-size:var(--body-lead-size);line-height:1.55;}
+    .faq-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:24px;align-items:start;}
+    .faq-panel{position:sticky;top:calc(var(--navbar-h) + 20px);background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm);}
+    .faq-panel h2{font-size:1rem;margin-bottom:12px;}
+    .faq-panel a{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;color:var(--text-mid);font-size:0.9rem;font-weight:800;}
+    .faq-panel a:hover{background:var(--primary-bg);color:var(--primary-dark);}
+    .faq-panel .material-symbols-outlined{font-size:20px;color:var(--primary);}
+    .faq-content{min-width:0;}
+    .faq-item{border:1.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px;transition:border-color 0.2s,box-shadow 0.2s,transform 0.2s;background:#fff;}
+    .faq-item:hover{box-shadow:var(--shadow-sm);transform:translateY(-1px);}
+    .faq-item.open{border-color:var(--primary);box-shadow:var(--shadow);}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;cursor:pointer;font-weight:800;font-size:1rem;background:#fff;user-select:none;gap:14px;color:var(--text-dark);}
+    .faq-q:hover{background:var(--primary-bg);}
+    .faq-icon{width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;transition:transform 0.3s,background 0.2s;flex-shrink:0;color:#fff;background:var(--primary);font-size:1.2rem;font-weight:800;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);background:#FF8673;}
+    .faq-a{display:none;padding:0 20px 20px;font-size:0.94rem;color:var(--text-mid);line-height:1.7;background:#fff;}
+    .faq-item.open .faq-a{display:block;}
+    .faq-cat{display:flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-dark);margin:30px 0 12px;}
+    .faq-cat .material-symbols-outlined{width:34px;height:34px;border-radius:10px;background:#E5C526;color:#fff;font-size:20px;}
+    .faq-cat:nth-of-type(2n) .material-symbols-outlined{background:#43A047;}
+    .faq-cat:nth-of-type(3n) .material-symbols-outlined{background:#FF8673;}
+    .faq-search-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:18px;box-shadow:var(--shadow-sm);}
+    .faq-cta{display:flex;gap:12px;align-items:flex-start;margin-top:28px;padding:18px;border-radius:16px;border:1px solid #f3dfc9;background:#fff;box-shadow:var(--shadow-sm);color:var(--text-mid);font-size:0.94rem;line-height:1.6;}
+    .faq-cta>.material-symbols-outlined{width:36px;height:36px;flex:0 0 36px;border-radius:10px;background:#43A047;color:#fff;font-size:21px;}
+    @media(max-width:900px){.faq-layout{grid-template-columns:1fr}.faq-panel{position:static}.faq-panel nav{display:grid;grid-template-columns:1fr 1fr;gap:6px}}
+    @media(max-width:640px){.faq-shell{padding:38px 20px 48px}.faq-panel nav{grid-template-columns:1fr}.faq-q{font-size:0.92rem;padding:17px}.faq-a{font-size:0.86rem}}
+  </style>
+</head>
+<body>
+<div id="navbar"></div>
+<nav class="breadcrumbs"><a href="../index.html">Home</a><span class="sep">&gt;</span><span>FAQ</span></nav>
+<main id="main-content" class="page-fade">
+  <section class="faq-shell">
+    <div class="faq-hero">
+      <div class="faq-kicker"><span class="material-symbols-outlined icon">help</span> Help Center</div>
+      <h1 class="section-title">Frequently Asked Questions</h1>
+      <p>Everything you need to know about filing, tracking, privacy, and emergency contact rules in the e-Reklamo system.</p>
+    </div>
+
+    <div class="faq-layout">
+      <aside class="faq-panel" aria-label="FAQ categories">
+        <h2>Browse Topics</h2>
+        <nav>
+          <a href="#filing"><span class="material-symbols-outlined icon">edit_document</span> Filing</a>
+          <a href="#tracking"><span class="material-symbols-outlined icon">manage_search</span> Tracking</a>
+          <a href="#privacy"><span class="material-symbols-outlined icon">verified_user</span> Privacy</a>
+          <a href="#emergencies"><span class="material-symbols-outlined icon">report_problem</span> Emergencies</a>
+        </nav>
+      </aside>
+
+      <div class="faq-content">
+        <div class="faq-search-card">
+          <div class="search-wrap" style="margin-bottom:0;">
+            <span class="search-icon"><span class="material-symbols-outlined icon">search</span></span>
+            <input class="form-control" id="faq-search" placeholder="Search questions..." oninput="searchFAQ(this.value)"/>
+          </div>
+        </div>
+
+    <div id="faq-list">
+      <div class="faq-cat" id="filing"><span class="material-symbols-outlined icon">edit_document</span> Filing a Complaint</div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>How do I file a complaint?</span><span class="faq-icon">+</span></div><div class="faq-a">Click <strong>Login / Sign Up</strong> on the homepage, create a resident account, then go to <strong>File Complaint</strong>. Fill in the 2-step form with your personal information and complaint details. You will receive a unique Complaint ID after submission.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>Do I need an account to file a complaint?</span><span class="faq-icon">+</span></div><div class="faq-a">Yes, you need to create a free resident account to file a complaint. This ensures accountability and allows you to track your complaint's status. Sign up takes less than 2 minutes.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>Can I attach photos to my complaint?</span><span class="faq-icon">+</span></div><div class="faq-a">Yes! In Step 2 of the complaint form, you can upload photos (PNG, JPG) or PDF documents as evidence. Simply click the upload area or drag and drop your files.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>What types of complaints can I file?</span><span class="faq-icon">+</span></div><div class="faq-a">You can file complaints about: Garbage / Waste Management, Noise, Road and Infrastructure issues, Peace and Order, Flooding / Drainage, Street Lights, Health / Sanitation, Illegal Structures, Environmental concerns, Animal Control, and other community concerns.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>What is the urgency level and which should I choose?</span><span class="faq-icon">+</span></div><div class="faq-a"><strong>Low</strong> - Minor inconvenience, not time-sensitive.<br/><strong>Medium</strong> - Needs attention within a week.<br/><strong>High</strong> - Urgent, affecting daily life.<br/><strong>Critical</strong> - Immediate danger or safety risk. For true emergencies, always call the hotlines directly.</div></div>
+
+      <div class="faq-cat" id="tracking"><span class="material-symbols-outlined icon">manage_search</span> Tracking Your Complaint</div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>How do I track my complaint?</span><span class="faq-icon">+</span></div><div class="faq-a">Visit the <strong>Track Complaint</strong> page and enter your Complaint ID (e.g., RPT-1234567890) or the email address you used when filing. You'll see the real-time status and progress of your complaint.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>What do the complaint statuses mean?</span><span class="faq-icon">+</span></div><div class="faq-a"><strong>Pending Review</strong> - Just received, waiting for an official to review it.<br/><strong>Under Review</strong> - An official is currently examining your complaint.<br/><strong>In Progress</strong> - Action is being taken to resolve the issue.<br/><strong>Resolved</strong> - The issue has been addressed.<br/><strong>Closed</strong> - The complaint has been officially closed.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>How long does resolution take?</span><span class="faq-icon">+</span></div><div class="faq-a">Typical resolution times depend on urgency: Critical issues are targeted within 1 day, High within 3 days, Medium within 7 days, and Low within 14 days. Complex infrastructure issues may take longer.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>I lost my Complaint ID. What do I do?</span><span class="faq-icon">+</span></div><div class="faq-a">No problem - you can also track your complaint using the <strong>email address</strong> you registered with. Just enter it in the Track Complaint page. Alternatively, log in to your account and go to <strong>My Complaints</strong>.</div></div>
+
+      <div class="faq-cat" id="privacy"><span class="material-symbols-outlined icon">verified_user</span> Account & Privacy</div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>Is my personal information secure?</span><span class="faq-icon">+</span></div><div class="faq-a">Yes. Your personal information is only accessible to authorized barangay officials and is used solely for the purpose of processing your complaint. We do not share your data with third parties.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>Can I update my account information?</span><span class="faq-icon">+</span></div><div class="faq-a">Currently, account information is stored locally. If you need to update your information, please contact the barangay office directly at barangaylapasan@example.ph or call 09678770251.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>I forgot my password. How do I reset it?</span><span class="faq-icon">+</span></div><div class="faq-a">Click <strong>Forgot Password</strong> on the login page and enter your email address. You will receive instructions to reset your password.</div></div>
+
+      <div class="faq-cat" id="emergencies"><span class="material-symbols-outlined icon">report_problem</span> Emergencies</div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)"><span>Should I use e-Reklamo for emergencies?</span><span class="faq-icon">+</span></div><div class="faq-a"><strong>No.</strong> For life-threatening emergencies, always call the appropriate hotline directly: Fire Station (09756094097), Police Station 3 (09052149550), Tanod Hotline (09550482473), or <strong>911</strong>. e-Reklamo is for non-emergency community concerns.</div></div>
+    </div>
+
+        <div class="faq-cta"><span class="material-symbols-outlined icon">mail</span><div>Still have questions? <a href="contact.html" style="color:var(--primary-dark);font-weight:800;">Contact us</a> and we'll get back to you within 1-2 business days.</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="footer"></div>
+<script src="../js/components.js"></script>
+<script>function toggleFAQ(el){
+  const item=el.parentElement;
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+function searchFAQ(q){
+  const query=q.toLowerCase();
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const text=item.textContent.toLowerCase();
+    item.style.display=(!query||text.includes(query))?'block':'none';
+  });
+  document.querySelectorAll('.faq-cat').forEach(cat=>{
+    const next=cat.nextElementSibling;
+    let visible=false;
+    let el=next;
+    while(el&&el.classList.contains('faq-item')){if(el.style.display!=='none')visible=true;el=el.nextElementSibling;}
+    cat.style.display=visible?'flex':'none';
+  });
+}
+</script>
+</body>
+</html>
+
+
+

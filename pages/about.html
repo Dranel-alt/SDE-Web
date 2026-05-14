@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About | e-Reklamo Barangay Lapasan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .official-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:20px;text-align:center;transition:all 0.2s;}
+    .official-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+    .official-avatar{width:72px;height:72px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;border:3px solid var(--primary-bg);color:#fff;}
+    .official-avatar .material-symbols-outlined{font-size:34px;}
+    .official-name{font-weight:900;font-size:0.95rem;margin-bottom:2px;}
+    .official-pos{font-size:0.78rem;color:var(--text-light);font-weight:700;}
+    .timeline-section{position:relative;max-width:600px;margin:0 auto;}
+    .hist-item{display:flex;gap:20px;margin-bottom:24px;}
+    .hist-year{font-size:1.1rem;font-weight:900;color:var(--primary);min-width:50px;padding-top:2px;}
+    .hist-text{flex:1;background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--border);font-size:0.88rem;line-height:1.6;color:var(--text-mid);}
+  </style>
+</head>
+<body>
+<div id="navbar"></div>
+<nav class="breadcrumbs"><a href="../index.html">Home</a><span class="sep">&gt;</span><span>About</span></nav>
+<main id="main-content" class="page-fade">
+  <!-- Hero -->
+  <section style="background:var(--gradient-hero);color:#fff;padding:56px 48px;text-align:center;">
+    <img src="../assets/logo.png" alt="Barangay Lapasan Logo" style="width:80px;border-radius:16px;margin:0 auto 16px;display:block;box-shadow:0 4px 20px rgba(0,0,0,0.2);"/>
+    <h1 style="font-size:2.2rem;font-weight:900;margin-bottom:8px;">Barangay Lapasan</h1>
+    <p style="opacity:0.9;font-size:1rem;max-width:500px;margin:0 auto;">Cagayan de Oro City, Philippines - Katawhan Una Sa Tanan!</p>
+  </section>
+
+  <!-- Vision Mission -->
+  <section class="section" style="background:linear-gradient(135deg,#FFF8F0,#FFF0E0);">
+    <div class="two-col" style="max-width:960px;margin:0 auto;">
+      <div class="vm-card">
+        <h3><span class="material-symbols-outlined icon">visibility</span> Vision</h3>
+        <p>A progressive, peaceful, and prosperous barangay with empowered residents working together towards sustainable development and improved quality of life for all.</p>
+      </div>
+      <div class="vm-card">
+        <h3><span class="material-symbols-outlined icon">flag</span> Mission</h3>
+        <p>To deliver efficient, transparent, and responsive public services while promoting community participation, good governance, and social welfare programs that benefit all residents.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About e-Reklamo -->
+  <section class="section" style="max-width:760px;margin:0 auto;">
+    <h2 class="section-title" style="text-align:center;">About e-Reklamo</h2>
+    <p style="color:var(--text-mid);line-height:1.8;margin-bottom:16px;font-size:0.95rem;">The <strong>e-Reklamo System</strong> is Barangay Lapasan's official digital platform for filing, tracking, and resolving community complaints. It was developed to bridge the gap between residents and the barangay government through technology.</p>
+    <p style="color:var(--text-mid);line-height:1.8;margin-bottom:24px;font-size:0.95rem;">Instead of visiting the barangay hall in person for every concern, residents can now submit complaints online 24/7 and receive real-time updates on the status of their reports. Officials can manage, prioritize, and resolve issues more efficiently through the Official Dashboard.</p>
+    <div class="three-col" style="margin-bottom:8px;">
+      <div style="text-align:center;padding:20px;background:var(--primary-bg);border-radius:var(--radius-lg);border:1px solid #FFE4B5;">
+        <div style="font-size:2rem;margin-bottom:8px;"><span class="material-symbols-outlined icon">assignment</span></div>
+        <div style="font-weight:900;font-size:0.88rem;color:var(--primary);">Online Filing</div>
+        <div style="font-size:0.78rem;color:var(--text-light);margin-top:4px;">24/7 complaint submission</div>
+      </div>
+      <div style="text-align:center;padding:20px;background:#FFF8F0;border-radius:var(--radius-lg);border:1px solid #FFE4B5;">
+        <div style="font-size:2rem;margin-bottom:8px;"><span class="material-symbols-outlined icon">search</span></div>
+        <div style="font-weight:900;font-size:0.88rem;color:var(--primary);">Real-time Tracking</div>
+        <div style="font-size:0.78rem;color:var(--text-light);margin-top:4px;">Live status updates</div>
+      </div>
+      <div style="text-align:center;padding:20px;background:#FEF3E2;border-radius:var(--radius-lg);border:1px solid #FFE4B5;">
+        <div style="font-size:2rem;margin-bottom:8px;"><span class="material-symbols-outlined icon">check_circle</span></div>
+        <div style="font-weight:900;font-size:0.88rem;color:var(--success);">Official Response</div>
+        <div style="font-size:0.78rem;color:var(--text-light);margin-top:4px;">Direct barangay action</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Barangay Officials -->
+  <section class="section" style="background:var(--light-gray);">
+    <h2 class="section-title" style="text-align:center;">Barangay Officials</h2>
+    <p class="section-sub" style="text-align:center;display:block;margin-bottom:32px;">The dedicated leaders of Barangay Lapasan</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;max-width:900px;margin:0 auto;">
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">account_balance</span></div><div class="official-name">Julito D. Ocsimer</div><div class="official-pos">Punong Barangay</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">groups</span></div><div class="official-name">Laurence B. Dagoc</div><div class="official-pos">Barangay Kagawad</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">groups</span></div><div class="official-name">Mark Anthony B. Bustamante</div><div class="official-pos">Barangay Kagawad</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">groups</span></div><div class="official-name">Asperino N. Baconga</div><div class="official-pos">Barangay Kagawad</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">groups</span></div><div class="official-name">Kenneth Ray E. Lao</div><div class="official-pos">Barangay Kagawad</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">groups</span></div><div class="official-name">Ronald V. Dea</div><div class="official-pos">Barangay Kagawad</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">groups</span></div><div class="official-name">Rowena Raye M. Mediana</div><div class="official-pos">Barangay Kagawad</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">groups</span></div><div class="official-name">Shiva Mae Jandayan</div><div class="official-pos">Barangay Kagawad</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">school</span></div><div class="official-name">Mark Vincent A. Malacat</div><div class="official-pos">SK Chairman</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">edit_note</span></div><div class="official-name">Vaniah Kate Tapia-Sanoy</div><div class="official-pos">Barangay Secretary</div></div>
+      <div class="official-card"><div class="official-avatar"><span class="material-symbols-outlined icon">payments</span></div><div class="official-name">Roan Mae C. Datu</div><div class="official-pos">Barangay Treasurer</div></div>
+    </div>
+  </section>
+
+  <!-- History -->
+  <section class="section" style="max-width:760px;margin:0 auto;">
+    <h2 class="section-title" style="text-align:center;">Our History</h2>
+    <p class="section-sub" style="text-align:center;display:block;margin-bottom:28px;">Barangay Lapasan through the years</p>
+    <div class="timeline-section">
+      <div class="hist-item"><div class="hist-year">1900s</div><div class="hist-text">Lapasan established as a sitio along the coastal areas of Cagayan de Oro, known for its fishing communities.</div></div>
+      <div class="hist-item"><div class="hist-year">1945</div><div class="hist-text">Officially recognized as a barangay following post-war administrative reorganization of Cagayan de Oro City.</div></div>
+      <div class="hist-item"><div class="hist-year">1990s</div><div class="hist-text">Rapid urbanization transforms Lapasan into a densely populated urban barangay with commercial and residential growth.</div></div>
+      <div class="hist-item"><div class="hist-year">2020s</div><div class="hist-text">Barangay Lapasan embraces digital governance with the launch of the e-Reklamo complaint management system.</div></div>
+      <div class="hist-item"><div class="hist-year">2026</div><div class="hist-text">e-Reklamo v2.0 launched - featuring AI-assisted categorization, real-time tracking, analytics dashboard, and multilingual support.</div></div>
+    </div>
+  </section>
+</main>
+<div id="footer"></div>
+<script src="../js/components.js"></script>
+</body>
+</html>
+
