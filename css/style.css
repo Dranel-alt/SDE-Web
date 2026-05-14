@@ -115,6 +115,7 @@ body.dark-mode {
   --text-primary: #F4F1EE;
   --text-secondary: #B0B0B0;
   --text-muted: #8A8A8A;
+  --text-dark: #F4F1EE;
   --border: rgba(255,255,255,0.08);
   --border-dark: rgba(255,255,255,0.12);
   --accent: #FFB66B;
@@ -190,9 +191,11 @@ body.dark-mode .brand-name { color: var(--text-primary); }
 body.dark-mode .brand-sub,
 body.dark-mode .section-sub,
 body.dark-mode .form-label,
-body.dark-mode .footer-desc,
 body.dark-mode .text-secondary { color: var(--text-secondary); }
+body.dark-mode .footer-desc { color: #fff; }
 body.dark-mode .navbar-links a { color: var(--text-secondary); }
+body.dark-mode .section-title { color: var(--text-primary); }
+body.dark-mode .section-sub { color: var(--text-secondary); }
 body.dark-mode .navbar-links a:hover,
 body.dark-mode .navbar-links a.active { color: var(--accent); }
 body.dark-mode .profile-login { background: #272727; color: #fff; }
@@ -612,7 +615,7 @@ footer {
 .footer-brand img { width: 78px; height: 78px; object-fit: contain; border-radius: 0; background: transparent; flex: 0 0 auto; }
 .footer-name { font-size: clamp(1.35rem, 1.7vw, 1.58rem); font-weight: 800; line-height: 1.12; }
 .footer-tagline { font-size: 0.92rem; opacity: 0.9; margin: 4px 0 14px; font-weight: 500; }
-.footer-desc { font-size: 0.95rem; max-width: 520px; line-height: 1.55; opacity: 0.96; font-weight: 400; }
+.footer-desc { font-size: 0.95rem; max-width: 520px; line-height: 1.55; opacity: 1; font-weight: 400; color: #fff; }
 .footer-desc strong { font-style: italic; }
 .footer-links { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; padding-top: 4px; }
 .footer-links nav { display: flex; gap: 22px; flex-wrap: wrap; justify-content: flex-end; }
