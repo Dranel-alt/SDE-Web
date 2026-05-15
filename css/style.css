@@ -141,7 +141,7 @@ body.dark-mode {
   --shadow-md: 0 4px 18px rgba(0,0,0,0.35);
   --shadow-lg: 0 8px 28px rgba(0,0,0,0.40);
 
-  background: var(--bg);
+  background: var(--bg) !important;
   color: var(--text-primary);
 }
 body.dark-mode .navbar,
@@ -258,6 +258,101 @@ body.dark-mode [style*="border:1px solid #FFE4B5"],
 body.dark-mode [style*="border-top:1px solid var(--border)"] {
   border-color: var(--border) !important;
 }
+
+/* ===== DARK MODE PAGE-SPECIFIC CARD OVERLAYS ===== */
+body.dark-mode section.section[style*="background:var(--gradient-warm)"] {
+  background: var(--surface-2) !important;
+}
+
+body.dark-mode .faq-panel,
+body.dark-mode .faq-search-card,
+body.dark-mode .faq-item,
+body.dark-mode .faq-kicker,
+body.dark-mode .service-categories,
+body.dark-mode .service-note {
+  background: var(--surface-2) !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: var(--text-primary) !important;
+}
+
+body.dark-mode .faq-q,
+body.dark-mode .faq-a,
+body.dark-mode .category-item {
+  background: var(--surface) !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: var(--text-primary) !important;
+}
+
+body.dark-mode .faq-q:hover,
+body.dark-mode .faq-panel a:hover,
+body.dark-mode .category-item:hover {
+  background: rgba(255,255,255,0.06) !important;
+}
+
+body.dark-mode .faq-panel h2,
+body.dark-mode .service-categories h2,
+body.dark-mode .section-title {
+  color: var(--text-primary) !important;
+}
+
+body.dark-mode .faq-panel a {
+  color: var(--text-secondary) !important;
+}
+
+body.dark-mode .faq-cta,
+body.dark-mode .faq-hero p,
+body.dark-mode .faq-panel > p,
+body.dark-mode .service-categories > p,
+body.dark-mode .service-note {
+  color: var(--text-secondary) !important;
+}
+
+body.dark-mode .faq-cta a,
+body.dark-mode .faq-panel a:hover {
+  color: var(--accent) !important;
+}
+
+body.dark-mode .faq-q {
+  color: var(--text-primary) !important;
+}
+
+body.dark-mode .faq-a {
+  color: var(--text-secondary) !important;
+}
+
+body.dark-mode .faq-cat {
+  color: var(--text-primary) !important;
+}
+
+body.dark-mode .faq-cat .material-symbols-outlined,
+body.dark-mode .faq-panel .material-symbols-outlined {
+  color: #fff !important;
+}
+
+body.dark-mode .faq-kicker {
+  background: var(--surface) !important;
+  border-color: rgba(255,255,255,0.14) !important;
+  color: var(--text-primary) !important;
+}
+
+body.dark-mode .feature-card p,
+body.dark-mode .vm-card p {
+  color: var(--text-secondary) !important;
+}
+
+body.dark-mode .service-note strong,
+body.dark-mode .faq-item.open .faq-q,
+body.dark-mode .faq-item.open .faq-q span {
+  color: var(--text-primary) !important;
+}
+
+body.dark-mode .service-action-card,
+body.dark-mode .feature-card,
+body.dark-mode .vm-card,
+body.dark-mode .category-item {
+  box-shadow: var(--shadow-sm) !important;
+}
+
 body.dark-mode [style*="color:#5C4C45"],
 body.dark-mode [style*="color: #5C4C45"],
 body.dark-mode [style*="color:#8B7968"],

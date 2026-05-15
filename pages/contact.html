@@ -3,111 +3,110 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact | e-Reklamo Barangay Lapasan</title>
+  <title>Barangay Lapasan | e-Reklamo Barangay Lapasan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/style.css"/>
-  <style>body{background:linear-gradient(180deg,#fff 0%,#fff 34%,#fff8f0 100%);}
-    .contact-shell{max-width:1100px;margin:0 auto;padding:56px 24px 64px;}
-    .contact-hero{text-align:center;margin-bottom:34px;}
-    .contact-kicker{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid var(--border);border-radius:999px;color:var(--primary-dark);background:#fff;font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;box-shadow:var(--shadow-sm);}
-    .contact-kicker .material-symbols-outlined{font-size:18px;}
-    .contact-hero .section-title{font-size:var(--page-heading-size);margin-bottom:12px;}
-    .contact-hero p{max-width:660px;margin:0 auto;color:var(--text-light);font-size:var(--body-lead-size);line-height:1.55;}
-    .contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,0.85fr);gap:22px;align-items:stretch;margin-bottom:28px;}
-    .contact-card{background:rgba(255,255,255,0.92);border:1.5px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--shadow-sm);}
-    .contact-card h2{display:flex;align-items:center;gap:10px;font-size:1.15rem;margin-bottom:20px;}
-    .contact-card h2>.material-symbols-outlined{width:38px;height:38px;border-radius:12px;background:var(--primary);color:#fff;font-size:22px;}
-    .contact-list{display:grid;gap:14px;}
-    .contact-row{display:flex;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--border);border-radius:14px;background:#fff;}
-    .contact-row>.material-symbols-outlined{width:40px;height:40px;flex:0 0 40px;border-radius:12px;color:#fff;font-size:22px;background:var(--primary);}
-    .contact-row:nth-child(2)>.material-symbols-outlined{background:#43A047;}
-    .contact-row:nth-child(3)>.material-symbols-outlined{background:#FF8673;}
-    .contact-row:nth-child(4)>.material-symbols-outlined{background:#E5C526;}
-    .contact-label{font-size:0.72rem;font-weight:900;color:var(--text-light);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;}
-    .contact-value{font-weight:700;color:var(--text-dark);font-size:0.95rem;line-height:1.45;}
-    .contact-muted{font-size:0.86rem;color:var(--text-light);line-height:1.45;}
-    .hotlines-panel{border-color:#ffd9d3;display:flex;flex-direction:column;}
-    .hotlines-panel h2>.material-symbols-outlined{background:#FF8673;}
-    .hotlines-list{display:grid;gap:10px;}
-    .contact-warning{display:flex;gap:10px;align-items:flex-start;margin-top:14px;color:var(--text-mid);font-size:0.9rem;line-height:1.5;}
-    .contact-warning .material-symbols-outlined{color:#FF8673;font-size:22px;}
-    .message-card{max-width:760px;margin:0 auto 30px;}
-    .message-card h2{margin-bottom:6px;}
-    .message-card>p{color:var(--text-light);font-size:0.94rem;margin-bottom:22px;}
-    .contact-map{max-width:900px;margin:0 auto;background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:24px;box-shadow:var(--shadow-sm);}
-    .contact-map h2{display:flex;justify-content:center;align-items:center;gap:8px;font-size:1.2rem;margin-bottom:16px;}
-    .contact-map h2 .material-symbols-outlined{color:var(--primary);font-size:26px;}
-    @media(max-width:900px){.contact-grid{grid-template-columns:1fr}.contact-shell{padding:38px 20px 48px}}
+  <style>
+    .page-hero{position:relative;overflow:hidden;background:var(--gradient-hero);color:#fff;padding:92px 24px 84px;}
+    .page-hero::after{content:'';position:absolute;left:0;right:0;bottom:0;height:180px;background:#fff;clip-path:polygon(0 24%,100% 0,100% 100%,0 100%);}
+    .page-hero-inner{position:relative;max-width:1120px;margin:0 auto;text-align:center;z-index:1;}
+    .hero-pill{display:inline-flex;align-items:center;gap:10px;padding:11px 20px;border-radius:999px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.32);font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:28px;}
+    .hero-pill .material-symbols-outlined{font-size:20px;}
+    .page-hero h1{font-size:clamp(3.4rem,6vw,5.2rem);font-weight:900;line-height:0.95;margin:0 auto 18px;max-width:980px;letter-spacing:-0.05em;}
+    .page-hero p{max-width:760px;margin:0 auto;color:rgba(255,255,255,0.92);font-size:1.02rem;line-height:1.82;}
+    .leader-section{padding:90px 24px 68px;background:#fff;}
+    .leader-label-row{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-bottom:28px;}
+    .leader-label{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#fff;border:1px solid rgba(255,159,74,0.25);color:var(--primary);font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.16em;}
+    .leader-title{margin:0;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:900;color:#121212;text-align:center;}
+    .leader-card{position:relative;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;min-height:430px;background:#fff;border-radius:32px;border:1px solid rgba(255,159,74,0.16);box-shadow:0 32px 88px rgba(255,159,74,0.12);overflow:hidden;}
+    .leader-card::before{content:'';position:absolute;top:20px;left:20px;width:72px;height:4px;border-radius:999px;background:var(--primary);}
+    .leader-card::after{content:'';position:absolute;bottom:20px;right:20px;width:72px;height:4px;border-radius:999px;background:var(--primary);}
+    .leader-copy{padding:54px 52px;display:flex;flex-direction:column;justify-content:center;gap:20px;}
+    .leader-copy .label{font-size:0.82rem;font-weight:800;text-transform:uppercase;letter-spacing:0.2em;color:var(--primary);}
+    .leader-copy h2{margin:0;font-size:clamp(3rem,4vw,4.4rem);line-height:1.02;color:#121212;}
+    .leader-copy p{margin:0;color:#57534e;font-size:1rem;line-height:1.75;max-width:580px;}
+    .leader-copy .timeline{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px;}
+    .leader-copy .timeline span{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:999px;background:#fff7ee;border:1px solid rgba(255,159,74,0.22);font-size:0.9rem;font-weight:700;color:#9b4d00;}
+    .leader-visual{position:relative;min-height:430px;background:linear-gradient(180deg, rgba(255,159,74,0.08), rgba(255,255,255,0));}
+    .leader-visual img{width:100%;height:100%;object-fit:cover;display:block;}
+    .leader-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.2), transparent 38%);}
+    .council-section{padding:52px 24px 92px;background:#fff;}
+    .council-heading{text-align:center;max-width:840px;margin:0 auto 36px;}
+    .council-heading h2{margin:0;font-size:2.8rem;font-weight:900;color:#121212;}
+    .council-heading .section-sub{margin:12px auto 0;max-width:700px;color:#6b6b6b;font-size:1rem;line-height:1.8;}
+    .council-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:1180px;margin:0 auto;}
+    .council-card{display:flex;align-items:center;gap:16px;padding:22px 20px;border-radius:24px;background:#fff;border:1px solid rgba(255,159,74,0.16);box-shadow:0 18px 40px rgba(255,159,74,0.08);min-height:112px;}
+    .council-card .icon-wrap{width:42px;height:42px;border-radius:18px;display:grid;place-items:center;background:#fff4ea;border:1px solid rgba(255,159,74,0.24);color:var(--primary);font-size:1.1rem;}
+    .council-card .team-name{font-weight:800;font-size:0.95rem;text-transform:uppercase;letter-spacing:0.04em;color:#111111;}
+    .role-row{margin-top:42px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:1180px;margin:0 auto;}
+    .role-card{position:relative;overflow:hidden;border-radius:28px;padding:28px 24px;background:#fff;border:1px solid rgba(255,159,74,0.16);min-height:180px;}
+    .role-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:16px;background:#fff4ea;}
+    .role-card.role-green::before{background:linear-gradient(90deg,#d9f1e1,#fbfbfb);}
+    .role-card.role-blue::before{background:linear-gradient(90deg,#e8f0ff,#fbfbff);}
+    .role-card .role-tag{position:relative;z-index:1;font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.16em;color:var(--primary);margin-bottom:16px;}
+    .role-card .role-name{position:relative;z-index:1;font-size:1.05rem;font-weight:900;color:#121212;line-height:1.2;}
+    .role-card .role-title{position:relative;z-index:1;margin-top:12px;color:#6a5c4c;font-size:0.93rem;line-height:1.7;}
+    @media (max-width:1100px){.leader-card{grid-template-columns:1fr;}.leader-visual{min-height:320px;}.council-grid,.role-row{grid-template-columns:1fr;}}
+    @media (max-width:720px){.page-hero{padding:56px 18px 42px;}.hero-pill{padding:10px 16px;}.page-hero h1{font-size:2.6rem;}.page-hero p{font-size:0.98rem;}.leader-section{padding:50px 18px 50px;}.leader-copy{padding:32px 24px;}.leader-copy h2{font-size:2.4rem;}.leader-card{border-radius:24px;}.council-section{padding:42px 18px 72px;}.council-card{padding:18px 18px;}.role-card{padding:22px 18px;}}
   </style>
 </head>
 <body>
 <div id="navbar"></div>
-<nav class="breadcrumbs"><a href="../index.html">Home</a><span class="sep">&gt;</span><span>Contact</span></nav>
+<nav class="breadcrumbs"><a href="../index.html">Home</a><span class="sep">&gt;</span><span>About</span></nav>
 <main id="main-content" class="page-fade">
-  <section class="contact-shell">
-    <div class="contact-hero">
-      <div class="contact-kicker"><span class="material-symbols-outlined icon">contact_support</span> Contact Center</div>
-      <h1 class="section-title">Contact Us</h1>
-      <p>Reach Barangay Lapasan for office inquiries, complaint support, and urgent hotline information.</p>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="hero-pill"><span class="material-symbols-outlined">location_on</span> Cagayan de Oro City, Philippines</div>
+      <h1>BARANGAY LAPASAN</h1>
+      <p>“Uswag Lapasanon Para Sa Bag-ong Lapasan”<br/>Your official directory for barangay officials, emergency contacts, and community services.</p>
     </div>
+  </section>
 
-    <div class="contact-grid">
-      <div class="contact-card">
-        <h2><span class="material-symbols-outlined icon">domain</span> Barangay Office</h2>
-        <div class="contact-list">
-          <div class="contact-row"><span class="material-symbols-outlined icon">phone</span><div><div class="contact-label">Phone</div><div class="contact-value">09678770251</div></div></div>
-          <div class="contact-row"><span class="material-symbols-outlined icon">mail</span><div><div class="contact-label">Email</div><div class="contact-value">barangaylapasan@example.ph</div><div class="contact-muted">complaints@lapasan.ph</div></div></div>
-          <div class="contact-row"><span class="material-symbols-outlined icon">place</span><div><div class="contact-label">Address</div><div class="contact-value">Barangay Lapasan, Cagayan de Oro City, Philippines 9000</div></div></div>
-          <div class="contact-row"><span class="material-symbols-outlined icon">schedule</span><div><div class="contact-label">Office Hours</div><div class="contact-value">Monday - Friday</div><div class="contact-muted">8:00 AM - 5:00 PM</div></div></div>
+  <section class="leader-section">
+    <div class="leader-label-row">
+      <span class="leader-label"><span class="material-symbols-outlined">military_tech</span> Barangay Captain</span>
+    </div>
+    <h2 class="leader-title">Our Leader</h2>
+    <div class="leader-card">
+      <div class="leader-copy">
+        <span class="label">Kapitan</span>
+        <h2>KAPITAN. JULITO D. OGSIMER</h2>
+        <p>Barangay Lapasan’s leader driving community progress with stronger services, better transparency, and greater support for every resident.</p>
+        <div class="timeline">
+          <span>Punong Barangay</span>
+          <span>Serving 2022 - Present</span>
         </div>
       </div>
-
-      <div class="contact-card hotlines-panel">
-        <h2><span class="material-symbols-outlined icon">emergency_home</span> Emergency Hotlines</h2>
-        <div class="hotlines-list">
-          <div class="hotline-card hotline-fire"><span>BFP Lapasan</span><span>09756094097 / 911</span></div>
-          <div class="hotline-card hotline-bdrrmo"><span>Police Station 3</span><span>09052149550</span></div>
-          <div class="hotline-card hotline-tanod"><span>Barangay Admin</span><span>09678770251</span></div>
-          <div class="hotline-card hotline-social"><span>Tanod Hotline</span><span>09550482473</span></div>
-        </div>
-        <div class="contact-warning"><span class="material-symbols-outlined icon">warning</span><div>For life-threatening emergencies, call <strong>911</strong> immediately.</div></div>
+      <div class="leader-visual">
+        <img src="../assets/hero.png" alt="Barangay Captain Julito Ogsimer"/>
       </div>
     </div>
+  </section>
 
-    <div class="contact-card message-card">
-      <h2><span class="material-symbols-outlined icon">mail</span> Send Us a Message</h2>
-      <p>For non-emergency inquiries. We respond within 1-2 business days.</p>
-      <div id="contact-sent" class="alert alert-success" style="display:none;"><span class="material-symbols-outlined icon">check_circle</span><div>Message sent! We'll get back to you within 1-2 business days.</div></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">First Name <span class="required">*</span></label><input class="form-control" id="c-fn" placeholder="Juan"/></div>
-        <div class="form-group"><label class="form-label">Last Name <span class="required">*</span></label><input class="form-control" id="c-ln" placeholder="Dela Cruz"/></div>
-      </div>
-      <div class="form-group"><label class="form-label">Email <span class="required">*</span></label><input type="email" class="form-control" id="c-email" placeholder="juan@email.com"/></div>
-      <div class="form-group"><label class="form-label">Subject</label><input class="form-control" id="c-subject" placeholder="What is your inquiry about?"/></div>
-      <div class="form-group"><label class="form-label">Message <span class="required">*</span></label><textarea class="form-control" id="c-msg" rows="4" placeholder="Write your message here..."></textarea></div>
-      <button class="btn btn-primary btn-full" onclick="sendContact()">Send Message</button>
+  <section class="council-section">
+    <div class="council-heading">
+      <h2>Barangay Council</h2>
+      <p class="section-sub">Sangguniang Barangay Members</p>
     </div>
-
-    <div class="contact-map">
-      <h2><span class="material-symbols-outlined icon">place</span> Find Us</h2>
-      <iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.1234!2d124.6609!3d8.4792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32fff2e6b5a27d9d%3A0x4a8d8b1234567890!2sLapasan%20Barangay%20Hall!5e0!3m2!1sen!2sph!4v1234567890" allowfullscreen loading="lazy" title="Barangay Lapasan Map"></iframe>
+    <div class="council-grid">
+      <div class="council-card"><div class="icon-wrap"><span class="material-symbols-outlined">person</span></div><div class="team-name">LAURENCE B. DAGOC</div></div>
+      <div class="council-card"><div class="icon-wrap"><span class="material-symbols-outlined">person</span></div><div class="team-name">MARK ANTHONY B. BUSTAMANTE</div></div>
+      <div class="council-card"><div class="icon-wrap"><span class="material-symbols-outlined">person</span></div><div class="team-name">ASPERINO N. BACONGA</div></div>
+      <div class="council-card"><div class="icon-wrap"><span class="material-symbols-outlined">person</span></div><div class="team-name">KENNETH RAY E. LAO</div></div>
+      <div class="council-card"><div class="icon-wrap"><span class="material-symbols-outlined">person</span></div><div class="team-name">RONALD V. DËA</div></div>
+      <div class="council-card"><div class="icon-wrap"><span class="material-symbols-outlined">person</span></div><div class="team-name">ROWENA RAYE M. MEDIANA</div></div>
+      <div class="council-card"><div class="icon-wrap"><span class="material-symbols-outlined">person</span></div><div class="team-name">SHIVA MAE JANDAYAN</div></div>
+    </div>
+    <div class="role-row">
+      <div class="role-card"><div class="role-tag">SK Chairman</div><div class="role-name">MARK VINCENT A. MALACAT</div><div class="role-title">Youth representative and council leader.</div></div>
+      <div class="role-card role-green"><div class="role-tag">Barangay Secretary</div><div class="role-name">VANIAH KATE TAPIA-SANOY</div><div class="role-title">Responsible for barangay records and council coordination.</div></div>
+      <div class="role-card role-blue"><div class="role-tag">Barangay Treasurer</div><div class="role-name">ROAN MAE C. DATU</div><div class="role-title">Oversees financial stewardship and budget reporting.</div></div>
     </div>
   </section>
 </main>
 <div id="footer"></div>
 <script src="../js/components.js"></script>
-<script>function sendContact(){
-  const fn=document.getElementById('c-fn').value.trim();
-  const ln=document.getElementById('c-ln').value.trim();
-  const em=document.getElementById('c-email').value.trim();
-  const msg=document.getElementById('c-msg').value.trim();
-  if(!fn||!ln||!em||!msg){showToast('Please fill in all required fields.','error');return;}
-  document.getElementById('contact-sent').style.display='flex';
-  ['c-fn','c-ln','c-email','c-subject','c-msg'].forEach(id=>document.getElementById(id).value='');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-</script>
 </body>
 </html>
 
